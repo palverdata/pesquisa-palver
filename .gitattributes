@@ -1,0 +1,6 @@
+# O blob vai sempre em LF, qualquer que seja o sistema de quem commita. Sem
+# isto, commitar do Windows e do Linux alterna o fim de linha e cada commit vira
+# reescrita completa de todos os arquivos.
+* text=auto
+
+*.xlsx binary
