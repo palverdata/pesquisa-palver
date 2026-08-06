@@ -1,0 +1,998 @@
+
+meta:
+  onda: "2026-08-10"
+
+colunas:
+  survey_id: survey_id
+  submission_id: submission_id
+  respondent_id: respondent_id
+  start_timestamp: start_timestamp
+  end_timestamp: end_timestamp
+  time_taken: time_taken_seconds
+  dispositivo: dispositivo
+  estado: uf
+  municipio: municipio
+  tipo_municipio: tipo_municipio
+  regiao: regiao_arquivo
+
+# ---------------------------------------------------------------------------
+# MATRIZES
+# ---------------------------------------------------------------------------
+matrizes:
+  recall_rejection:
+    numero: "6"
+    n_itens: 5
+    texto_base: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele:"
+    itens:
+      - variavel: recall_rejection_flavio_bolsonaro
+        rotulo: "Flávio Bolsonaro"
+        numero: "6a"
+      - variavel: recall_rejection_lula
+        rotulo: "Lula"
+        numero: "6b"
+      - variavel: recall_rejection_renan_santos
+        rotulo: "Renan Santos"
+        numero: "6c"
+      - variavel: recall_rejection_romeu_zema
+        rotulo: "Romeu Zema"
+        numero: "6d"
+      - variavel: recall_rejection_ronaldo_caiado
+        rotulo: "Ronaldo Caiado"
+        numero: "6e"
+
+  government_issue_evaluation:
+    numero: "14"
+    n_itens: 7
+    texto_base: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento?"
+    itens:
+      - variavel: government_issue_evaluation_economy
+        rotulo: "Economia"
+        numero: "14a"
+      - variavel: government_issue_evaluation_public_security
+        rotulo: "Segurança Pública"
+        numero: "14b"
+      - variavel: government_issue_evaluation_health
+        rotulo: "Saúde"
+        numero: "14c"
+      - variavel: government_issue_evaluation_education
+        rotulo: "Educação"
+        numero: "14d"
+      - variavel: government_issue_evaluation_corruption
+        rotulo: "Combate à Corrupção"
+        numero: "14e"
+      - variavel: government_issue_evaluation_foreign_policy
+        rotulo: "Política Externa"
+        numero: "14f"
+      - variavel: government_issue_evaluation_environment
+        rotulo: "Meio Ambiente"
+        numero: "14g"
+
+  media_exposure:
+    numero: "21"
+    n_itens: 11
+    texto_base: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios?"
+    itens:
+      - variavel: media_exposure_television
+        rotulo: "Televisão"
+        numero: "21a"
+      - variavel: media_exposure_radio
+        rotulo: "Rádio"
+        numero: "21b"
+      - variavel: media_exposure_print
+        rotulo: "Jornais ou revistas impressos"
+        numero: "21c"
+      - variavel: media_exposure_digital_portals
+        rotulo: "Sites ou portais digitais"
+        numero: "21d"
+      - variavel: media_exposure_youtube
+        rotulo: "YouTube"
+        numero: "21e"
+      - variavel: media_exposure_instagram
+        rotulo: "Instagram"
+        numero: "21f"
+      - variavel: media_exposure_facebook
+        rotulo: "Facebook"
+        numero: "21g"
+      - variavel: media_exposure_tiktok
+        rotulo: "TikTok"
+        numero: "21h"
+      - variavel: media_exposure_x
+        rotulo: "X (Twitter)"
+        numero: "21i"
+      - variavel: media_exposure_whatsapp
+        rotulo: "WhatsApp"
+        numero: "21j"
+      - variavel: media_exposure_telegram
+        rotulo: "Telegram"
+        numero: "21k"
+
+  neg_identification:
+    numero: "25"
+    n_itens: 2
+    texto_base: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera:"
+    itens:
+      - variavel: neg_identification_antipetista
+        rotulo: "Antipetista"
+        numero: "25a"
+      - variavel: neg_identification_antibolsonarista
+        rotulo: "Antibolsonarista"
+        numero: "25b"
+
+# ---------------------------------------------------------------------------
+# QUESTOES
+# ---------------------------------------------------------------------------
+questoes:
+  spontaneous_choice:
+    numero: "1"
+    texto: "Neste ano de 2026 haverá eleição para presidente. Você já escolheu em quem vai votar para presidente em outubro?"
+    tipo: "radio"
+    niveis:
+      - "Sim, já escolhi"
+      - "Não, ainda não escolhi"
+      - "Votarei em branco/nulo"
+      - "Não pretendo votar"
+      - "Não sei"
+
+  stimulated_1r_vote_1:
+    numero: "4"
+    texto: "Se a eleição para presidente fosse acontecer hoje e estes fossem os candidatos, em quem você votaria? (cenário 1)"
+    tipo: "radio"
+    niveis:
+      - "Augusto Cury (Avante)"
+      - "Cabo Daciolo (Mobiliza)"
+      - "Edmilson Costa (PCB)"
+      - "Flávio Bolsonaro (PL)"
+      - "Hertz Dias (PSTU)"
+      - "Lula (PT)"
+      - "Renan Santos (Missão)"
+      - "Romeu Zema (Novo)"
+      - "Ronaldo Caiado (PSD)"
+      - "Rui Costa Pimenta (PCO)"
+      - "Samara Martins (UP)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_1r_vote_2:
+    numero: "5"
+    texto: "Se a eleição para presidente fosse acontecer hoje e estes fossem os candidatos, em quem você votaria? (cenário 2)"
+    tipo: "radio"    
+    niveis:
+      - "Flávio Bolsonaro (PL)"
+      - "Lula (PT)"
+      - "Renan Santos (Missão)"
+      - "Romeu Zema (Novo)"
+      - "Ronaldo Caiado (PSD)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  recall_rejection_flavio_bolsonaro:
+    numero: "6a"
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Flávio Bolsonaro"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_lula:
+    numero: "6b"
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Lula"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_renan_santos:
+    numero: "6c"
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Renan Santos"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_romeu_zema:
+    numero: "6d"
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Romeu Zema"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_ronaldo_caiado:
+    numero: "6e"
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Ronaldo Caiado"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  stimulated_2r_vote_1:
+    numero: "7"
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 1)"
+    tipo: "radio"    
+    niveis:
+      - "Flávio Bolsonaro (PL)"
+      - "Lula (PT)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_2:
+    numero: "8"
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 2)"
+    tipo: "radio"    
+    niveis:
+      - "Lula (PT)"
+      - "Renan Santos (Missão)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_3:
+    numero: "9"
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 3)"
+    tipo: "radio"    
+    niveis:
+      - "Lula (PT)"
+      - "Romeu Zema (Novo)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_4:
+    numero: "10"
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 4)"
+    tipo: "radio"    
+    niveis:
+      - "Lula (PT)"
+      - "Ronaldo Caiado (PSD)"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  fear_outcome:
+    numero: "11"
+    texto: "Na sua opinião, qual dos seguintes possíveis resultados das eleições para presidente em 2026 te causa mais medo?"
+    tipo: "radio"
+    niveis:
+      - "A reeleição de Lula"
+      - "A eleição de Flávio Bolsonaro"
+      - "Ambos resultados me causam medo"
+      - "Nenhum dos dois resultados me causam medo"
+      - "Não sei"
+
+  president_approval:
+    numero: "12"
+    texto: "Você aprova ou desaprova a maneira como Lula está lidando com seu trabalho como presidente?"
+    tipo: "radio"
+    niveis:
+      - "Aprova"
+      - "Desaprova"
+      - "Não sei"
+
+  government_evaluation:
+    numero: "13"
+    texto: "Para você, o governo Lula está fazendo um trabalho ótimo, bom, regular, ruim ou péssimo?"
+    tipo: "radio"
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_economy:
+    numero: "14a"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Economia"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_public_security:
+    numero: "14b"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Segurança Pública"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_health:
+    numero: "14c"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Saúde"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_education:
+    numero: "14d"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Educação"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_corruption:
+    numero: "14e"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Combate à Corrupção"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_foreign_policy:
+    numero: "14f"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Política Externa"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  government_issue_evaluation_environment:
+    numero: "14g"
+    texto: "Para cada uma dessas áreas, como você avalia o governo de Lula até o momento? — Meio Ambiente"
+    tipo: "matrix"
+    matriz: government_issue_evaluation
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  economic_macro_retro:
+    numero: "16"
+    texto: "Pensando nos últimos 12 meses, você diria que a situação econômica do Brasil: melhorou, ficou praticamente igual ou piorou?"
+    tipo: "radio"
+    niveis:
+      - "Melhorou"
+      - "Ficou praticamente igual"
+      - "Piorou"
+      - "Não sei"
+
+  economic_pocket_retro:
+    numero: "17"
+    texto: "Pensando nos últimos 12 meses, você diria que a situação econômica da sua família: melhorou, ficou praticamente igual ou piorou?"
+    tipo: "radio"
+    niveis:
+      - "Melhorou"
+      - "Ficou praticamente igual"
+      - "Piorou"
+      - "Não sei"
+
+  economic_macro_prosp:
+    numero: "18"
+    texto: "Pensando nos próximos 12 meses, qual a sua expectativa em relação à situação econômica do Brasil? Você acredita que vai melhorar, ficar do mesmo jeito ou piorar?"
+    tipo: "radio"
+    niveis:
+      - "Vai melhorar"
+      - "Vai ficar do mesmo jeito"
+      - "Vai piorar"
+      - "Não sei"
+
+  economic_pocket_prosp:
+    numero: "19"
+    texto: "Pensando nos próximos 12 meses, qual a sua expectativa em relação a a situação econômica da sua família? Você acredita que vai melhorar, ficar do mesmo jeito ou piorar?"
+    tipo: "radio"
+    niveis:
+      - "Vai melhorar"
+      - "Vai ficar do mesmo jeito "
+      - "Vai piorar"
+      - "Não sei"
+
+  media_frequency:
+    numero: "20"
+    texto: "Pensando em uma semana normal, em quantos dias você costuma ler, assistir ou ouvir notícias ou informações sobre política?"
+    tipo: "radio"
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_television:
+    numero: "21a"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Televisão"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_radio:
+    numero: "21b"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Rádio"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_print:
+    numero: "21c"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Jornais ou revistas impressos"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_digital_portals:
+    numero: "21d"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Sites ou portais digitais"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_youtube:
+    numero: "21e"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — YouTube"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_instagram:
+    numero: "21f"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Instagram"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_facebook:
+    numero: "21g"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Facebook"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_tiktok:
+    numero: "21h"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — TikTok"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_x:
+    numero: "21i"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — X (Twitter)"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_whatsapp:
+    numero: "21j"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — WhatsApp"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_exposure_telegram:
+    numero: "21k"
+    texto: "Pensando nos últimos 7 dias, em quantos dias você recebeu ou viu notícias ou informações sobre política em cada um destes meios? — Telegram"
+    tipo: "matrix"
+    matriz: media_exposure
+    niveis:
+      - "Nenhum dia"
+      - "Alguns dias (1 a 3 dias)"
+      - "A maioria dos dias (4 a 6 dias)"
+      - "Todos os dias"
+      - "Não sei"
+
+  media_main:
+    numero: "22"
+    texto: "Considerando todos esses meios, qual você diria que é hoje a sua principal forma de se informar sobre política?"
+    tipo: "radio"
+    niveis:
+      - "Televisão aberta (Globo, SBT, Band, Record, etc.)"
+      - "Televisão fechada (GloboNews, CNN, BandNews, UOLNews, etc.)"
+      - "Rádio"
+      - "Jornais ou revistas impressos"
+      - "Sites ou portais digitais"
+      - "Podcasts (Spotify, Apple Podcasts, Amazon Music, Deezer, etc.)"
+      - "Plataformas de vídeo/streaming (YouTube, Vimeo, Twitch, Netflix, etc.)"
+      - "Redes sociais (Facebook, Instagram, X, TikTok, Kwai, etc.)"
+      - "Aplicativos de mensagens (WhatsApp, Telegram, Messenger, Discord, Signal, etc.)"
+      - "E-mail/newsletter (Substack, etc.)"
+      - "Conversas presenciais com familiares, amigos ou colegas"
+      - "Outra"
+      - "Não sei"
+
+  ideology:
+    numero: "23"
+    texto: "Qual é seu posicionamento ideológico?"
+    tipo: "radio"
+    niveis:
+      - "Esquerda"
+      - "Centro-esquerda"
+      - "Centro"
+      - "Centro-direita"
+      - "Direita"
+      - "Não me identifico com um posicionamento definido"
+      - "Não sei"
+
+  identification:
+    numero: "24"
+    texto: "Qual das seguintes identidades políticas melhor descrevem o seu posicionamento?"
+    tipo: "radio"
+    niveis:
+      - "Me considero lulista"
+      - "Não me considero lulista, mas gosto mais das ideias da esquerda"
+      - "Sou independente"
+      - "Não me considero bolsonarista, mas gosto mais das ideias da direita"
+      - "Me considero bolsonarista"
+      - "Não me interesso por política"
+      - "Não sei"
+
+  neg_identification_antipetista:
+    numero: "25a"
+    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antipetista"
+    tipo: "matrix"
+    matriz: neg_identification
+    niveis:
+      - "1 - Nem um pouco"
+      - "2"
+      - "3"
+      - "4"
+      - "5 - Totalmente"
+      - "Não sei"
+
+  neg_identification_antibolsonarista:
+    numero: "25b"
+    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antibolsonarista"
+    tipo: "matrix"
+    matriz: neg_identification
+    niveis:
+      - "1 - Nem um pouco"
+      - "2"
+      - "3"
+      - "4"
+      - "5 - Totalmente"
+      - "Não sei"
+
+  voted_2r_last_election:
+    numero: "34"
+    texto: "No 1º turno e no 2º turno das eleições de 2022, cerca de 20% dos eleitores não compareceram às urnas. Você votou no 2º turno das eleições de 2022?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+
+  vote_2r_last_election:
+    numero: "35"
+    texto: "Em quem você votou no 2º turno da eleição presidencial de 2022?"
+    tipo: "radio"
+    niveis:
+      - "Lula"
+      - "Jair Bolsonaro"
+      - "Branco/Nulo"
+
+  interest_elections:
+    numero: "36"
+    texto: "O quanto você se diria interessado pelas eleições para presidente que ocorrerão em outubro de 2026?"
+    tipo: "radio"
+    niveis:
+      - "Muito interessado"
+      - "Interessado"
+      - "Desinteressado"
+      - "Muito desinteressado"
+      - "Não sei"
+
+  registered_same_city:
+    numero: "37"
+    texto: "Você está registrado(a) para votar na mesma cidade em que você mora atualmente?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+      - "Não sei"
+
+  voting_frequency:
+    numero: "38"
+    texto: "Com que frequência você costuma votar nas eleições?"
+    tipo: "radio"
+    niveis:
+      - "Sempre voto"
+      - "Voto na maioria das vezes"
+      - "Voto às vezes"
+      - "Raramente voto"
+      - "Nunca voto"
+      - "Não sei"
+
+  vote_1r_planning:
+    numero: "39"
+    texto: "Você planeja votar no 1º turno das eleições de 2026 em outubro?"
+    tipo: "radio"
+    niveis:
+      - "Sim, certamente"
+      - "Provavelmente sim"
+      - "Provavelmente não"
+      - "Não, certamente não"
+      - "Não sei"
+
+questoes_nao_exportadas:
+  sex:
+    texto: "Qual é o seu gênero?"
+    motivo: "origem de sex_std; entra na calibracao pela derivada"
+  age:
+    texto: "Qual é a sua idade?"
+    motivo: "origem de age_std; entra na calibracao pela derivada"
+  race:
+    texto: "Qual é a sua cor ou raça?"
+    motivo: "origem de race_std; entra na calibracao pela derivada"
+  edu:
+    texto: "Qual é o seu nível de educação?"
+    motivo: "origem de edu_std; entra na calibracao pela derivada"
+  inc_fam:
+    texto: "Qual é a renda mensal da sua família?"
+    motivo: "origem de inc_std; entra na calibracao pela derivada"
+  relig:
+    texto: "Qual é a sua religião?"
+    motivo: "origem de relig_std; entra na calibracao pela derivada"
+  spontaneous_vote_choice:
+    tipo: "open_text"
+    texto: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    motivo: "resposta aberta (nome do candidato); nao entra no Excel"
+    exportar: false
+  q_1785367910450_2:
+    tipo: "open_text"
+    texto: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco)"
+    motivo: "resposta aberta (numero do candidato); renomeada para spontaneous_number"
+    exportar: false
+  issue_perception:
+    tipo: "open_text"
+    texto: "Na sua opinião, qual é o maior problema do Brasil hoje em dia?"
+    motivo: "resposta aberta (tema mais importante); nao entra no Excel"
+    exportar: false
+  relig_evang:
+    tipo: "radio"
+    texto: "Qual é a sua denominação?"
+    motivo: "denominacao evangelica; usada apenas em recortes especificos"
+    exportar: false
+
+# ---------------------------------------------------------------------------
+# VARIAVEIS DERIVADAS
+# ---------------------------------------------------------------------------
+derivadas:
+
+  sex_std:
+    origem: sex
+    tipo: mapa
+    mapa:
+      "Homem": "Homem"
+      "Mulher": "Mulher"
+    niveis:
+      - "Homem"
+      - "Mulher"
+
+  age_std:
+    origem: age
+    tipo: mapa
+    mapa:
+      "16 a 24 anos": "16 a 34 anos"
+      "25 a 34 anos": "16 a 34 anos"
+      "35 a 44 anos": "35 a 59 anos"
+      "45 a 59 anos": "35 a 59 anos"
+      "60 anos ou mais": "60 anos ou mais"
+    niveis:
+      - "16 a 34 anos"
+      - "35 a 59 anos"
+      - "60 anos ou mais"
+
+  race_std:
+    origem: race
+    tipo: mapa
+    nota: "Nao entra na calibracao -- so em recortes. A PNADc nao gera margem de raca neste fluxo."
+    mapa:
+      "Branca": "Branca"
+      "Preta": "Preta, Parda, Indígena ou Amarela"
+      "Parda": "Preta, Parda, Indígena ou Amarela"
+      "Amarela": "Preta, Parda, Indígena ou Amarela"
+      "Indígena": "Preta, Parda, Indígena ou Amarela"
+    niveis:
+      - "Branca"
+      - "Preta, Parda, Indígena ou Amarela"
+
+  edu_std:
+    origem: edu
+    tipo: mapa
+    nota: "As categorias precisam casar com edu_std da PNADc (VD3004)."
+    mapa:
+      "Sem instrução": "Fundamental"
+      "Fundamental incompleto": "Fundamental"
+      "Fundamental completo": "Fundamental"
+      "Médio incompleto": "Fundamental"
+      "Médio completo": "Médio"
+      "Superior incompleto": "Médio"
+      "Superior completo": "Superior"
+      "Pós-graduação": "Superior"
+    niveis:
+      - "Fundamental"
+      - "Médio"
+      - "Superior"
+
+  inc_std:
+    origem: inc_fam
+    tipo: mapa
+    nota: >
+      Cortes registrados em reais: ate R$ 3.242; de R$ 3.242 a R$ 8.105; acima
+      de R$ 8.105 -- equivalentes a 2 e 5 salarios minimos de R$ 1.621. A margem
+      da PNADc tem de ser recortada com o MESMO salario minimo, senao amostra e
+      alvo medem faixas diferentes.
+    mapa:
+      "Até R$1.621 (Até 1 salário-mínimo)": "0-2 SM"
+      "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "0-2 SM"
+      "R$3.243-R$4.863 (Mais de 2 até 3 salários-mínimos)": "2-5 SM"
+      "R$4.864-R$8.105 (Mais de 3 até 5 salários-mínimos)": "2-5 SM"
+      "R$8.106-R$16.210 (Mais de 5 até 10 salários-mínimos)": "5+ SM"
+      "R$16.211-R$32.420 (Mais de 10 até 20 salários-mínimos)": "5+ SM"
+      "R$32.421 ou mais (Mais de 20 salários-mínimos)": "5+ SM"
+    niveis:
+      - "0-2 SM"
+      - "2-5 SM"
+      - "5+ SM"
+
+  relig_std:
+    origem: relig
+    tipo: mapa_com_resto
+    nota: "ATENCAO: com resto=Outra, 'Nao sei' tambem vira 'Outra'."
+    resto: "Outra"
+    mapa:
+      "Católica": "Católica"
+      "Evangélica/Protestante": "Evangélica/Protestante"
+      "Sem Religião/Ateu/Agnóstico": "Sem Religião/Ateu/Agnóstico"
+    niveis:
+      - "Católica"
+      - "Evangélica/Protestante"
+      - "Sem Religião/Ateu/Agnóstico"
+      - "Outra"
+
+  ideol_std:
+    origem: ideology
+    tipo: mapa
+    mapa:
+      "Esquerda": "Esquerda"
+      "Centro-esquerda": "Esquerda"
+      "Centro": "Centro"
+      "Centro-direita": "Direita"
+      "Direita": "Direita"
+      "Não me identifico com um posicionamento definido": "Sem posicionamento"
+      "Não sei": "Sem posicionamento"
+    niveis:
+      - "Esquerda"
+      - "Centro"
+      - "Direita"
+      - "Sem posicionamento"
+
+  reg_std:
+    origem: uf
+    tipo: agrupamento
+    grupos:
+      "N": ["AC", "AP", "AM", "PA", "RO", "RR", "TO"]
+      "NE": ["AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE"]
+      "CO": ["DF", "GO", "MT", "MS"]
+      "SE": ["ES", "MG", "RJ", "SP"]
+      "S": ["PR", "RS", "SC"]
+    niveis:
+      - "N"
+      - "NE"
+      - "CO"
+      - "SE"
+      - "S"
+
+  vote_std:
+    tipo: voto_pregresso
+    nota: >
+      ATENCAO -- a definicao aqui e mais larga que a do alvo. Quem declara nao
+      ter votado em 2022 e classificado como Branco/Nulo junto com quem votou
+      branco ou nulo, enquanto o alvo do TSE conta apenas brancos e nulos entre
+      os votantes, sem abstencao. Enquanto isso nao for resolvido, a calibracao
+      comprime o grupo para o tamanho do alvo. Alternativas: excluir a
+      abstencao do grupo, ou somar a abstencao ao alvo.
+    filtro_comparecimento:
+      variavel: voted_2r_last_election
+      valor_nao_votou: "Não"
+      destino: "Branco/Nulo"
+    origem_voto: vote_2r_last_election
+    mapa:
+      "Lula": "Lula"
+      "Jair Bolsonaro": "Jair Bolsonaro"
+      "Branco/Nulo": "Branco/Nulo"    
+    vazio_para: "Branco/Nulo"
+    niveis:
+      - "Lula"
+      - "Jair Bolsonaro"
+      - "Branco/Nulo"
+
+  anti_std:
+    origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
+    tipo: limiar
+    limiar: ["4", "5 - Totalmente"]
+    nota: >
+      Precedencia: antipetista e avaliado primeiro, entao quem cruza o limiar
+      nas duas escalas e classificado como Antipetista. Quem nao cruza nenhuma
+      vai para 'Nao alinhado' -- inclusive quem respondeu 'Nao sei'.
+    ordem_avaliacao:
+      - variavel: neg_identification_antipetista
+        valor: "Antipetista"
+      - variavel: neg_identification_antibolsonarista
+        valor: "Antibolsonarista"
+    resto: "Não alinhado"
+    niveis:
+      - "Antipetista"
+      - "Não alinhado"
+      - "Antibolsonarista"
+
+# ---------------------------------------------------------------------------
+# ESTRATIFICACAO (recortes da aba ResultsStrat)
+# ---------------------------------------------------------------------------
+estratificacao:
+  - variavel: sex_std
+  - variavel: age_std
+  - variavel: race_std
+  - variavel: edu_std
+  - variavel: inc_std
+  - variavel: reg_std
+  - variavel: vote_std
+  - variavel: relig_std
+  - variavel: ideol_std
+  - variavel: identification
+  - variavel: anti_std
+
+# ---------------------------------------------------------------------------
+# ORDEM DE EXPORTACAO (aba Results / ResultsStrat)
+# ---------------------------------------------------------------------------
+exportar_ordem:
+  - spontaneous_choice
+  - stimulated_1r_vote_1
+  - stimulated_1r_vote_2
+  - recall_rejection_flavio_bolsonaro
+  - recall_rejection_lula
+  - recall_rejection_renan_santos
+  - recall_rejection_romeu_zema
+  - recall_rejection_ronaldo_caiado
+  - stimulated_2r_vote_1
+  - stimulated_2r_vote_2
+  - stimulated_2r_vote_3
+  - stimulated_2r_vote_4
+  - fear_outcome
+  - president_approval
+  - government_evaluation
+  - government_issue_evaluation_economy
+  - government_issue_evaluation_public_security
+  - government_issue_evaluation_health
+  - government_issue_evaluation_education
+  - government_issue_evaluation_corruption
+  - government_issue_evaluation_foreign_policy
+  - government_issue_evaluation_environment
+  - economic_macro_retro
+  - economic_pocket_retro
+  - economic_macro_prosp
+  - economic_pocket_prosp
+  - media_frequency
+  - media_exposure_television
+  - media_exposure_radio
+  - media_exposure_print
+  - media_exposure_digital_portals
+  - media_exposure_youtube
+  - media_exposure_instagram
+  - media_exposure_facebook
+  - media_exposure_tiktok
+  - media_exposure_x
+  - media_exposure_whatsapp
+  - media_exposure_telegram
+  - media_main
+  - ideology
+  - identification
+  - neg_identification_antipetista
+  - neg_identification_antibolsonarista
+  - voted_2r_last_election
+  - vote_2r_last_election
+  - interest_elections
+  - registered_same_city
+  - voting_frequency
+  - vote_1r_planning
+

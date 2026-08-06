@@ -1,0 +1,35 @@
+Package: pesquisapalver
+Title: Calibracao de Pesquisas de Opiniao da Palver (IPF/Raking)
+Version: 0.1.0
+Authors@R: c(
+    person("Palver", role = c("aut", "cre", "cph"),
+           email = "contato@palver.com.br")
+  )
+Description: Motor de calibracao de pesquisas de opiniao por iterative
+    proportional fitting (raking), com aparo de pesos e diagnosticos
+    padronizados. Cada onda de campo do ciclo eleitoral 2026 e uma instancia
+    configuravel do mesmo motor, definida por arquivos declarativos em 'ondas/'.
+    Este arquivo e um manifesto de dependencias: o codigo e carregado por
+    source() a partir de scripts/, nao instalado como pacote. As versoes abaixo
+    sao as minimas testadas; as exatas de cada onda ficam em
+    ondas/<onda>/output/ambiente.txt.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: pt-BR
+Depends:
+    R (>= 4.4)
+Imports:
+    dplyr (>= 1.2.0),
+    purrr (>= 1.2.1),
+    readr (>= 2.2.0),
+    readxl (>= 1.4.5),
+    stringr (>= 1.6.0),
+    survey (>= 4.5),
+    tibble (>= 3.3.1),
+    tidyr (>= 1.3.2),
+    tidyverse (>= 2.0.0),
+    writexl (>= 1.5.4),
+    yaml (>= 2.3.12)
+Suggests:
+    PNADcIBGE (>= 0.7.5),
+    testthat (>= 3.0.0)

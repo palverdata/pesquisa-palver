@@ -1,0 +1,134 @@
+meta:
+  fonte: TSE, resultados oficiais do 2o turno de 2022 (munzona)
+  arquivos:
+  - votacao_candidato_munzona_2022_BRASIL.csv
+  - detalhe_votacao_munzona_2022_BR.csv
+  cargo: Presidente
+  turno: 2
+  definicao: 'Lula e Jair Bolsonaro: QT_VOTOS_NOMINAIS. Branco/Nulo: QT_VOTOS_BRANCOS
+    + QT_VOTOS_NULOS. Abstencao NAO entra: a margem e sobre comparecimento. Exterior
+    (SG_UF = ZZ) excluido, fora do universo da PNADc.'
+  derivado_de: margens/pnadc-2024-visita5.yaml
+  escala: 'contagem POPULACIONAL. TABELA CONJUNTA regiao x voto: qualquer cruzamento,
+    inclusive as marginais, e obtido somando as celulas. Cada celula e a populacao
+    regional de margens/pnadc-2024-visita5.yaml distribuida pelo percentual de voto
+    do TSE dentro daquela regiao -- entao reg_std tem aqui a mesma distribuicao da
+    PNADc, e as duas fontes podem ser usadas juntas. `votos` fica em cada celula para
+    auditoria da derivacao.'
+  variaveis:
+  - reg_std
+  - vote_std
+  n_celulas: 15
+  celulas_zeradas: 0
+  n_pop: 166895914
+  n_votos: 123942648
+  gerado_por: scripts/gerar-margens-tse.R
+  gerado_em: '2026-08-06'
+niveis:
+  reg_std:
+  - 'N'
+  - NE
+  - CO
+  - SE
+  - S
+  vote_std:
+  - Lula
+  - Jair Bolsonaro
+  - Branco/Nulo
+referencia_comparecimento:
+- reg_std: 'N'
+  aptos: 12554991
+  comparecimento: 9675082
+  abstencoes: 2879825
+- reg_std: NE
+  aptos: 42368937
+  comparecimento: 34188664
+  abstencoes: 8180273
+- reg_std: CO
+  aptos: 11544112
+  comparecimento: 9161947
+  abstencoes: 2382165
+- reg_std: SE
+  aptos: 66718799
+  comparecimento: 52542866
+  abstencoes: 14175933
+- reg_std: S
+  aptos: 22571594
+  comparecimento: 18374089
+  abstencoes: 4197505
+conjunta:
+- reg_std: 'N'
+  vote_std: Lula
+  freq: 6472926
+  votos: 4590184
+  pct_na_regiao: 0.474434
+- reg_std: 'N'
+  vote_std: Jair Bolsonaro
+  freq: 6743900
+  votos: 4782341
+  pct_na_regiao: 0.494295
+- reg_std: 'N'
+  vote_std: Branco/Nulo
+  freq: 426656
+  votos: 302557
+  pct_na_regiao: 0.031272
+- reg_std: NE
+  vote_std: Lula
+  freq: 28953845
+  votos: 22534967
+  pct_na_regiao: 0.659136
+- reg_std: NE
+  vote_std: Jair Bolsonaro
+  freq: 12800801
+  votos: 9962947
+  pct_na_regiao: 0.291411
+- reg_std: NE
+  vote_std: Branco/Nulo
+  freq: 2172344
+  votos: 1690750
+  pct_na_regiao: 0.049454
+- reg_std: CO
+  vote_std: Lula
+  freq: 5088079
+  votos: 3523743
+  pct_na_regiao: 0.384606
+- reg_std: CO
+  vote_std: Jair Bolsonaro
+  freq: 7698674
+  votos: 5331708
+  pct_na_regiao: 0.58194
+- reg_std: CO
+  vote_std: Branco/Nulo
+  freq: 442562
+  votos: 306496
+  pct_na_regiao: 0.033453
+- reg_std: SE
+  vote_std: Lula
+  freq: 30953810
+  votos: 22793826
+  pct_na_regiao: 0.433814
+- reg_std: SE
+  vote_std: Jair Bolsonaro
+  freq: 36725421
+  votos: 27043936
+  pct_na_regiao: 0.514702
+- reg_std: SE
+  vote_std: Branco/Nulo
+  freq: 3673507
+  votos: 2705104
+  pct_na_regiao: 0.051484
+- reg_std: S
+  vote_std: Lula
+  freq: 9090363
+  votos: 6750374
+  pct_na_regiao: 0.367386
+- reg_std: S
+  vote_std: Jair Bolsonaro
+  freq: 14732517
+  votos: 10940158
+  pct_na_regiao: 0.595412
+- reg_std: S
+  vote_std: Branco/Nulo
+  freq: 920509
+  votos: 683557
+  pct_na_regiao: 0.037202

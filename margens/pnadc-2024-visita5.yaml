@@ -1,0 +1,1669 @@
+meta:
+  fonte: PNAD Continua 2024, entrevista 5 (IBGE)
+  pacote: PNADcIBGE 0.7.5
+  universo: populacao de 16 anos ou mais
+  salario_minimo_referencia: 1621.0
+  escala: 'contagem populacional (svytable com pesos PNADc). TABELA CONJUNTA: qualquer
+    cruzamento, inclusive as marginais, e obtido somando as celulas. So casos completos
+    nas cinco variaveis entram, para que toda margem derivada some o mesmo total.'
+  variaveis:
+  - sex_std
+  - age_std
+  - edu_std
+  - inc_std
+  - reg_std
+  n_celulas: 270
+  celulas_zeradas: 0
+  n_pop: 166895914
+  n_amostra_pnadc: 302561
+  missing_antes_do_corte:
+    sex_std: 0.0
+    age_std: 0.0
+    edu_std: 0.0
+    inc_std: 0.000304
+    reg_std: 0.0
+  gerado_por: scripts/gerar-margens-pnadc.R
+  gerado_em: '2026-08-06'
+niveis:
+  sex_std:
+  - Homem
+  - Mulher
+  age_std:
+  - 16 a 34 anos
+  - 35 a 59 anos
+  - 60 anos ou mais
+  edu_std:
+  - Fundamental
+  - Médio
+  - Superior
+  inc_std:
+  - 0-2 SM
+  - 2-5 SM
+  - 5+ SM
+  reg_std:
+  - 'N'
+  - NE
+  - CO
+  - SE
+  - S
+conjunta:
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 779957
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2799576
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 371861
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 1755522
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 534867
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 405605
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 742269
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 402621
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1725956
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 870184
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 83100
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 80680
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 112381
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 415895
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 210490
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 616058
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2175230
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 366806
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 1846736
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 477560
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 621468
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 1328200
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 627499
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 3297628
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1193693
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 190845
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 289671
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 244360
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 1306394
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 534358
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 43900
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 174121
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 45342
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 185757
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 50793
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 119053
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 279051
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 164520
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 747387
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 241630
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 108726
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 206315
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 197369
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 997383
+- sex_std: Homem
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 289932
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 884834
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 3950042
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 537838
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2612905
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 844216
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 457899
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 1093651
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 527209
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 2433094
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1160978
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 80250
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 101748
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 121311
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 426373
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 271249
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 389679
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 1455224
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 288785
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 1704587
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 378869
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 441296
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 1053497
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 502762
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 3169770
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1071614
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 120721
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 246571
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 219331
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 1154449
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 493158
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 58129
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 150447
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 49320
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 274585
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 71943
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 160597
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 381943
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 190105
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1114289
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 372865
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 228106
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 510682
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 439310
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 2218952
+- sex_std: Homem
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 640315
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 427912
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 1954781
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 365071
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2017670
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 776256
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 254599
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 831156
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 276574
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1731650
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 704758
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 57706
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 102452
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 88813
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 379887
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 192960
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 49094
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 204178
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 47575
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 387038
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 88906
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 69752
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 229253
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 70102
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 806519
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 218470
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 33285
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 112452
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 75523
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 424212
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 130790
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 8819
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 42884
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 13463
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 105848
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 22480
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 20270
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 78205
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 27996
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 287409
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 65626
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 55886
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 160131
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 95151
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 740341
+- sex_std: Homem
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 184012
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 685331
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2426828
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 334910
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 1527615
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 539587
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 268697
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 477366
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 268095
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1132677
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 596013
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 39211
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 60771
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 71538
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 304250
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 126149
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 734475
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2910320
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 470700
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2406551
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 545600
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 571196
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 1273444
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 636995
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 3137421
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1190951
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 163404
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 237598
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 195165
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 976952
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 384994
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 81710
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 316322
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 68993
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 291078
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 93306
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 160204
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 445481
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 232037
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1017845
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 419104
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 125842
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 269615
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 236189
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 1118591
+- sex_std: Mulher
+  age_std: 16 a 34 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 368081
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 774429
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 3849437
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 531530
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2731033
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 878563
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 334925
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 869334
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 425703
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 2154875
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1008161
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 64049
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 64886
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 91556
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 367875
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 192893
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 542604
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2160508
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 357158
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2137697
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 474044
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 461651
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 1117679
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 509098
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 3163397
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 1037400
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 108674
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 228947
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 184814
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 979409
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 440801
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 111266
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 393169
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 102773
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 441900
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 117454
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 259191
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 718745
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 289341
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 1738543
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 538640
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 280378
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 610792
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 497216
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 2512919
+- sex_std: Mulher
+  age_std: 35 a 59 anos
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 751312
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 440824
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 2455682
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 440315
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 2918997
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 1057277
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 289551
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 985662
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 313572
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 2190815
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 839779
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 56683
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 129854
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 90553
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 559499
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Fundamental
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 206164
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 82180
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 325622
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 72622
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 586245
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 139271
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 85208
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 280924
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 93498
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 831329
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 233402
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 42127
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 104625
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 57573
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 423206
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Médio
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 120216
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: 'N'
+  freq: 15545
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: NE
+  freq: 78685
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: CO
+  freq: 18696
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: SE
+  freq: 206997
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 0-2 SM
+  reg_std: S
+  freq: 38155
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: 'N'
+  freq: 41710
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: NE
+  freq: 169424
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: CO
+  freq: 57940
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: SE
+  freq: 452079
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 2-5 SM
+  reg_std: S
+  freq: 139417
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: 'N'
+  freq: 54871
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: NE
+  freq: 230860
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: CO
+  freq: 111737
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: SE
+  freq: 774707
+- sex_std: Mulher
+  age_std: 60 anos ou mais
+  edu_std: Superior
+  inc_std: 5+ SM
+  reg_std: S
+  freq: 173683

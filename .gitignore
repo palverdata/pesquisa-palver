@@ -1,49 +1,37 @@
-# History files
+# R
 .Rhistory
-.Rapp.history
-
-# Session Data files
 .RData
 .RDataTmp
-
-# User-specific files
-.Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
+.Rprofile.local
+.Renviron
 .Rproj.user/
 
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
+# Microdados de pesquisa nunca entram no repo (ver politica de dados no README).
+# Agregados e diagnosticos em ondas/*/output/ SAO versionados.
+ondas/*/dados/*
+!ondas/*/dados/.gitkeep
 
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
+# Microdados de origem das margens: grandes, publicos e reprodutiveis pela
+# fonte oficial. O que se versiona e o derivado, em margens/.
+insumos/**
+!insumos/README.md
+!insumos/*/
+!insumos/*/.gitkeep
 
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
+# Formatos de microdado, em qualquer lugar
+*.sav
+*.dta
+*.rds
+*.RDS
 
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
+# CSV bruto de pesquisa deixado fora de ondas/*/dados/ por engano
+/survey-*.csv
 
-# R Environment Variables
-.Renviron
+# Projeto-modelo de referencia (consulta local, fora do repo)
+/00_RProject/
 
-# pkgdown site
-docs/
-
-# translation temp files
-po/*~
-
-# RStudio Connect folder
-rsconnect/
+# Sistema operacional
+.DS_Store
+Thumbs.db
+.claude
+.git
