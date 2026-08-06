@@ -1,44 +1,37 @@
-# pesquisa-palver
+# Pesquisa Palver
 
-Calibração das pesquisas de opinião da Palver por *raking* (IPF). Cada onda de
-campo é uma pasta em `ondas/` com dois arquivos declarativos; o código em `R/` é
-o mesmo para todas.
+Este repositório apresenta os códigos de calibração das pesquisas de opinião da Palver por *raking* (IPF). Cada onda de campo é uma pasta em `ondas/` com dois arquivos declarativos; o código em `R/` é o mesmo para todas.
 
 > **Onda nova = pasta nova + dois YAML, zero código novo.**
 
 ## Passo a passo: rodar uma onda
 
-1. Abra **`pesquisa-palver.Rproj`** no RStudio (é o que põe o diretório de
-   trabalho na raiz — não existe caminho absoluto no repositório).
-
+1. Abra **`pesquisa-palver.Rproj`** no RStudio.
 2. Instale os pacotes, se for a primeira vez:
 
    ```r
    install.packages(c("tidyverse", "survey", "yaml", "writexl"))
    ```
-
-3. Ponha o export da plataforma — um único `.xlsx` — em
+3. Coloque o export dos dados brutos — um único `.xlsx` — em
    `ondas/<onda>/dados/`. O nome não importa; o motor acha o único `.xlsx` da
    pasta. Esse arquivo **não** vai para o git.
-
 4. Abra [scripts/rodar-onda.R](scripts/rodar-onda.R), escreva o nome da onda e
    clique em **Source** (Ctrl+Shift+S):
 
    ```r
    onda <- "2026-08-10"
    ```
-
 5. Leia `ondas/<onda>/output/ambiente.txt`. A última linha diz se a onda atende
    os critérios declarados no `config.yaml` (desvio máximo contra as cotas e
    margem de erro). Se não atender, a execução emite aviso.
 
 Saem três arquivos em `ondas/<onda>/output/`:
 
-| arquivo | conteúdo |
-|---|---|
-| `<prefixo>.xlsx` | abas `Stratification`, `Results` e `ResultsStrat` |
-| `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula |
-| `ambiente.txt` | versões, margens usadas e o veredito da onda |
+| arquivo                     | conteúdo                                              |
+| --------------------------- | ------------------------------------------------------ |
+| `<prefixo>.xlsx`          | abas`Stratification`, `Results` e `ResultsStrat` |
+| `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula    |
+| `ambiente.txt`            | versões, margens usadas e o veredito da onda          |
 
 E `resultado` fica no ambiente do R para inspeção: `resultado$results`,
 `resultado$base`, `resultado$fit$design`.
@@ -53,30 +46,26 @@ E `resultado` fica no ambiente do R para inspeção: `resultado$results`,
    file.copy(c("ondas/2026-08-10/config.yaml",
                "ondas/2026-08-10/questionario.yaml"), "ondas/2026-09-14/")
    ```
-
 2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `data_divulgacao`),
    `campo` e `outputs.prefixo`. `registro` e `data_divulgacao` são
    **obrigatórios**, e `data_divulgacao` tem de ser igual ao nome da pasta.
-
 3. Refaça o `questionario.yaml` a partir do arquivo bruto desta onda. A regra é
    uma só e não tem exceção:
 
    > Cada `texto` é o cabeçalho da coluna no `.xlsx`, caractere por caractere.
    > Cada nível em `niveis` é o valor da célula, caractere por caractere.
+   >
 
    É por esse texto que o motor descobre qual coluna é qual variável. Se houver
    divergência, o problema é do `questionario.yaml`, nunca do dado.
-
 4. Rode como acima. O motor **interrompe** diante de item declarado que não
    existe no arquivo, resposta fora dos níveis, célula de margem sem
    respondente, ou margens com totais inconsistentes. Coluna do arquivo que não
    está declarada é apenas ignorada, com aviso no console.
 
-## Passo a passo: regerar as margens
+## Passo a passo: gerar as margens
 
-As margens em `margens/` são compartilhadas por todas as ondas — é o que torna
-as ondas comparáveis. Só precisam ser regeradas quando a fonte muda (nova
-PNADc, nova eleição de referência).
+As margens em `margens/` são compartilhadas por todas as ondas.  Só precisam ser regeradas quando a fonte muda (nova PNADc, nova eleição de referência).
 
 **PNADc** — [scripts/gerar-margens-pnadc.R](scripts/gerar-margens-pnadc.R) baixa
 sozinho do FTP do IBGE (~172 MB). Ajuste `ano`, `entrevista` e `sm` no topo e
