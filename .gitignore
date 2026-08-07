@@ -7,9 +7,12 @@
 .Rproj.user/
 
 # Microdados de pesquisa nunca entram no repo (ver politica de dados no README).
-# Agregados e diagnosticos em ondas/*/output/ SAO versionados.
 ondas/*/dados/*
 !ondas/*/dados/.gitkeep
+
+# Resultados: gerados pelo motor a partir do que esta versionado.
+ondas/*/output/*
+!ondas/*/output/.gitkeep
 
 # Microdados de origem das margens: grandes, publicos e reprodutiveis pela
 # fonte oficial. O que se versiona e o derivado, em margens/.

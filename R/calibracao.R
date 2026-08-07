@@ -27,6 +27,48 @@ carregar_questionario <- function(caminho) {
     }
   }
 
+  expandir_harmonizacao(qst)
+}
+
+expandir_harmonizacao <- function(qst) {
+
+  for (bloco in names(qst$harmonizacao)) {
+
+    spec <- qst$harmonizacao[[bloco]]
+    mapa <- unlist(spec$mapa)
+
+    for (origem in unlist(spec$aplicar_a)) {
+
+      if (!origem %in% names(qst$questoes)) {
+        stop("harmonizacao ", bloco, ": questao inexistente -> ", origem)
+      }
+
+      niveis <- unlist(qst$questoes[[origem]]$niveis)
+      if (!setequal(names(mapa), niveis)) {
+        stop("harmonizacao ", bloco, " x ", origem, ": o mapa tem de cobrir ",
+             "exatamente os niveis declarados.\n  no mapa e nao na questao: ",
+             paste(setdiff(names(mapa), niveis), collapse = ", "),
+             "\n  na questao e nao no mapa: ",
+             paste(setdiff(niveis, names(mapa)), collapse = ", "))
+      }
+
+      nome <- paste0(origem, "_h")
+      qst$questoes[[nome]] <- list(
+        texto = qst$questoes[[origem]]$texto,
+        harmonizada_de = origem,
+        mapa = as.list(mapa),
+        # a ordem dos rotulos segue a ordem dos niveis da questao original
+        niveis = as.list(unique(unname(mapa[niveis])))
+      )
+
+      ordem <- unlist(qst$exportar_ordem)
+      pos <- match(origem, ordem)
+      if (!is.na(pos)) {
+        qst$exportar_ordem <- as.list(append(ordem, nome, after = pos))
+      }
+    }
+  }
+
   qst
 }
 
@@ -38,6 +80,8 @@ enunciados_do_arquivo <- function(qst) {
 
   for (bloco in c("questoes", "questoes_nao_exportadas")) {
     for (nome in names(qst[[bloco]])) {
+      # questao harmonizada nao existe no arquivo: e derivada da origem
+      if (!is.null(qst[[bloco]][[nome]]$harmonizada_de)) next
       texto <- qst[[bloco]][[nome]]$texto
       if (is.null(texto)) next
       if (texto %in% names(mapa) && !identical(mapa[[texto]], nome)) {
@@ -107,6 +151,16 @@ montar_respondentes <- function(base, qst) {
   for (nome in names(qst$questoes)) {
 
     spec <- qst$questoes[[nome]]
+
+    # As harmonizadas vem depois das originais na lista, entao a origem ja e fator
+    if (!is.null(spec$harmonizada_de)) {
+      base[[nome]] <- factor(
+        unlist(spec$mapa)[as.character(base[[spec$harmonizada_de]])],
+        levels = unlist(spec$niveis), ordered = TRUE
+      )
+      next
+    }
+
     if (!nome %in% names(base)) {
       stop("questao declarada e ausente na base montada: ", nome)
     }
@@ -128,6 +182,43 @@ montar_respondentes <- function(base, qst) {
   }
 
   base
+}
+
+cortar_amostra <- function(base, spec) {
+
+  n <- spec$registrada
+  if (is.null(n)) return(base)
+
+  chave <- spec$ordenar_por %||% "end_timestamp"
+
+  if (!chave %in% names(base)) {
+    stop("amostra.ordenar_por: coluna ausente na base -> ", chave)
+  }
+  if (nrow(base) < n) {
+    stop("amostra.registrada = ", n, ", mas o arquivo tem ", nrow(base),
+         " respondentes.")
+  }
+
+  # A fracao de segundo vem ausente quando e zero; sem padronizar, a ordem do
+  # texto nao seria a cronologica.
+  quando <- sub("^(\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2})([^.].*|)$",
+                "\\1.000000\\2", as.character(base[[chave]]))
+
+  if (anyNA(quando) ||
+      !all(grepl("^\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}[.]", quando))) {
+    stop("amostra.ordenar_por: ", chave, " precisa estar em ",
+         "AAAA-MM-DD HH:MM:SS para o corte ser replicavel.")
+  }
+
+  # respondent_id desempata, para o corte nao depender da ordem do arquivo
+  cronologica <- order(quando, base$respondent_id)
+
+  cat(sprintf("amostra registrada: %d dos %d respondentes do arquivo",
+              n, nrow(base)))
+  cat(sprintf(" (ultimo a entrar concluiu em %s)\n", quando[cronologica[n]]))
+
+  # devolve na ordem do arquivo, nao na do corte
+  base[sort(cronologica[seq_len(n)]), ]
 }
 
 # Tipos: mapa, mapa_com_resto, agrupamento, voto_pregresso, limiar.

@@ -25,11 +25,13 @@ Este repositório apresenta os códigos de calibração das pesquisas de opiniã
    os critérios declarados no `config.yaml` (desvio máximo contra as cotas e
    margem de erro). Se não atender, a execução emite aviso.
 
-Saem três arquivos em `ondas/<onda>/output/`:
+Saem quatro arquivos em `ondas/<onda>/output/`, que **não** vão para o git — são
+gerados a partir do que está versionado:
 
 | arquivo                     | conteúdo                                              |
 | --------------------------- | ------------------------------------------------------ |
 | `<prefixo>.xlsx`          | abas`Stratification`, `Results` e `ResultsStrat` |
+| `<prefixo>_N.xlsx`        | as mesmas abas com o N não ponderado de cada estimativa |
 | `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula    |
 | `ambiente.txt`            | versões, margens usadas e o veredito da onda          |
 
@@ -108,7 +110,7 @@ pesquisa-palver/
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
     ├── dados/                  #   o .xlsx bruto (fora do git)
-    └── output/                 #   agregados e diagnósticos (versionados)
+    └── output/                 #   resultados e diagnósticos (fora do git)
 ```
 
 Cada `margens/*.yaml` guarda a **tabela conjunta** das suas variáveis: qualquer
@@ -130,8 +132,12 @@ número publicado ao ambiente que o produziu.
 
 Nenhuma base individual — com ou sem peso, identificada ou não. Barreiras no
 [.gitignore](.gitignore): `ondas/*/dados/*`, `insumos/**` e `*.sav` `*.dta`
-`*.rds` em qualquer lugar. O que se versiona é a especificação (os dois YAML da
-onda), as margens derivadas e os outputs agregados.
+`*.rds` em qualquer lugar.
+
+Os resultados em `ondas/*/output/` também ficam fora do git: são gerados pelo
+motor a partir do que está versionado. O que se versiona é a **especificação** —
+os dois YAML da onda e as margens derivadas — de onde qualquer resultado pode ser
+reproduzido.
 
 ## Tag por onda
 

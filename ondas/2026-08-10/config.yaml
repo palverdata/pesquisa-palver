@@ -7,6 +7,10 @@ onda:
 campo:
   data_inicio: "2026-08-03"
   data_fim: "2026-08-09"
+
+amostra:  
+  registrada: 5000
+  ordenar_por: end_timestamp
  
 margens:  
   pnadc: "margens/pnadc-2024-visita5.yaml"  

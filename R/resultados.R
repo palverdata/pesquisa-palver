@@ -1,8 +1,9 @@
 # Do peso calibrado aos arquivos de divulgacao.
 #
-# Escreve tres arquivos em ondas/<onda>/output/:
+# Escreve quatro arquivos em ondas/<onda>/output/:
 #
 #   <prefixo>.xlsx           Stratification, Results e ResultsStrat
+#   <prefixo>_N.xlsx         as mesmas abas com o N nao ponderado
 #   diagnostico-margens.csv  margem ponderada vs cota, por categoria
 #   ambiente.txt             versoes, margens usadas e o resultado da onda
 
@@ -167,6 +168,55 @@ montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
 }
 
 # ==============================================================================
+# N NAO PONDERADO
+# ==============================================================================
+
+contar_ns <- function(desenho, ordem, recortes) {
+
+  dados <- desenho$variables
+
+  valida <- function(x) !is.na(x) & trimws(as.character(x)) != ""
+
+  por_questao <- function(questao, recorte = NULL) {
+
+    if (!all(c(questao, recorte) %in% names(dados))) return(NULL)
+
+    ok <- valida(dados[[questao]])
+    if (!is.null(recorte)) ok <- ok & valida(dados[[recorte]])
+    if (!any(ok)) return(NULL)
+
+    fora <- dados[ok, c(questao, recorte), drop = FALSE]
+    names(fora) <- c("response", if (!is.null(recorte)) "stratification_category")
+
+    fora <- dplyr::count(fora, dplyr::across(dplyr::everything()), name = "n",
+                         .drop = FALSE)
+
+    if (!is.null(recorte)) fora <- dplyr::group_by(fora,
+                                                  stratification_category)
+
+    fora %>%
+      dplyr::mutate(n_base = sum(n)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(dplyr::across(dplyr::where(is.factor), as.character),
+                    question = questao,
+                    stratification_variable = recorte %||% NA_character_)
+  }
+
+  colunas <- function(x, ...) dplyr::select(x, ...)
+
+  list(
+    Stratification = purrr::map_dfr(recortes, por_questao) %>%
+      colunas(question, response, n, n_base),
+    Results = purrr::map_dfr(ordem, por_questao) %>%
+      colunas(question_id = question, response, n, n_base),
+    ResultsStrat = tidyr::crossing(questao = ordem, recorte = recortes) %>%
+      purrr::pmap_dfr(function(questao, recorte) por_questao(questao, recorte)) %>%
+      colunas(question, response, stratification_variable,
+              stratification_category, n, n_base)
+  )
+}
+
+# ==============================================================================
 # SAIDA
 # ==============================================================================
 
@@ -200,6 +250,10 @@ exportar_onda <- function(fit, qst, cfg) {
   xlsx <- file.path(dir_saida, paste0(cfg$outputs$prefixo, ".xlsx"))
   writexl::write_xlsx(tabelas, path = xlsx)
 
+  ns <- contar_ns(fit$design, ordem, recortes)
+  writexl::write_xlsx(ns, path = file.path(
+    dir_saida, paste0(cfg$outputs$prefixo, "_N.xlsx")))
+
   diagnostico <- convergence_report(fit) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ round(.x, 6)))
 
@@ -209,6 +263,8 @@ exportar_onda <- function(fit, qst, cfg) {
   cat(sprintf("\nescrito em %s/\n  %s.xlsx  (%d + %d + %d linhas)\n",
               dir_saida, cfg$outputs$prefixo, nrow(tabelas$Stratification),
               nrow(tabelas$Results), nrow(tabelas$ResultsStrat)))
+  cat(sprintf("  %s_N.xlsx  (o N nao ponderado de cada estimativa)\n",
+              cfg$outputs$prefixo))
   cat("  diagnostico-margens.csv\n  ambiente.txt\n")
 
   invisible(tabelas)
@@ -253,6 +309,8 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       sprintf("  %s", cfg$margens$tse %||% "(sem margem de voto)"),
       "",
       "resultado:",
+      sprintf("  amostra registrada : %s",
+              cfg$amostra$registrada %||% "(sem corte)"),
       sprintf("  n                  : %d", fit$n_calibrado),
       sprintf("  n efetivo (Kish)   : %.0f", ef$n_eff),
       sprintf("  efeito de desenho  : %.2f", ef$deff),

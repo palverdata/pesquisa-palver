@@ -713,6 +713,55 @@ questoes:
       - "Não, certamente não"
       - "Não sei"
 
+
+  # tabulacao da espontanea feita fora do questionario;
+  # o texto aberto original fica em questoes_nao_exportadas
+  spontaneous_vote_norm:
+    tipo: "tabulada"
+    texto: "voto_presidente_norm"
+    niveis:
+      - "Lula"
+      - "Flávio Bolsonaro"
+      - "Renan Santos"
+      - "Ronaldo Caiado"
+      - "Romeu Zema"
+      - "Bolsonaro (indefinido)"
+      - "Samara Martins"
+      - "Augusto Cury"
+      - "Jair Bolsonaro"
+      - "Hertz Dias"
+      - "Ciro Gomes"
+      - "Eduardo Bolsonaro"
+      - "Rui Costa Pimenta"
+      - "Ciro"
+      - "Nicolas Ferreira"
+      - "Cabo Daciolo"
+      - "Luka"
+      - "Branco/Nulo"
+      - "Ninguém"
+      - "Indefinido"
+      - "Não respondeu"
+
+  # tabulacao da espontanea feita fora do questionario;
+  # o texto aberto original fica em questoes_nao_exportadas
+  spontaneous_number_norm:
+    tipo: "tabulada"
+    texto: "numero_voto_norm"
+    niveis:
+      - "13"
+      - "14"
+      - "16"
+      - "17"
+      - "20"
+      - "22"
+      - "23"
+      - "30"
+      - "40"
+      - "44"
+      - "55"
+      - "70"
+      - "80"
+      - "Não respondeu"
 questoes_nao_exportadas:
   sex:
     texto: "Qual é o seu gênero?"
@@ -734,12 +783,12 @@ questoes_nao_exportadas:
     motivo: "origem de relig_std; entra na calibracao pela derivada"
   spontaneous_vote_choice:
     tipo: "open_text"
-    texto: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    texto: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria? (RAW)"
     motivo: "resposta aberta (nome do candidato); nao entra no Excel"
     exportar: false
   q_1785367910450_2:
     tipo: "open_text"
-    texto: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco)"
+    texto: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco) (RAW)"
     motivo: "resposta aberta (numero do candidato); renomeada para spontaneous_number"
     exportar: false
   issue_perception:
@@ -784,8 +833,7 @@ derivadas:
 
   race_std:
     origem: race
-    tipo: mapa
-    nota: "Nao entra na calibracao -- so em recortes. A PNADc nao gera margem de raca neste fluxo."
+    tipo: mapa    
     mapa:
       "Branca": "Branca"
       "Preta": "Preta, Parda, Indígena ou Amarela"
@@ -798,8 +846,7 @@ derivadas:
 
   edu_std:
     origem: edu
-    tipo: mapa
-    nota: "As categorias precisam casar com edu_std da PNADc (VD3004)."
+    tipo: mapa    
     mapa:
       "Sem instrução": "Fundamental"
       "Fundamental incompleto": "Fundamental"
@@ -816,12 +863,7 @@ derivadas:
 
   inc_std:
     origem: inc_fam
-    tipo: mapa
-    nota: >
-      Cortes registrados em reais: ate R$ 3.242; de R$ 3.242 a R$ 8.105; acima
-      de R$ 8.105 -- equivalentes a 2 e 5 salarios minimos de R$ 1.621. A margem
-      da PNADc tem de ser recortada com o MESMO salario minimo, senao amostra e
-      alvo medem faixas diferentes.
+    tipo: mapa    
     mapa:
       "Até R$1.621 (Até 1 salário-mínimo)": "0-2 SM"
       "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "0-2 SM"
@@ -837,8 +879,7 @@ derivadas:
 
   relig_std:
     origem: relig
-    tipo: mapa_com_resto
-    nota: "ATENCAO: com resto=Outra, 'Nao sei' tambem vira 'Outra'."
+    tipo: mapa_com_resto    
     resto: "Outra"
     mapa:
       "Católica": "Católica"
@@ -885,13 +926,7 @@ derivadas:
 
   vote_std:
     tipo: voto_pregresso
-    nota: >
-      ATENCAO -- a definicao aqui e mais larga que a do alvo. Quem declara nao
-      ter votado em 2022 e classificado como Branco/Nulo junto com quem votou
-      branco ou nulo, enquanto o alvo do TSE conta apenas brancos e nulos entre
-      os votantes, sem abstencao. Enquanto isso nao for resolvido, a calibracao
-      comprime o grupo para o tamanho do alvo. Alternativas: excluir a
-      abstencao do grupo, ou somar a abstencao ao alvo.
+    nota:      
     filtro_comparecimento:
       variavel: voted_2r_last_election
       valor_nao_votou: "Não"
@@ -910,11 +945,7 @@ derivadas:
   anti_std:
     origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
     tipo: limiar
-    limiar: ["4", "5 - Totalmente"]
-    nota: >
-      Precedencia: antipetista e avaliado primeiro, entao quem cruza o limiar
-      nas duas escalas e classificado como Antipetista. Quem nao cruza nenhuma
-      vai para 'Nao alinhado' -- inclusive quem respondeu 'Nao sei'.
+    limiar: ["4", "5 - Totalmente"]    
     ordem_avaliacao:
       - variavel: neg_identification_antipetista
         valor: "Antipetista"
@@ -929,6 +960,77 @@ derivadas:
 # ---------------------------------------------------------------------------
 # ESTRATIFICACAO (recortes da aba ResultsStrat)
 # ---------------------------------------------------------------------------
+# Rotulos de saida. Cada bloco mapeia os niveis do arquivo -- que ficam
+# intactos em `questoes` -- para o rotulo publicado, e vale para as questoes
+# de `aplicar_a`. Agrupar e varios niveis apontando para o mesmo rotulo;
+# encurtar e um para um. A questao harmonizada sai no Excel ao lado da
+# original, com o sufixo _h.
+harmonizacao:
+
+  # Otimo/Bom, Regular, Ruim/Pessimo
+  avaliacao_governo:
+    aplicar_a:
+      - government_evaluation
+      - government_issue_evaluation_economy
+      - government_issue_evaluation_public_security
+      - government_issue_evaluation_health
+      - government_issue_evaluation_education
+      - government_issue_evaluation_corruption
+      - government_issue_evaluation_foreign_policy
+      - government_issue_evaluation_environment
+    mapa:
+      "Ótimo": "Ótimo/Bom"
+      "Bom": "Ótimo/Bom"
+      "Regular": "Regular"
+      "Ruim": "Ruim/Péssimo"
+      "Péssimo": "Ruim/Péssimo"
+      "Não sei": "Não sei"
+
+  # junta 1 com 2 e 4 com 5; o 3 fica sozinho
+  escala_1_5:
+    aplicar_a:
+      - neg_identification_antipetista
+      - neg_identification_antibolsonarista
+    mapa:
+      "1 - Nem um pouco": "Nem um pouco (1-2)"
+      "2": "Nem um pouco (1-2)"
+      "3": "Intermediário (3)"
+      "4": "Totalmente (4-5)"
+      "5 - Totalmente": "Totalmente (4-5)"
+      "Não sei": "Não sei"
+
+  # rotulo curto para caber no grafico
+  meio_principal:
+    aplicar_a:
+      - media_main
+    mapa:
+      "Televisão aberta (Globo, SBT, Band, Record, etc.)": "TV aberta"
+      "Televisão fechada (GloboNews, CNN, BandNews, UOLNews, etc.)": "TV fechada"
+      "Rádio": "Rádio"
+      "Jornais ou revistas impressos": "Impresso"
+      "Sites ou portais digitais": "Portais digitais"
+      "Podcasts (Spotify, Apple Podcasts, Amazon Music, Deezer, etc.)": "Podcasts"
+      "Plataformas de vídeo/streaming (YouTube, Vimeo, Twitch, Netflix, etc.)": "Vídeo/streaming"
+      "Redes sociais (Facebook, Instagram, X, TikTok, Kwai, etc.)": "Redes sociais"
+      "Aplicativos de mensagens (WhatsApp, Telegram, Messenger, Discord, Signal, etc.)": "Mensagens"
+      "E-mail/newsletter (Substack, etc.)": "E-mail/newsletter"
+      "Conversas presenciais com familiares, amigos ou colegas": "Conversas presenciais"
+      "Outra": "Outra"
+      "Não sei": "Não sei"
+
+  # rotulo curto para caber no grafico
+  identificacao:
+    aplicar_a:
+      - identification
+    mapa:
+      "Me considero lulista": "Lulista"
+      "Não me considero lulista, mas gosto mais das ideias da esquerda": "Simpatiza com a esquerda"
+      "Sou independente": "Independente"
+      "Não me considero bolsonarista, mas gosto mais das ideias da direita": "Simpatiza com a direita"
+      "Me considero bolsonarista": "Bolsonarista"
+      "Não me interesso por política": "Sem interesse em política"
+      "Não sei": "Não sei"
+
 estratificacao:
   - variavel: sex_std
   - variavel: age_std
@@ -947,6 +1049,8 @@ estratificacao:
 # ---------------------------------------------------------------------------
 exportar_ordem:
   - spontaneous_choice
+  - spontaneous_vote_norm
+  - spontaneous_number_norm
   - stimulated_1r_vote_1
   - stimulated_1r_vote_2
   - recall_rejection_flavio_bolsonaro

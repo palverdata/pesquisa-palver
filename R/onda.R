@@ -77,6 +77,7 @@ rodar_onda <- function(onda) {
 
   qst <- carregar_questionario(cfg$caminhos$questionario)
   base <- montar_respondentes(ler_bruto(cfg$caminhos$dados, qst), qst)
+  base <- cortar_amostra(base, cfg$amostra)
 
   cat(sprintf("\nonda %s | registro %s | %d respondentes\n",
               cfg$onda$nome %||% onda, cfg$onda$registro, nrow(base)))
