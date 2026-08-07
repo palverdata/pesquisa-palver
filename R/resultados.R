@@ -230,9 +230,12 @@ exportar_onda <- function(fit, qst, cfg) {
   ordem <- unlist(qst$exportar_ordem)
   nivel <- cfg$diagnosticos$nivel_confianca
 
+  # `titulo` publica um enunciado diferente do cabecalho da coluna, para o caso
+  # em que a coluna vem com nome tecnico em vez do enunciado.
   metadados <- tibble::tibble(
     question_id = names(qst$questoes),
-    question_text = purrr::map_chr(qst$questoes, "texto")
+    question_text = purrr::map_chr(qst$questoes,
+                                   ~ .x$titulo %||% .x$texto)
   )
 
   tabelas <- list(

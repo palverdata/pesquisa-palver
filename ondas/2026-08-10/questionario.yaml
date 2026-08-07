@@ -719,6 +719,7 @@ questoes:
   spontaneous_vote_norm:
     tipo: "tabulada"
     texto: "voto_presidente_norm"
+    titulo: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
     niveis:
       - "Lula"
       - "Flávio Bolsonaro"
@@ -739,14 +740,16 @@ questoes:
       - "Luka"
       - "Branco/Nulo"
       - "Ninguém"
+      - "Não irei votar"
       - "Indefinido"
-      - "Não respondeu"
+      - "Indeciso / Não Respondeu"
 
   # tabulacao da espontanea feita fora do questionario;
   # o texto aberto original fica em questoes_nao_exportadas
   spontaneous_number_norm:
     tipo: "tabulada"
     texto: "numero_voto_norm"
+    titulo: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco)"
     niveis:
       - "13"
       - "14"
@@ -761,7 +764,9 @@ questoes:
       - "55"
       - "70"
       - "80"
-      - "Não respondeu"
+      - "Branco/Nulo"
+      - "Não irei votar"
+      - "Indeciso / Não Respondeu"
 questoes_nao_exportadas:
   sex:
     texto: "Qual é o seu gênero?"
@@ -960,11 +965,7 @@ derivadas:
 # ---------------------------------------------------------------------------
 # ESTRATIFICACAO (recortes da aba ResultsStrat)
 # ---------------------------------------------------------------------------
-# Rotulos de saida. Cada bloco mapeia os niveis do arquivo -- que ficam
-# intactos em `questoes` -- para o rotulo publicado, e vale para as questoes
-# de `aplicar_a`. Agrupar e varios niveis apontando para o mesmo rotulo;
-# encurtar e um para um. A questao harmonizada sai no Excel ao lado da
-# original, com o sufixo _h.
+
 harmonizacao:
 
   # Otimo/Bom, Regular, Ruim/Pessimo
@@ -1005,14 +1006,14 @@ harmonizacao:
       - media_main
     mapa:
       "Televisão aberta (Globo, SBT, Band, Record, etc.)": "TV aberta"
-      "Televisão fechada (GloboNews, CNN, BandNews, UOLNews, etc.)": "TV fechada"
+      "Televisão fechada (GloboNews, CNN, BandNews, UOLNews, etc.)": "TV fechada (Canais News)"
       "Rádio": "Rádio"
-      "Jornais ou revistas impressos": "Impresso"
+      "Jornais ou revistas impressos": "Jornais Impresso"
       "Sites ou portais digitais": "Portais digitais"
       "Podcasts (Spotify, Apple Podcasts, Amazon Music, Deezer, etc.)": "Podcasts"
-      "Plataformas de vídeo/streaming (YouTube, Vimeo, Twitch, Netflix, etc.)": "Vídeo/streaming"
+      "Plataformas de vídeo/streaming (YouTube, Vimeo, Twitch, Netflix, etc.)": "Vídeo/streaming (Youtube)"
       "Redes sociais (Facebook, Instagram, X, TikTok, Kwai, etc.)": "Redes sociais"
-      "Aplicativos de mensagens (WhatsApp, Telegram, Messenger, Discord, Signal, etc.)": "Mensagens"
+      "Aplicativos de mensagens (WhatsApp, Telegram, Messenger, Discord, Signal, etc.)": "Aplicativos de Mensagens"
       "E-mail/newsletter (Substack, etc.)": "E-mail/newsletter"
       "Conversas presenciais com familiares, amigos ou colegas": "Conversas presenciais"
       "Outra": "Outra"

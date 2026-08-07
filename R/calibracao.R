@@ -55,6 +55,7 @@ expandir_harmonizacao <- function(qst) {
       nome <- paste0(origem, "_h")
       qst$questoes[[nome]] <- list(
         texto = qst$questoes[[origem]]$texto,
+        titulo = qst$questoes[[origem]]$titulo,
         harmonizada_de = origem,
         mapa = as.list(mapa),
         # a ordem dos rotulos segue a ordem dos niveis da questao original
