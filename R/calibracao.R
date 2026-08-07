@@ -44,22 +44,22 @@ expandir_harmonizacao <- function(qst) {
       }
 
       niveis <- unlist(qst$questoes[[origem]]$niveis)
-      if (!setequal(names(mapa), niveis)) {
-        stop("harmonizacao ", bloco, " x ", origem, ": o mapa tem de cobrir ",
-             "exatamente os niveis declarados.\n  no mapa e nao na questao: ",
-             paste(setdiff(names(mapa), niveis), collapse = ", "),
-             "\n  na questao e nao no mapa: ",
-             paste(setdiff(niveis, names(mapa)), collapse = ", "))
+      fora <- setdiff(names(mapa), niveis)
+      if (length(fora) > 0) {
+        stop("harmonizacao ", bloco, " x ", origem, ": o mapa cita nivel que a ",
+             "questao nao declara -> ", paste(fora, collapse = ", "))
       }
+
+      rotulos <- unname(ifelse(niveis %in% names(mapa), mapa[niveis], niveis))
 
       nome <- paste0(origem, "_h")
       qst$questoes[[nome]] <- list(
         texto = qst$questoes[[origem]]$texto,
         titulo = qst$questoes[[origem]]$titulo,
         harmonizada_de = origem,
-        mapa = as.list(mapa),
+        mapa = as.list(stats::setNames(rotulos, niveis)),
         # a ordem dos rotulos segue a ordem dos niveis da questao original
-        niveis = as.list(unique(unname(mapa[niveis])))
+        niveis = as.list(unique(rotulos))
       )
 
       ordem <- unlist(qst$exportar_ordem)

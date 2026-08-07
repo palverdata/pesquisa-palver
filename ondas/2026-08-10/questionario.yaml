@@ -968,6 +968,35 @@ derivadas:
 
 harmonizacao:
 
+  # recall: nao conhece e nao sabe viram um so rotulo. As alternativas
+  # de intencao ficam com o proprio rotulo e nao aparecem no mapa.
+  recall_conhecimento:
+    aplicar_a:
+      - recall_rejection_flavio_bolsonaro
+      - recall_rejection_lula
+      - recall_rejection_renan_santos
+      - recall_rejection_romeu_zema
+      - recall_rejection_ronaldo_caiado
+    mapa:
+      "Não conheço": "Não conheço ou não sei"
+      "Não sei": "Não conheço ou não sei"
+
+  # cenario eleitoral: branco/nulo, nao votaria e nao sabe viram um so
+  # rotulo. Os candidatos ficam com o proprio rotulo, e por isso nao
+  # aparecem no mapa -- cada cenario tem uma lista diferente.
+  cenario_eleitoral:
+    aplicar_a:
+      - stimulated_1r_vote_1
+      - stimulated_1r_vote_2
+      - stimulated_2r_vote_1
+      - stimulated_2r_vote_2
+      - stimulated_2r_vote_3
+      - stimulated_2r_vote_4
+    mapa:
+      "Votaria em branco/nulo": "Branco/nulo, não votaria ou não sabe"
+      "Não iria votar": "Branco/nulo, não votaria ou não sabe"
+      "Não sei": "Branco/nulo, não votaria ou não sabe"
+
   # Otimo/Bom, Regular, Ruim/Pessimo
   avaliacao_governo:
     aplicar_a:
