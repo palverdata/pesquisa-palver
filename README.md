@@ -158,6 +158,6 @@ e BibTeX no botão *Cite this repository*, no topo da página do repositório.
 
 MIT — ver [LICENSE](LICENSE).
 
-Disclaimer de Inteligência Artificial
+## Disclaimer de Inteligência Artificial
 
-Inteligência artificial foi utilizada para revisar códigos, e correção ortográfica neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
+Inteligência artificial foi utilizada para revisar códigos, correção ortográfica e redação de documentação neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
