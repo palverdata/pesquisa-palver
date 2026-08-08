@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "Se voce usar este repositorio, cite-o conforme abaixo."
+title: "pesquisa-palver: motor de calibracao de pesquisas de opiniao (IPF/raking)"
+abstract: >-
+  Motor de calibracao de pesquisas de opiniao por iterative proportional
+  fitting (raking), com diagnosticos padronizados. Cada onda de campo do ciclo
+  eleitoral 2026 e uma instancia configuravel do mesmo motor, definida por
+  arquivos declarativos.
+type: software
+version: 0.1.0
+date-released: "2026-08-10"
+license: MIT
+repository-code: "https://github.com/palverdata/pesquisa-palver"
+authors:
+  - name: "Palver"
+    email: "contato@palver.com.br"
+keywords:
+  - raking
+  - iterative proportional fitting
+  - pesquisa de opiniao
+  - calibracao de pesos
+  - eleicoes 2026

@@ -149,6 +149,11 @@ Cada onda divulgada recebe uma tag, congelando motor, margens e config usados:
 git tag -a v2026-08-10 -m "BR-06596/2026 -- divulgacao 10/08/2026"
 ```
 
+## Como citar
+
+Ver [CITATION.cff](CITATION.cff). O GitHub o lê e oferece o texto pronto em APA
+e BibTeX no botão *Cite this repository*, no topo da página do repositório.
+
 ## Licença
 
 MIT — ver [LICENSE](LICENSE).
