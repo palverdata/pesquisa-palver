@@ -12,6 +12,7 @@ colunas:
   dispositivo: dispositivo
   estado: uf
   municipio: municipio
+  bairro: bairro
   tipo_municipio: tipo_municipio
   regiao: regiao_arquivo
 

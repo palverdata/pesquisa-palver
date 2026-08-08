@@ -459,7 +459,7 @@ rake_weights <- function(dados, alvos, tolerancia = 1e-7, max_iteracoes = 200) {
     )),
     population = unname(alvos),
     calfun = "raking",
-    control = list(maxit = max_iteracoes, epsilon = tolerancia, verbose = FALSE)
+    maxit = max_iteracoes, epsilon = tolerancia, verbose = FALSE
   )
 
   list(

@@ -1,8 +1,9 @@
 # Do peso calibrado aos arquivos de divulgacao.
 #
-# Escreve cinco arquivos em ondas/<onda>/output/:
+# Escreve seis arquivos em ondas/<onda>/output/:
 #
 #   <prefixo>.xlsx             Stratification, Results e ResultsStrat
+#   <prefixo>_decimal.xlsx     as mesmas abas sem arredondamento
 #   <prefixo>_N.xlsx           as mesmas abas com o N nao ponderado
 #   <prefixo>_localidades.xlsx entrevistas por municipio
 #   diagnostico-margens.csv    margem ponderada vs cota, por categoria
@@ -98,15 +99,27 @@ estimate_svyby <- function(questao, recorte, desenho, nivel_confianca = 0.95) {
   })
 }
 
-formatar_percentuais <- function(tabela) {
-  tabela %>%
-    dplyr::mutate(
-      mean_percent = round(mean * 100, 0),
-      conf_low_percent = round(conf_low * 100, 0),
-      conf_high_percent = round(conf_high * 100, 0),
-      estimate_ci = sprintf("%.0f%% (%.0f%%–%.0f%%)", mean_percent,
-                            conf_low_percent, conf_high_percent)
+formatar_percentuais <- function(tabela, decimais = 0) {
+
+  tabela <- dplyr::mutate(
+    tabela,
+    mean_percent = mean * 100,
+    conf_low_percent = conf_low * 100,
+    conf_high_percent = conf_high * 100
+  )
+
+  if (!is.null(decimais)) {
+    fmt <- paste0("%.", decimais, "f%% (%.", decimais, "f%%–%.", decimais,
+                  "f%%)")
+    tabela <- dplyr::mutate(
+      tabela,
+      dplyr::across(dplyr::ends_with("_percent"), ~ round(.x, decimais)),
+      estimate_ci = sprintf(fmt, mean_percent, conf_low_percent,
+                            conf_high_percent)
     )
+  }
+
+  dplyr::select(tabela, -mean, -conf_low, -conf_high)
 }
 
 # ==============================================================================
@@ -125,14 +138,13 @@ montar_results <- function(desenho, ordem, metadados, nivel) {
 
   purrr::map_dfr(ordem, estimate_question, desenho = desenho,
                  nivel_confianca = nivel) %>%
-    dplyr::mutate(question = factor(question, levels = ordem, ordered = TRUE)) %>%    
+    dplyr::mutate(question = factor(question, levels = ordem, ordered = TRUE)) %>%
     dplyr::arrange(question) %>%
-    formatar_percentuais() %>%
     dplyr::mutate(question = as.character(question)) %>%
     dplyr::left_join(metadados, by = c("question" = "question_id")) %>%
     dplyr::rename(question_id = question) %>%
-    dplyr::select(question_id, question_text, response, mean_percent,
-                  conf_low_percent, conf_high_percent, estimate_ci)
+    dplyr::select(question_id, question_text, response, mean, conf_low,
+                  conf_high)
 }
 
 montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
@@ -156,7 +168,6 @@ montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
         ~ posicao(niveis[[.x]], .y)
       )
     ) %>%
-    formatar_percentuais() %>%
     dplyr::arrange(question, stratification_variable, response_order,
                    stratification_order) %>%
     dplyr::mutate(
@@ -164,8 +175,7 @@ montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
       stratification_variable = as.character(stratification_variable)
     ) %>%
     dplyr::select(question, response, stratification_variable,
-                  stratification_category, mean_percent, conf_low_percent,
-                  conf_high_percent, estimate_ci)
+                  stratification_category, mean, conf_low, conf_high)
 }
 
 # ==============================================================================
@@ -174,7 +184,7 @@ montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
 
 contar_localidades <- function(desenho) {
 
-  geo <- c("regiao_arquivo", "uf", "municipio", "tipo_municipio")
+  geo <- c("regiao_arquivo", "uf", "municipio", "bairro")
   faltando <- setdiff(geo, names(desenho$variables))
   if (length(faltando) > 0) {
     stop("coluna de geografia ausente na base: ",
@@ -182,10 +192,11 @@ contar_localidades <- function(desenho) {
   }
 
   desenho$variables %>%
+    dplyr::mutate(bairro = dplyr::coalesce(bairro, "(nao informado)")) %>%
     dplyr::count(dplyr::across(dplyr::all_of(geo)), name = "n_entrevistas") %>%
-    dplyr::arrange(dplyr::desc(n_entrevistas), uf, municipio) %>%
-    dplyr::select(regiao = regiao_arquivo, estado = uf, municipio,
-                  tipo_municipio, n_entrevistas)
+    dplyr::arrange(dplyr::desc(n_entrevistas), uf, municipio, bairro) %>%
+    dplyr::select(regiao = regiao_arquivo, estado = uf, municipio, bairro,
+                  n_entrevistas)
 }
 
 contar_ns <- function(desenho, ordem, recortes) {
@@ -253,20 +264,24 @@ exportar_onda <- function(fit, qst, cfg) {
                                    ~ .x$titulo %||% .x$texto)
   )
 
-  tabelas <- list(
+  cru <- list(
     Stratification = purrr::map_dfr(recortes, estimate_question,
                                     desenho = fit$design,
-                                    nivel_confianca = nivel) %>%
-      formatar_percentuais() %>%
-      dplyr::select(question, response, mean_percent, conf_low_percent,
-                    conf_high_percent, estimate_ci),
+                                    nivel_confianca = nivel),
     Results = montar_results(fit$design, ordem, metadados, nivel),
     ResultsStrat = montar_results_strat(fit$design, ordem, recortes, niveis,
                                         nivel)
   )
 
+  tabelas <- purrr::map(cru, formatar_percentuais)
+
   xlsx <- file.path(dir_saida, paste0(cfg$outputs$prefixo, ".xlsx"))
   writexl::write_xlsx(tabelas, path = xlsx)
+
+  writexl::write_xlsx(purrr::map(cru, formatar_percentuais, decimais = NULL),
+                      path = file.path(dir_saida,
+                                       paste0(cfg$outputs$prefixo,
+                                              "_decimal.xlsx")))
 
   ns <- contar_ns(fit$design, ordem, recortes)
   writexl::write_xlsx(ns, path = file.path(
@@ -285,6 +300,8 @@ exportar_onda <- function(fit, qst, cfg) {
   cat(sprintf("\nescrito em %s/\n  %s.xlsx  (%d + %d + %d linhas)\n",
               dir_saida, cfg$outputs$prefixo, nrow(tabelas$Stratification),
               nrow(tabelas$Results), nrow(tabelas$ResultsStrat)))
+  cat(sprintf("  %s_decimal.xlsx  (as mesmas abas sem arredondamento)\n",
+              cfg$outputs$prefixo))
   cat(sprintf("  %s_N.xlsx  (o N nao ponderado de cada estimativa)\n",
               cfg$outputs$prefixo))
   cat(sprintf("  %s_localidades.xlsx  (%d municipios)\n", cfg$outputs$prefixo,

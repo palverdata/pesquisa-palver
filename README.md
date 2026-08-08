@@ -1,3 +1,5 @@
+<img src="assets/logo-palver.png" alt="Palver" width="280">
+
 # Pesquisa Palver
 
 Este repositório apresenta os códigos de calibração das pesquisas de opinião da Palver por *raking* (IPF). Cada onda de campo é uma pasta em `ondas/` com dois arquivos declarativos; o código em `R/` é o mesmo para todas.
