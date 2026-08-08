@@ -141,11 +141,7 @@ motor a partir do que está versionado. O que se versiona é a **especificação
 os dois YAML da onda e as margens derivadas — de onde qualquer resultado pode ser
 reproduzido.
 
-## Disclaimer de Inteligência Artificial
-
-Inteligência artificial foi utilizada para revisar códigos, e correção ortográfica neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
-
-## Tag por onda
+Tag por onda
 
 Cada onda divulgada recebe uma tag, congelando motor, margens e config usados:
 
@@ -161,3 +157,7 @@ e BibTeX no botão *Cite this repository*, no topo da página do repositório.
 ## Licença
 
 MIT — ver [LICENSE](LICENSE).
+
+Disclaimer de Inteligência Artificial
+
+Inteligência artificial foi utilizada para revisar códigos, e correção ortográfica neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
