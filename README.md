@@ -30,12 +30,12 @@ Este repositório apresenta os códigos de calibração das pesquisas de opiniã
 Saem quatro arquivos em `ondas/<onda>/output/`, que **não** vão para o git — são
 gerados a partir do que está versionado:
 
-| arquivo                     | conteúdo                                              |
-| --------------------------- | ------------------------------------------------------ |
-| `<prefixo>.xlsx`          | abas`Stratification`, `Results` e `ResultsStrat` |
+| arquivo                     | conteúdo                                                |
+| --------------------------- | -------------------------------------------------------- |
+| `<prefixo>.xlsx`          | abas`Stratification`, `Results` e `ResultsStrat`   |
 | `<prefixo>_N.xlsx`        | as mesmas abas com o N não ponderado de cada estimativa |
-| `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula    |
-| `ambiente.txt`            | versões, margens usadas e o veredito da onda          |
+| `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula      |
+| `ambiente.txt`            | versões, margens usadas e o veredito da onda            |
 
 E `resultado` fica no ambiente do R para inspeção: `resultado$results`,
 `resultado$base`, `resultado$fit$design`.
@@ -140,6 +140,10 @@ Os resultados em `ondas/*/output/` também ficam fora do git: são gerados pelo
 motor a partir do que está versionado. O que se versiona é a **especificação** —
 os dois YAML da onda e as margens derivadas — de onde qualquer resultado pode ser
 reproduzido.
+
+## Disclaimer de Inteligência Artificial
+
+Inteligência artificial foi utilizada para revisar códigos, e correção ortográfica neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
 
 ## Tag por onda
 
