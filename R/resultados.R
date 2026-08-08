@@ -1,11 +1,12 @@
 # Do peso calibrado aos arquivos de divulgacao.
 #
-# Escreve quatro arquivos em ondas/<onda>/output/:
+# Escreve cinco arquivos em ondas/<onda>/output/:
 #
-#   <prefixo>.xlsx           Stratification, Results e ResultsStrat
-#   <prefixo>_N.xlsx         as mesmas abas com o N nao ponderado
-#   diagnostico-margens.csv  margem ponderada vs cota, por categoria
-#   ambiente.txt             versoes, margens usadas e o resultado da onda
+#   <prefixo>.xlsx             Stratification, Results e ResultsStrat
+#   <prefixo>_N.xlsx           as mesmas abas com o N nao ponderado
+#   <prefixo>_localidades.xlsx entrevistas por municipio
+#   diagnostico-margens.csv    margem ponderada vs cota, por categoria
+#   ambiente.txt               versoes, margens usadas e o resultado da onda
 
 # ==============================================================================
 # ESTIMATIVAS
@@ -171,6 +172,22 @@ montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
 # N NAO PONDERADO
 # ==============================================================================
 
+contar_localidades <- function(desenho) {
+
+  geo <- c("regiao_arquivo", "uf", "municipio", "tipo_municipio")
+  faltando <- setdiff(geo, names(desenho$variables))
+  if (length(faltando) > 0) {
+    stop("coluna de geografia ausente na base: ",
+         paste(faltando, collapse = ", "))
+  }
+
+  desenho$variables %>%
+    dplyr::count(dplyr::across(dplyr::all_of(geo)), name = "n_entrevistas") %>%
+    dplyr::arrange(dplyr::desc(n_entrevistas), uf, municipio) %>%
+    dplyr::select(regiao = regiao_arquivo, estado = uf, municipio,
+                  tipo_municipio, n_entrevistas)
+}
+
 contar_ns <- function(desenho, ordem, recortes) {
 
   dados <- desenho$variables
@@ -255,6 +272,10 @@ exportar_onda <- function(fit, qst, cfg) {
   writexl::write_xlsx(ns, path = file.path(
     dir_saida, paste0(cfg$outputs$prefixo, "_N.xlsx")))
 
+  localidades <- contar_localidades(fit$design)
+  writexl::write_xlsx(list(Localidades = localidades), path = file.path(
+    dir_saida, paste0(cfg$outputs$prefixo, "_localidades.xlsx")))
+
   diagnostico <- convergence_report(fit) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ round(.x, 6)))
 
@@ -266,6 +287,8 @@ exportar_onda <- function(fit, qst, cfg) {
               nrow(tabelas$Results), nrow(tabelas$ResultsStrat)))
   cat(sprintf("  %s_N.xlsx  (o N nao ponderado de cada estimativa)\n",
               cfg$outputs$prefixo))
+  cat(sprintf("  %s_localidades.xlsx  (%d municipios)\n", cfg$outputs$prefixo,
+              nrow(localidades)))
   cat("  diagnostico-margens.csv\n  ambiente.txt\n")
 
   invisible(tabelas)
