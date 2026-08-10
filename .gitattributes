@@ -4,3 +4,5 @@
 * text=auto
 
 *.xlsx binary
+
+*.pdf binary

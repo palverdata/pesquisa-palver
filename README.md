@@ -6,6 +6,16 @@ Este repositório apresenta os códigos de calibração das pesquisas de opiniã
 
 > **Onda nova = pasta nova + dois YAML, zero código novo.**
 
+## Divulgações
+
+| onda | divulgação | registro | campo | relatório | press release |
+| ---- | ---------- | -------- | ----- | --------- | ------------- |
+| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF, 93 páginas](divulgacao/2026-08-10/relatorio-onda-01.pdf) | [PDF, 2 páginas](divulgacao/2026-08-10/press-release-onda-01.pdf) |
+
+Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10) —
+que congela o motor, as margens e a configuração usados para produzir aqueles
+números.
+
 ## Passo a passo: rodar uma onda
 
 1. Abra **`pesquisa-palver.Rproj`** no RStudio.
@@ -108,6 +118,7 @@ pesquisa-palver/
 │   ├── pnadc-2024-visita5.yaml
 │   └── tse-2022-turno2.yaml
 ├── insumos/tse/                # microdados do TSE (fora do git)
+├── divulgacao/2026-08-10/      # relatório e press release publicados
 └── ondas/2026-08-10/           # pasta = data de divulgação
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
