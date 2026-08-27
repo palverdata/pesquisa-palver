@@ -8,9 +8,13 @@ Este repositório apresenta os códigos de calibração das pesquisas de opiniã
 
 ## Divulgações
 
+Relatórios completos e press releases de todas as ondas ficam em
+**[palver.com.br/survey](https://www.palver.com.br/survey)**. Este repositório
+guarda apenas o motor de calibração e a especificação de cada onda.
+
 | onda | divulgação | registro | campo | relatório | press release |
 | ---- | ---------- | -------- | ----- | --------- | ------------- |
-| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF, 93 páginas](divulgacao/2026-08-10/relatorio-onda-01.pdf) | [PDF, 2 páginas](divulgacao/2026-08-10/press-release-onda-01.pdf) |
+| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF, 93 páginas](https://www.palver.com.br/api/surveys/voting-intention-2026-august/report) | [PDF, 2 páginas](https://www.palver.com.br/api/surveys/voting-intention-2026-august/press-release) |
 
 Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10) —
 que congela o motor, as margens e a configuração usados para produzir aqueles
@@ -118,7 +122,6 @@ pesquisa-palver/
 │   ├── pnadc-2024-visita5.yaml
 │   └── tse-2022-turno2.yaml
 ├── insumos/tse/                # microdados do TSE (fora do git)
-├── divulgacao/2026-08-10/      # relatório e press release publicados
 ├── testes/                     # experimentos de recrutamento (ver README lá)
 │   └── 2026-08-16/             #   criativo × rede, 2×2
 └── ondas/2026-08-10/           # pasta = data de divulgação
