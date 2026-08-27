@@ -38,3 +38,22 @@ insumos/**
 Thumbs.db
 .claude
 .git
+
+# Microdados deixados na raiz. O arquivo com ip_address NUNCA pode ser commitado:
+# o repositorio e publico e o briefing exige derivar as variaveis e descartar o IP.
+/*.xlsx
+/*.csv
+
+# Paradata da onda: mesmos respondentes do export de dados/, com colunas de
+# fingerprint, ip_hash e user_agent. Sensivel, nunca versionado.
+ondas/*/paradata/*
+!ondas/*/paradata/.gitkeep
+
+# Testes A/B de recrutamento: microdados dentro, agregados fora.
+testes/*/dados/*
+!testes/*/dados/.gitkeep
+testes/*/output/*
+!testes/*/output/.gitkeep
+
+# Saidas de experimento de calibracao (regeneraveis pelos scripts)
+/experimentos/

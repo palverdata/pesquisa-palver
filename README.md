@@ -119,12 +119,25 @@ pesquisa-palver/
 │   └── tse-2022-turno2.yaml
 ├── insumos/tse/                # microdados do TSE (fora do git)
 ├── divulgacao/2026-08-10/      # relatório e press release publicados
+├── testes/                     # experimentos de recrutamento (ver README lá)
+│   └── 2026-08-16/             #   criativo × rede, 2×2
 └── ondas/2026-08-10/           # pasta = data de divulgação
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
     ├── dados/                  #   o .xlsx bruto (fora do git)
+    ├── paradata/               #   mesmo export com fingerprint e ip_hash (fora do git)
     └── output/                 #   resultados e diagnósticos (fora do git)
 ```
+
+`paradata/` guarda o export enriquecido da **mesma** onda: os 5.256 completos são
+exatamente os de `dados/`, mais os incompletos e as colunas de `fingerprint_browser`,
+`ip_hash`, `user_agent` e alvo de anúncio. Fica fora de `dados/` de propósito — o
+motor usa o único `.xlsx` daquela pasta, e o arquivo que produziu os números
+publicados não deve mudar.
+
+[testes/](testes/) são experimentos sobre **como a amostra é recrutada**. Não
+recebem registro, não são divulgados como pesquisa e não passam pelo fluxo de
+`ondas/`.
 
 Cada `margens/*.yaml` guarda a **tabela conjunta** das suas variáveis: qualquer
 cruzamento pedido em `calibracao.margens` é obtido somando essa tabela, sem
