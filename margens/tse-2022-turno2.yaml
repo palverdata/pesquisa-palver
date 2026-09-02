@@ -23,7 +23,7 @@ meta:
   n_pop: 166895914
   n_votos: 123942648
   gerado_por: scripts/gerar-margens-tse.R
-  gerado_em: '2026-08-06'
+  gerado_em: '2026-09-01'
 niveis:
   reg_std:
   - 'N'

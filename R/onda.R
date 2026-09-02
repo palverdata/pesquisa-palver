@@ -17,6 +17,7 @@ if (!file.exists("DESCRIPTION")) {
 
 source("R/calibracao.R")
 source("R/resultados.R")
+source("R/propensao.R")
 
 ler_yaml <- function(caminho) {
 
@@ -79,8 +80,23 @@ rodar_onda <- function(onda) {
   base <- montar_respondentes(ler_bruto(cfg$caminhos$dados, qst), qst)
   base <- cortar_amostra(base, cfg$amostra)
 
+  municipios <- carregar_municipios()
+  base <- padronizar_geografia(base, municipios)
+
   cat(sprintf("\nonda %s | registro %s | %d respondentes\n",
               cfg$onda$nome %||% onda, cfg$onda$registro, nrow(base)))
+
+  propensao <- NULL
+  if (!is.null(cfg$propensao) && (cfg$propensao$ativo %||% TRUE)) {
+    pnadc_prop <- baixar_pnadc_propensao(cfg$propensao$pnadc$ano,
+                                         cfg$propensao$pnadc$entrevista,
+                                         cfg$propensao$pnadc$sm)
+    propensao <- montar_propensao(base, pnadc_prop, unlist(cfg$propensao$variaveis),
+                                  cfg$propensao$semente, cfg$propensao$arvores,
+                                  cfg$propensao$no_minimo,
+                                  cfg$propensao$peso_fallback %||% 1)
+    base <- propensao$base
+  }
 
   fontes <- purrr::compact(list(
     pnadc = if (!is.null(cfg$margens$pnadc)) carregar_margens(cfg$margens$pnadc),
@@ -91,6 +107,8 @@ rodar_onda <- function(onda) {
 
   fit <- rake_weights(base, alvos, cfg$calibracao$tolerancia,
                       cfg$calibracao$max_iteracoes)
+
+  fit$propensao <- propensao$diagnostico
 
   fit <- trim_weights(fit, cfg$trimming$teto, cfg$trimming$piso,
                       cfg$trimming$strict)
