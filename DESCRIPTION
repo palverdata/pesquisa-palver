@@ -31,4 +31,5 @@ Imports:
     writexl (>= 1.5.4),
     yaml (>= 2.3.12)
 Suggests:
-    PNADcIBGE (>= 0.7.5)
+    PNADcIBGE (>= 0.7.5),
+    ranger (>= 0.16.0)

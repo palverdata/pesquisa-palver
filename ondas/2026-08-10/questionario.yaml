@@ -887,6 +887,26 @@ derivadas:
       - "2-5 SM"
       - "5+ SM"
 
+  # Faixas finas de renda, usadas apenas pelo modelo de propensao (R/propensao.R)
+  # -- inc_std, acima, e a granularidade usada nas margens e no raking.
+  inc_std_2:
+    origem: inc_fam
+    tipo: mapa
+    mapa:
+      "Até R$1.621 (Até 1 salário-mínimo)": "0-1 SM"
+      "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "1-2 SM"
+      "R$3.243-R$4.863 (Mais de 2 até 3 salários-mínimos)": "2-3 SM"
+      "R$4.864-R$8.105 (Mais de 3 até 5 salários-mínimos)": "3-5 SM"
+      "R$8.106-R$16.210 (Mais de 5 até 10 salários-mínimos)": "5+ SM"
+      "R$16.211-R$32.420 (Mais de 10 até 20 salários-mínimos)": "5+ SM"
+      "R$32.421 ou mais (Mais de 20 salários-mínimos)": "5+ SM"
+    niveis:
+      - "0-1 SM"
+      - "1-2 SM"
+      - "2-3 SM"
+      - "3-5 SM"
+      - "5+ SM"
+
   relig_std:
     origem: relig
     tipo: mapa_com_resto

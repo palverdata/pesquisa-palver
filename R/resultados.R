@@ -100,7 +100,8 @@ niveis_declarados <- function(qst) {
 
 contar_localidades <- function(desenho) {
 
-  geo <- c("regiao_arquivo", "uf", "municipio", "bairro")
+  geo <- c("regiao_arquivo", "uf", "municipio", "bairro", "codigo_ibge",
+           "codigo_tse", "populacao_ibge", "tipo_mun_std")
   faltando <- setdiff(geo, names(desenho$variables))
   if (length(faltando) > 0) {
     stop("coluna de geografia ausente na base: ",
@@ -112,6 +113,8 @@ contar_localidades <- function(desenho) {
     dplyr::count(dplyr::across(dplyr::all_of(geo)), name = "n_entrevistas") %>%
     dplyr::arrange(dplyr::desc(n_entrevistas), uf, municipio, bairro) %>%
     dplyr::select(regiao = regiao_arquivo, estado = uf, municipio, bairro,
+                  codigo_ibge, codigo_tse, tipo_municipio = tipo_mun_std,
+                  populacao_ibge,
                   n_entrevistas)
 }
 
@@ -1045,6 +1048,21 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       "margens:",
       sprintf("  %s", cfg$margens$pnadc),
       sprintf("  %s", cfg$margens$tse %||% "(sem margem de voto)"),
+      "",
+      "propensao (peso inicial):",
+      if (is.null(fit$propensao)) "  nao aplicada (peso inicial uniforme)" else c(
+        sprintf("  PNADc              : %d, entrevista %d",
+                cfg$propensao$pnadc$ano, cfg$propensao$pnadc$entrevista),
+        sprintf("  variaveis          : %s",
+                paste(unlist(cfg$propensao$variaveis), collapse = ", ")),
+        sprintf("  semente            : %s", cfg$propensao$semente),
+        sprintf("  n PNADc            : %d", fit$propensao$n_pnadc),
+        sprintf("  n painel incluido  : %d (%d com peso 1 por variavel ausente)",
+                fit$propensao$n_painel_incluido, fit$propensao$n_painel_fallback),
+        sprintf("  erro OOB do modelo : %.4f", fit$propensao$erro_oob),
+        sprintf("  peso inicial       : %.2fx a %.2fx a media",
+                fit$propensao$peso_min, fit$propensao$peso_max)
+      ),
       "",
       "resultado:",
       sprintf("  amostra registrada : %s",

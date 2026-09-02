@@ -18,6 +18,8 @@ ondas/*/output/*
 insumos/**
 !insumos/*/
 !insumos/*/.gitkeep
+# Crosswalk curado de municipio; nao se refaz so da fonte oficial.
+!insumos/municipios_brasil.yaml
 
 *.sav
 *.dta
