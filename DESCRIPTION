@@ -32,4 +32,5 @@ Imports:
     yaml (>= 2.3.12)
 Suggests:
     PNADcIBGE (>= 0.7.5),
+    ranger (>= 0.16.0),
     testthat (>= 3.0.0)

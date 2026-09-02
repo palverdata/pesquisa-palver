@@ -23,7 +23,7 @@ meta:
     inc_std: 0.000304
     reg_std: 0.0
   gerado_por: scripts/gerar-margens-pnadc.R
-  gerado_em: '2026-08-06'
+  gerado_em: '2026-09-01'
 niveis:
   sex_std:
   - Homem

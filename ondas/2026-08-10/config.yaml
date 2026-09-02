@@ -12,11 +12,23 @@ amostra:
   registrada: 5000
   ordenar_por: end_timestamp
  
-margens:  
-  pnadc: "margens/pnadc-2024-visita5.yaml"  
+margens:
+  pnadc: "margens/pnadc-2024-visita5.yaml"
   tse: "margens/tse-2022-turno2.yaml"
 
-calibracao:  
+propensao:
+  ativo: false
+  pnadc:
+    ano: 2024
+    entrevista: 5
+    sm: 1621
+  variaveis: [sex_std, age, edu_std, inc_std_2, reg_std, tipo_mun_std]
+  semente: 1234
+  arvores: 1000
+  no_minimo: 20
+  peso_fallback: 1
+
+calibracao:
   margens:
     - [sex_std]
     - [age_std]

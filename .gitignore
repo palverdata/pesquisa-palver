@@ -21,6 +21,12 @@ insumos/**
 !insumos/*/
 !insumos/*/.gitkeep
 
+# Excecao: crosswalk curado de municipio (codigo IBGE/TSE, populacao,
+# classificacao Capital/RM/Interior) -- derivado com reconciliacao manual entre
+# fontes, nao reproduzivel so a partir da fonte oficial. Versionado como as
+# margens, nao como um microdado descartavel.
+!insumos/municipios_brasil.yaml
+
 # Formatos de microdado, em qualquer lugar
 *.sav
 *.dta
@@ -38,3 +44,4 @@ insumos/**
 Thumbs.db
 .claude
 .git
+.positai
