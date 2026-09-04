@@ -9,10 +9,9 @@ Description: Motor de calibracao de pesquisas de opiniao por iterative
     proportional fitting (raking), com aparo de pesos e diagnosticos
     padronizados. Cada onda de campo do ciclo eleitoral 2026 e uma instancia
     configuravel do mesmo motor, definida por arquivos declarativos em 'ondas/'.
-    Este arquivo e um manifesto de dependencias: o codigo e carregado por
-    source() a partir de scripts/, nao instalado como pacote. As versoes abaixo
-    sao as minimas testadas; as exatas de cada onda ficam em
-    ondas/<onda>/output/ambiente.txt.
+    O codigo e carregado por source() a partir de scripts/, nao instalado como
+    pacote. As versoes listadas sao as minimas testadas; as exatas de cada onda
+    ficam em ondas/<onda>/output/ambiente.txt.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: pt-BR
@@ -20,6 +19,7 @@ Depends:
     R (>= 4.4)
 Imports:
     dplyr (>= 1.2.0),
+    jsonlite (>= 2.0.0),
     purrr (>= 1.2.1),
     readr (>= 2.2.0),
     readxl (>= 1.4.5),

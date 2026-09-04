@@ -1,0 +1,473 @@
+# Como esta onda se apresenta: secoes, rotulos, ordens, agrupamentos, cores e
+# os recortes que o menu de cruzamento oferece.
+#
+# A referencia das chaves esta no README, na secao "O JSON da onda".
+
+meta:
+  onda: "2026-08-10"
+
+# Blocos reaproveitados pelas ancoras do YAML. Nada aqui vai para o JSON.
+ancoras:
+
+# Encurta o rotulo para o grafico.
+  escala_dias: &escala_dias
+    mapa:
+      "Alguns dias (1 a 3 dias)": "1 a 3 dias"
+      "A maioria dos dias (4 a 6 dias)": "4 a 6 dias"
+
+# Da exposicao maxima a nenhuma; "Não sei" no fim.
+  ordem_dias: &ordem_dias
+    - "Todos os dias"
+    - "4 a 6 dias"
+    - "1 a 3 dias"
+    - "Nenhum dia"
+    - "Não sei"
+
+  ordem_escala_15: &ordem_escala_15
+    - "Totalmente (4-5)"
+    - "Intermediário (3)"
+    - "Nem um pouco (1-2)"
+    - "Não sei"
+
+# Tira o prefixo "Conheço e ", que se repete em quatro dos cinco niveis.
+  escala_recall: &escala_recall
+    mapa:
+      "Conheço e não votaria de jeito nenhum": "Não votaria de jeito nenhum"
+      "Conheço e provavelmente não votaria": "Provavelmente não votaria"
+      "Conheço e poderia votar": "Poderia votar"
+      "Conheço e com certeza votaria": "Com certeza votaria"
+      "Não conheço ou não sei": "Não conhece ou não sabe"
+
+# Da maior chance de voto a rejeicao total; o reconhecimento no fim.
+  ordem_recall: &ordem_recall
+    - "Com certeza votaria"
+    - "Poderia votar"
+    - "Provavelmente não votaria"
+    - "Não votaria de jeito nenhum"
+    - "Não conhece ou não sabe"
+
+  escala_retro: &escala_retro
+    mapa:
+      "Ficou praticamente igual": "Igual"
+
+# Sao duas ancoras porque o nivel de economic_pocket_prosp tem espaco no fim
+# no arquivo bruto, e o motor le o texto como ele e.
+  escala_prosp: &escala_prosp
+    mapa:
+      "Vai ficar do mesmo jeito": "Igual"
+
+  escala_prosp_pocket: &escala_prosp_pocket
+    mapa:
+      "Vai ficar do mesmo jeito ": "Igual"
+
+# Sai da ordenacao das duas espontaneas.
+  fim_espontanea: &fim_espontanea
+    - "Outros"
+    - "Branco/nulo, não votaria ou não sabe"
+
+# As duas espontaneas normalizadas valem so para quem disse ter escolhido o
+# voto. A normalizacao herda um valor para quem nao foi perguntado.
+  base_escolheu: &base_escolheu
+    variavel: spontaneous_choice
+    valores:
+      - "Sim, já escolhi"
+
+# Sai da ordenacao dos seis cenarios: nao disputa colocacao com candidato.
+  fim_cenario: &fim_cenario
+    - "Branco/nulo, não votaria ou não sabe"
+
+# O resumo que abre a divulgacao. O motor confere a lista contra
+# `calibracao.margens` e interrompe a onda se divergir.
+amostra:
+  - variavel: sex_std
+    rotulo: "Gênero"
+  - variavel: age_std
+    rotulo: "Faixa etária"
+  - variavel: reg_std
+    rotulo: "Região"
+  - variavel: edu_std
+    rotulo: "Escolaridade"
+  - variavel: inc_std
+    rotulo: "Renda familiar"
+  - variavel: vote_std
+    rotulo: "Voto no 2º turno de 2022"
+
+# Cor por rotulo. A chave e o rotulo pos-harmonizacao.
+cores:
+
+# Candidatos. O mesmo hex nas tres grafias do mesmo ator.
+  "Lula (PT)": "#FA5252"
+  "Lula": "#FA5252"
+  "Reeleição de Lula": "#FA5252"
+  "Flávio Bolsonaro (PL)": "#4C6EF5"
+  "Jair Bolsonaro": "#4C6EF5"
+  "Eleição de Flávio Bolsonaro": "#4C6EF5"
+  "Renan Santos (Missão)": "#FAB005"
+  "Romeu Zema (Novo)": "#FD7E14"
+  "Ronaldo Caiado (PSD)": "#12B886"
+  "Samara Martins (UP)": "#E64980"
+  "Augusto Cury (Avante)": "#15AABF"
+  "Cabo Daciolo (Mobiliza)": "#7950F2"
+
+# Avaliacao e expectativa. "Ótimo/Bom" e um rotulo so e fica com o verde do
+# Ótimo; "Ruim/Péssimo" com o vermelho do Péssimo.
+  "Aprova": "#2E9E5B"
+  "Desaprova": "#DE4B3B"
+  "Ótimo/Bom": "#2E9E5B"
+  "Regular": "#EFAF3C"
+  "Ruim/Péssimo": "#DE4B3B"
+  "Melhorou": "#2E9E5B"
+  "Igual": "#EFAF3C"
+  "Piorou": "#DE4B3B"
+  "Vai melhorar": "#2E9E5B"
+  "Vai piorar": "#DE4B3B"
+
+# Espectro politico: a mesma escala vale para ideologia e para identidade.
+  "Esquerda": "#FA5252"
+  "Lulista": "#FA5252"
+  "Centro-esquerda": "#E64980"
+  "Simpatiza com a esquerda": "#E64980"
+  "Direita": "#4C6EF5"
+  "Bolsonarista": "#4C6EF5"
+  "Centro-direita": "#15AABF"
+  "Simpatiza com a direita": "#15AABF"
+  "Centro": "#F59F00"
+  "Independente": "#F59F00"
+  "Sem posicionamento definido": "#8F9498"
+
+# Reconhecimento e rejeicao: a escala avaliativa, sem o ambar do meio, que
+# esta escala nao tem.
+  "Com certeza votaria": "#2E9E5B"
+  "Poderia votar": "#8CBF44"
+  "Provavelmente não votaria": "#E87E35"
+  "Não votaria de jeito nenhum": "#DE4B3B"
+
+# Antipetismo e antibolsonarismo: uma matiz so, escurecendo com a intensidade.
+# A mesma rampa nas duas questoes, que existem para ser comparadas.
+  "Totalmente (4-5)": "#862E9C"
+  "Intermediário (3)": "#BE4BDB"
+  "Nem um pouco (1-2)": "#DA77F2"
+
+# Residuais: um cinza so para tudo que nao e resposta substantiva.
+  "Branco/nulo, não votaria ou não sabe": "#8F9498"
+  "Branco/Nulo": "#8F9498"
+  "Não sei": "#8F9498"
+  "Não conhece ou não sabe": "#8F9498"
+  "Outra": "#8F9498"
+  "Nenhum dos dois ou não sabe": "#8F9498"
+
+secoes:
+
+  - titulo: "1º turno espontânea"
+    questoes:
+
+# Perguntada a todos, entao nao leva filtro de base.
+      - variavel: spontaneous_choice
+        rotulo: "Já escolheu o voto"
+
+# 26 niveis normalizados com cauda longa. Mantem os cinco candidatos do
+# cenario estimulado; o resto vira "Outros".
+      - variavel: spontaneous_vote_norm
+        rotulo: "Voto espontâneo"
+        base: *base_escolheu
+        harmonizar:
+          mapa:
+            "Lula": "Lula"
+            "Flávio Bolsonaro": "Flávio Bolsonaro"
+            "Renan Santos": "Renan Santos"
+            "Romeu Zema": "Romeu Zema"
+            "Ronaldo Caiado": "Ronaldo Caiado"
+            "Branco/Nulo": "Branco/nulo, não votaria ou não sabe"
+            "Ninguém": "Branco/nulo, não votaria ou não sabe"
+            "Não irei votar": "Branco/nulo, não votaria ou não sabe"
+            "Indefinido": "Branco/nulo, não votaria ou não sabe"
+            "Indeciso / Não Respondeu": "Branco/nulo, não votaria ou não sabe"
+          resto: "Outros"
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+# Mantem os numeros dos cinco candidatos do cenario estimulado e recolhe o
+# resto em "Outros". Qual numero e de quem sai do cruzamento das duas
+# espontaneas: 13 Lula, 22 Flávio Bolsonaro, 14 Renan Santos, 30 Romeu Zema,
+# 55 Ronaldo Caiado.
+      - variavel: spontaneous_number_norm
+        rotulo: "Número do candidato"
+        base: *base_escolheu
+        harmonizar:
+          mapa:
+            "13": "13"
+            "22": "22"
+            "14": "14"
+            "30": "30"
+            "55": "55"
+            "Branco/Nulo": "Branco/nulo, não votaria ou não sabe"
+            "Não irei votar": "Branco/nulo, não votaria ou não sabe"
+            "Indeciso / Não Respondeu": "Branco/nulo, não votaria ou não sabe"
+          resto: "Outros"
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+  - titulo: "1º turno estimulada"
+    questoes:
+
+      - variavel: stimulated_1r_vote_1_h
+        rotulo: "Cenário 1"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      - variavel: stimulated_1r_vote_2_h
+        rotulo: "Cenário 2"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+  - titulo: "2º turno estimulada"
+    questoes:
+      - variavel: stimulated_2r_vote_1_h
+        rotulo: "Lula x Flávio Bolsonaro"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+      - variavel: stimulated_2r_vote_2_h
+        rotulo: "Lula x Renan Santos"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+      - variavel: stimulated_2r_vote_3_h
+        rotulo: "Lula x Romeu Zema"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+      - variavel: stimulated_2r_vote_4_h
+        rotulo: "Lula x Ronaldo Caiado"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      - variavel: fear_outcome
+        rotulo: "Resultado que causa medo"
+        harmonizar:
+          mapa:
+            "A reeleição de Lula": "Reeleição de Lula"
+            "A eleição de Flávio Bolsonaro": "Eleição de Flávio Bolsonaro"
+            "Ambos resultados me causam medo": "Ambos"
+            "Nenhum dos dois resultados me causam medo": "Nenhum dos dois ou não sabe"
+            "Não sei": "Nenhum dos dois ou não sabe"
+
+  - titulo: "Reconhecimento e Rejeição"
+    questoes:
+      - variavel: recall_rejection_flavio_bolsonaro_h
+        rotulo: "Flávio Bolsonaro"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_lula_h
+        rotulo: "Lula"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_renan_santos_h
+        rotulo: "Renan Santos"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_romeu_zema_h
+        rotulo: "Romeu Zema"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_ronaldo_caiado_h
+        rotulo: "Ronaldo Caiado"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+
+# Ja harmonizadas no questionario.yaml pelo bloco `avaliacao_governo`.
+  - titulo: "Aprovação e Avaliação do Governo"
+    questoes:
+      - variavel: president_approval
+        rotulo: "Aprovação de Lula"
+      - variavel: government_evaluation_h
+        rotulo: "Avaliação do governo"
+      - variavel: government_issue_evaluation_economy_h
+        rotulo: "Economia"
+      - variavel: government_issue_evaluation_public_security_h
+        rotulo: "Segurança pública"
+      - variavel: government_issue_evaluation_health_h
+        rotulo: "Saúde"
+      - variavel: government_issue_evaluation_education_h
+        rotulo: "Educação"
+      - variavel: government_issue_evaluation_corruption_h
+        rotulo: "Corrupção"
+      - variavel: government_issue_evaluation_foreign_policy_h
+        rotulo: "Política externa"
+      - variavel: government_issue_evaluation_environment_h
+        rotulo: "Meio ambiente"
+
+  - titulo: "Expectativas Econômicas"
+    questoes:
+      - variavel: economic_macro_retro
+        rotulo: "País, últimos 12 meses"
+        harmonizar: *escala_retro
+      - variavel: economic_pocket_retro
+        rotulo: "Família, últimos 12 meses"
+        harmonizar: *escala_retro
+      - variavel: economic_macro_prosp
+        rotulo: "País, próximos 12 meses"
+        harmonizar: *escala_prosp
+      - variavel: economic_pocket_prosp
+        rotulo: "Família, próximos 12 meses"
+        harmonizar: *escala_prosp_pocket
+
+  - titulo: "Consumo de Mídia"
+    questoes:
+      - variavel: media_frequency
+        rotulo: "Exposição Política"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+
+      - variavel: media_main_h
+        rotulo: "Principal forma de se informar"
+        ordenar: decrescente
+        fixar_no_fim:
+          - "Outra"
+          - "Não sei"
+
+      - variavel: media_exposure_television
+        rotulo: "Televisão"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_radio
+        rotulo: "Rádio"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_print
+        rotulo: "Jornais e revistas impressos"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_digital_portals
+        rotulo: "Sites e portais digitais"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_youtube
+        rotulo: "YouTube"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_instagram
+        rotulo: "Instagram"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_facebook
+        rotulo: "Facebook"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_tiktok
+        rotulo: "TikTok"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_x
+        rotulo: "X"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_whatsapp
+        rotulo: "WhatsApp"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+      - variavel: media_exposure_telegram
+        rotulo: "Telegram"
+        harmonizar: *escala_dias
+        respostas: *ordem_dias
+
+  - titulo: "Identificação Política e Ideológica"
+    questoes:
+
+      - variavel: ideology
+        rotulo: "Posicionamento ideológico"
+        harmonizar:
+          mapa:
+            "Não me identifico com um posicionamento definido": "Sem posicionamento definido"
+
+# A questao mostra os 7 niveis; o recorte de mesmo nome junta os dois menores.
+      - variavel: identification_h
+        rotulo: "Identidade política"
+
+      - variavel: neg_identification_antipetista_h
+        rotulo: "Antipetismo"
+        respostas: *ordem_escala_15
+      - variavel: neg_identification_antibolsonarista_h
+        rotulo: "Antibolsonarismo"
+        respostas: *ordem_escala_15
+
+  - titulo: "Interesse nas Eleições"
+    questoes:
+      - variavel: interest_elections
+        rotulo: "Interesse na eleição"
+      - variavel: vote_1r_planning
+        rotulo: "Pretende votar no 1º turno"
+      - variavel: voting_frequency
+        rotulo: "Frequência com que vota"
+      - variavel: registered_same_city
+        rotulo: "Vota na cidade onde mora"
+      - variavel: voted_2r_last_election
+        rotulo: "Compareceu no 2º turno de 2022"
+      - variavel: vote_2r_last_election
+        rotulo: "Voto no 2º turno de 2022"
+        ordenar: decrescente
+        fixar_no_fim:
+          - "Branco/Nulo"
+
+# Categoria de recorte aparece na tela como esta aqui: ela nao passa pelo i18n.
+recortes:
+
+  - variavel: sex_std
+    rotulo: "Sexo"
+
+  - variavel: age_std
+    rotulo: "Idade"
+
+  - variavel: race_std
+    rotulo: "Cor ou raça"
+
+  - variavel: edu_std
+    rotulo: "Escolaridade"
+
+  - variavel: inc_std
+    rotulo: "Renda familiar"
+    harmonizar:
+      mapa:
+        "0-2 SM": "Até 2 salários mínimos"
+        "2-5 SM": "2 a 5 salários mínimos"
+        "5+ SM": "Mais de 5 salários mínimos"
+
+  - variavel: reg_std
+    rotulo: "Região"
+    harmonizar:
+      mapa:
+        "N": "Norte"
+        "NE": "Nordeste"
+        "CO": "Centro-Oeste"
+        "SE": "Sudeste"
+        "S": "Sul"
+
+# O balde "Branco/Nulo" desta derivada tambem recebe quem nao compareceu
+# (filtro_comparecimento) e quem nao respondeu (vazio_para).
+  - variavel: vote_std
+    rotulo: "Voto no 2º turno de 2022"
+    harmonizar:
+      mapa:
+        "Branco/Nulo": "Branco/Nulo ou Não votei"
+
+  - variavel: relig_std
+    rotulo: "Religião"
+    harmonizar:
+      mapa:
+        "Sem Religião/Ateu/Agnóstico": "Sem religião"
+
+# Centro e pequeno demais para leitura propria; junto com Sem posicionamento
+# a leitura fica esquerda / meio sem lado / direita.
+  - variavel: ideol_std
+    rotulo: "Ideologia"
+    harmonizar:
+      mapa:
+        "Centro": "Centro ou sem posicionamento"
+        "Sem posicionamento": "Centro ou sem posicionamento"
+
+# Junta os dois grupos menores e tira o resultado da tela e da base.
+  - variavel: identification_h
+    rotulo: "Identidade política"
+    harmonizar:
+      mapa:
+        "Sem interesse em política": "Sem interesse ou não sabe"
+        "Não sei": "Sem interesse ou não sabe"
+    excluir:
+      - "Sem interesse ou não sabe"

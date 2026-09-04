@@ -2,6 +2,7 @@
 #
 #   ondas/<onda>/config.yaml         parametros
 #   ondas/<onda>/questionario.yaml   estrutura do instrumento
+#   ondas/<onda>/display.yaml        apresentacao (secoes, rotulos, ordens)
 #   ondas/<onda>/dados/*.xlsx        microdados (fora do git)
 #   ondas/<onda>/output/             saidas
 
@@ -65,6 +66,7 @@ carregar_config <- function(onda) {
   cfg$caminhos <- list(
     questionario = file.path(pasta, "questionario.yaml"),
     dados = file.path(pasta, "dados", arquivos),
+    display = file.path(pasta, "display.yaml"),
     output = file.path(pasta, "output")
   )
 
