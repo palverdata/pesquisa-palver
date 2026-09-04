@@ -2,9 +2,9 @@
 
 # Pesquisa Palver
 
-Este repositório apresenta os códigos de calibração das pesquisas de opinião da Palver por *raking* (IPF). Cada onda de campo é uma pasta em `ondas/` com dois arquivos declarativos; o código em `R/` é o mesmo para todas.
+Este repositório apresenta os códigos de calibração das pesquisas de opinião da Palver por *raking* (IPF). Cada onda de campo é uma pasta em `ondas/` com três arquivos declarativos; o código em `R/` é o mesmo para todas.
 
-> **Onda nova = pasta nova + dois YAML, zero código novo.**
+> **Onda nova = pasta nova + três YAML, zero código novo.**
 
 ## Divulgações
 
@@ -41,32 +41,114 @@ números.
    os critérios declarados no `config.yaml` (desvio máximo contra as cotas e
    margem de erro). Se não atender, a execução emite aviso.
 
-Saem quatro arquivos em `ondas/<onda>/output/`, que **não** vão para o git — são
+Saem cinco arquivos em `ondas/<onda>/output/`, que **não** vão para o git — são
 gerados a partir do que está versionado:
 
-| arquivo                     | conteúdo                                                |
-| --------------------------- | -------------------------------------------------------- |
-| `<prefixo>.xlsx`          | abas`Stratification`, `Results` e `ResultsStrat`   |
-| `<prefixo>_N.xlsx`        | as mesmas abas com o N não ponderado de cada estimativa |
-| `diagnostico-margens.csv` | margem ponderada contra a cota, célula por célula      |
-| `ambiente.txt`            | versões, margens usadas e o veredito da onda            |
+| arquivo                       | conteúdo                                                  |
+| ----------------------------- | --------------------------------------------------------- |
+| `<id>_pesquisa_<AAAA>_<MM>_<DD>.json` | os cruzamentos prontos: a fonte única dos gráficos e da plataforma |
+| `<prefixo>_localidades.xlsx` | entrevistas por município                                |
+| `<prefixo>_microdados.xlsx`  | uma linha por respondente, com o peso calibrado           |
+| `diagnostico-margens.csv`   | margem ponderada contra a cota, célula por célula        |
+| `ambiente.txt`              | versões, margens usadas e o veredito da onda              |
 
-E `resultado` fica no ambiente do R para inspeção: `resultado$results`,
-`resultado$base`, `resultado$fit$design`.
+O JSON é o único que carrega estimativa, com precisão cheia.
 
+E `resultado` fica no ambiente do R para inspeção: `resultado$crosstabs`,
+`resultado$sample`, `resultado$base`, `resultado$fit$design`.
+
+### Os microdados ponderados
+
+`<prefixo>_microdados.xlsx` tem duas abas: `Microdados`, uma linha por
+respondente calibrado com todas as colunas declaradas do arquivo bruto mais
+`peso` (soma = população dos alvos) e `peso_norm` (peso ÷ média, soma = *n*); e
+`Dicionario`, que diz de cada coluna o tipo, o enunciado e os níveis possíveis.
+
+Este é o único arquivo de saída que contém base individual. Ele fica em
+`output/`, coberto pelo [.gitignore](.gitignore), e **não** é publicado — ver
+[Dados que não entram no git](#dados-que-não-entram-no-git). Para desligar o
+export, ponha `outputs.microdados: false` no `config.yaml` da onda.
+
+Atenção ao usá-lo: reponderar com `svydesign(ids = ~1, weights = ~peso)` **não**
+reproduz os intervalos de confiança das planilhas. Os ICs publicados vêm de
+`survey::calibrate()`, que desconta a variância explicada pelas margens; um
+desenho que só recebe o peso trata-o como fixo e devolve erro-padrão maior. Para
+reproduzir, refaça a calibração — `margens/*.yaml` e `calibracao.margens` estão
+versionados exatamente para isso. Já a margem de erro do `ambiente.txt` é outra
+conta ainda: pior caso `p = 0,5` sobre o *n* efetivo de Kish, deliberadamente
+conservadora, usada para o registro da pesquisa.
+
+### O JSON da onda
+
+`<id>_pesquisa_<AAAA>_<MM>_<DD>.json` traz os cruzamentos prontos. É a fonte de
+dois consumidores: a plataforma de exibição e o repositório que monta os
+gráficos do relatório. Nenhum dos dois lê microdado nem calcula nada; os dois
+buscam por chave (`pergunta|recorte`, com recorte vazio para o total) e desenham.
+
+`share`, `low` e `high` vêm do **mesmo desenho calibrado** que produz o resto da
+onda. Não há segunda fórmula de intervalo, e é por isso que a plataforma e o
+relatório não mostram números diferentes do mesmo resultado.
+
+O que entra na tela é declarado em [display.yaml](ondas/2026-08-10/display.yaml).
+As chaves:
+
+| chave | onde | o que faz |
+| ----- | ---- | --------- |
+| `secoes` | topo | as seções, e dentro de cada uma as questões, na ordem de exibição |
+| `recortes` | topo | os recortes que o menu de cruzamento oferece |
+| `amostra` | topo | as variáveis do resumo que abre a divulgação; sai como `sample` |
+| `cores` | topo | rótulo → hex; sai como `colors` |
+| `rotulo` | questão, recorte | o nome curto na tela |
+| `harmonizar` | questão, recorte | agrupa níveis antes de estimar (`mapa`, e `resto` opcional) |
+| `ordenar` | questão | `decrescente` ordena por pontuação; `declarado` é o default |
+| `fixar_no_fim` | questão | respostas que saem da ordenação e vão para o fim |
+| `respostas` | questão | ordem explícita; não convive com `ordenar` |
+| `grupos` | recorte | ordem explícita das categorias |
+| `base` | questão | restringe a quem respondeu certo valor noutra variável |
+| `excluir` | recorte | tira grupos da tela e da base |
+
+O enunciado não se repete no `display.yaml` — vem do `questionario.yaml`, do
+`titulo` quando existe e do `texto` quando não. Onda sem `display.yaml` roda
+igual, só não gera o JSON.
+
+Quatro coisas que a tabela não diz:
+
+**Harmonizar é antes de estimar, não depois.** `share` e `n` somam, mas intervalo
+não soma: o IC de uma categoria agrupada não é a soma dos ICs das partes. O motor
+recodifica a variável e refaz a estimativa.
+
+**Cada variável harmonizada recebe uma coluna de trabalho**, com prefixo distinto
+para questão e para recorte. A mesma variável pode entrar como as duas coisas,
+com harmonizações diferentes. A coluna original nunca é tocada, porque ela pode
+ser margem de calibração.
+
+**O bloco `amostra` é conferido contra `calibracao.margens`.** O motor interrompe
+a onda se a lista declarada divergir do conjunto de margens, nos dois sentidos.
+Cada célula tem `share` e `n`, sem intervalo: margem de calibração tem intervalo
+de largura zero por construção.
+
+**O que o motor recusa.** Hex fora de `#RRGGBB`; `ordenar` junto de `respostas`;
+ordem declarada que omita valor observado; `harmonizar` citando nível que a
+variável não tem; grupo ou resposta inexistente em `excluir` e `fixar_no_fim`.
+Cor sem rótulo correspondente só emite aviso.
+
+Publicar é copiar o arquivo para o repositório da plataforma **depois** da
+divulgação: ele tem resultado com data de divulgação.
 ## Passo a passo: criar uma onda nova
 
 1. Crie a pasta com o nome sendo a **data de divulgação** (`AAAA-MM-DD`), e
-   copie os dois YAML da onda anterior como ponto de partida:
+   copie os três YAML da onda anterior como ponto de partida:
 
    ```r
    dir.create("ondas/2026-09-14/dados", recursive = TRUE)
    file.copy(c("ondas/2026-08-10/config.yaml",
-               "ondas/2026-08-10/questionario.yaml"), "ondas/2026-09-14/")
+               "ondas/2026-08-10/questionario.yaml",
+               "ondas/2026-08-10/display.yaml"), "ondas/2026-09-14/")
    ```
-2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `data_divulgacao`),
-   `campo` e `outputs.prefixo`. `registro` e `data_divulgacao` são
-   **obrigatórios**, e `data_divulgacao` tem de ser igual ao nome da pasta.
+2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `sequencia`,
+   `data_divulgacao`), `campo` e `outputs.prefixo`. `registro`,
+   `sequencia` e `data_divulgacao` são **obrigatórios**, e `data_divulgacao`
+   tem de ser igual ao nome da pasta.
 3. Refaça o `questionario.yaml` a partir do arquivo bruto desta onda. A regra é
    uma só e não tem exceção:
 
@@ -113,7 +195,7 @@ pesquisa-palver/
 ├── R/                          # o motor, igual para todas as ondas
 │   ├── onda.R                  #   fluxo; único source() dos scripts
 │   ├── calibracao.R            #   xlsx -> base -> alvos -> raking -> aparo
-│   └── resultados.R            #   estimativas, 3 abas, Excel, ambiente.txt
+│   └── resultados.R            #   estimativas, o JSON, microdados, ambiente
 ├── scripts/                    # abra no RStudio, preencha o topo e Source
 │   ├── rodar-onda.R
 │   ├── gerar-margens-pnadc.R
@@ -122,14 +204,13 @@ pesquisa-palver/
 │   ├── pnadc-2024-visita5.yaml
 │   └── tse-2022-turno2.yaml
 ├── insumos/tse/                # microdados do TSE (fora do git)
-├── testes/                     # experimentos de recrutamento (ver README lá)
-│   └── 2026-08-16/             #   criativo × rede, 2×2
 └── ondas/2026-08-10/           # pasta = data de divulgação
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
+    ├── display.yaml            #   seções, rótulos e ordens da divulgação
     ├── dados/                  #   o .xlsx bruto (fora do git)
     ├── paradata/               #   mesmo export com fingerprint e ip_hash (fora do git)
-    └── output/                 #   resultados e diagnósticos (fora do git)
+    └── output/                 #   resultados, microdados com peso (fora do git)
 ```
 
 `paradata/` guarda o export enriquecido da **mesma** onda: os 5.256 completos são
@@ -137,10 +218,6 @@ exatamente os de `dados/`, mais os incompletos e as colunas de `fingerprint_brow
 `ip_hash`, `user_agent` e alvo de anúncio. Fica fora de `dados/` de propósito — o
 motor usa o único `.xlsx` daquela pasta, e o arquivo que produziu os números
 publicados não deve mudar.
-
-[testes/](testes/) são experimentos sobre **como a amostra é recrutada**. Não
-recebem registro, não são divulgados como pesquisa e não passam pelo fluxo de
-`ondas/`.
 
 Cada `margens/*.yaml` guarda a **tabela conjunta** das suas variáveis: qualquer
 cruzamento pedido em `calibracao.margens` é obtido somando essa tabela, sem
@@ -152,7 +229,8 @@ O código é carregado por `source()`; o repositório não é instalado como pac
 O [DESCRIPTION](DESCRIPTION) é o manifesto. Versões usadas nos resultados
 publicados: R 4.5.2, survey 4.5, dplyr 1.2.0, tidyr 1.3.2, purrr 1.2.1,
 readxl 1.4.5, readr 2.2.0, stringr 1.6.0, tibble 3.3.1, yaml 2.3.12,
-writexl 1.5.4, tidyverse 2.0.0, PNADcIBGE 0.7.5 (só para as margens).
+writexl 1.5.4, jsonlite 2.0.0, tidyverse 2.0.0, PNADcIBGE 0.7.5 (só para as
+margens).
 
 Cada execução grava as versões exatas em `output/ambiente.txt`, amarrando todo
 número publicado ao ambiente que o produziu.
@@ -160,13 +238,17 @@ número publicado ao ambiente que o produziu.
 ## Dados que não entram no git
 
 Nenhuma base individual — com ou sem peso, identificada ou não. Barreiras no
-[.gitignore](.gitignore): `ondas/*/dados/*`, `insumos/**` e `*.sav` `*.dta`
-`*.rds` em qualquer lugar.
+[.gitignore](.gitignore): `ondas/*/dados/*`, `ondas/*/output/*`,
+`ondas/*/paradata/*`, `insumos/**` e `*.sav` `*.dta` `*.rds` em qualquer lugar.
 
-Os resultados em `ondas/*/output/` também ficam fora do git: são gerados pelo
-motor a partir do que está versionado. O que se versiona é a **especificação** —
-os dois YAML da onda e as margens derivadas — de onde qualquer resultado pode ser
-reproduzido.
+O motor **gera** microdados com peso em `ondas/*/output/` — é o
+`<prefixo>_microdados.xlsx` descrito acima. O arquivo nasce dentro do
+`.gitignore`, e a regra segue a mesma: nenhuma base individual sai daqui.
+
+Os resultados em `ondas/*/output/` ficam fora do git também por outro motivo: são
+gerados pelo motor a partir do que está versionado. O que se versiona é a
+**especificação** — os três YAML da onda e as margens derivadas — de onde
+qualquer resultado pode ser reproduzido.
 
 ### Tag por onda
 
