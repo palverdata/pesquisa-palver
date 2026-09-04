@@ -83,7 +83,7 @@ E `resultado` fica no ambiente do R para inspeção: `resultado$results`,
 
 ## Passo a passo: gerar as margens
 
-As margens em `margens/` são compartilhadas por todas as ondas.  Só precisam ser regeradas quando a fonte muda (nova PNADc, nova eleição de referência).
+As margens em `margens/` são compartilhadas por todas as ondas. Só precisam ser regeradas quando a fonte muda (nova PNADc, nova eleição de referência).
 
 **PNADc** — [scripts/gerar-margens-pnadc.R](scripts/gerar-margens-pnadc.R) baixa
 sozinho do FTP do IBGE (~172 MB). Ajuste `ano`, `entrevista` e `sm` no topo e
@@ -168,7 +168,7 @@ motor a partir do que está versionado. O que se versiona é a **especificação
 os dois YAML da onda e as margens derivadas — de onde qualquer resultado pode ser
 reproduzido.
 
-Tag por onda
+### Tag por onda
 
 Cada onda divulgada recebe uma tag, congelando motor, margens e config usados:
 
@@ -187,4 +187,4 @@ MIT — ver [LICENSE](LICENSE).
 
 ## Disclaimer de Inteligência Artificial
 
-Inteligência artificial foi utilizada para revisar códigos, correção ortográfica e redação de documentação neste repositório. Toda a a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.
+Inteligência artificial foi utilizada para revisar códigos, correção ortográfica e redação de documentação neste repositório. Toda a estrutura de códigos e resultados foi amplamente revisada e replicada pela equipe da Palver.

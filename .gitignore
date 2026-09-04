@@ -17,7 +17,6 @@ ondas/*/output/*
 # Microdados de origem das margens: grandes, publicos e reprodutiveis pela
 # fonte oficial. O que se versiona e o derivado, em margens/.
 insumos/**
-!insumos/README.md
 !insumos/*/
 !insumos/*/.gitkeep
 
@@ -33,11 +32,10 @@ insumos/**
 # Projeto-modelo de referencia (consulta local, fora do repo)
 /00_RProject/
 
-# Sistema operacional
+# Sistema operacional e configuracao de editor
 .DS_Store
 Thumbs.db
-.claude
-.git
+.claude/
 
 # Microdados deixados na raiz. O arquivo com ip_address NUNCA pode ser commitado:
 # o repositorio e publico e o briefing exige derivar as variaveis e descartar o IP.
