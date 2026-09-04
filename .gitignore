@@ -14,8 +14,8 @@ ondas/*/dados/*
 ondas/*/output/*
 !ondas/*/output/.gitkeep
 
-# Microdados de origem das margens: grandes, publicos e reprodutiveis pela
-# fonte oficial. O que se versiona e o derivado, em margens/.
+# Microdados de origem das margens: grandes, publicos e reprodutiveis pela fonte
+# oficial. O que se versiona e o derivado, em margens/.
 insumos/**
 !insumos/*/
 !insumos/*/.gitkeep
@@ -29,7 +29,6 @@ insumos/**
 # CSV bruto de pesquisa deixado fora de ondas/*/dados/ por engano
 /survey-*.csv
 
-# Projeto-modelo de referencia (consulta local, fora do repo)
 /00_RProject/
 
 # Sistema operacional e configuracao de editor
@@ -37,21 +36,20 @@ insumos/**
 Thumbs.db
 .claude/
 
-# Microdados deixados na raiz. O arquivo com ip_address NUNCA pode ser commitado:
-# o repositorio e publico e o briefing exige derivar as variaveis e descartar o IP.
+# Microdados deixados na raiz
 /*.xlsx
 /*.csv
+
+# JSON de resultado deixado na raiz; o lugar dele e ondas/<onda>/output/
+/*.json
 
 # Paradata da onda: mesmos respondentes do export de dados/, com colunas de
 # fingerprint, ip_hash e user_agent. Sensivel, nunca versionado.
 ondas/*/paradata/*
 !ondas/*/paradata/.gitkeep
 
-# Testes A/B de recrutamento: microdados dentro, agregados fora.
-testes/*/dados/*
-!testes/*/dados/.gitkeep
-testes/*/output/*
-!testes/*/output/.gitkeep
+/testes/
 
-# Saidas de experimento de calibracao (regeneraveis pelos scripts)
 /experimentos/
+
+/docs/
