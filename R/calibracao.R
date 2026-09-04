@@ -73,8 +73,8 @@ expandir_harmonizacao <- function(qst) {
   qst
 }
 
-# O cabecalho do arquivo e o proprio enunciado, e `texto` o reproduz caractere
-# por caractere: nao ha normalizacao. Divergencia e erro do questionario.yaml.
+# `texto` reproduz o cabecalho do arquivo caractere por caractere: nao ha
+# normalizacao.
 enunciados_do_arquivo <- function(qst) {
 
   mapa <- character(0)
@@ -113,8 +113,6 @@ ler_bruto <- function(caminho, qst) {
     ifelse(is.na(de_questao), NA_character_, de_questao)
   )
 
-  # Coluna nao declarada e ignorada; item declarado e ausente e erro, logo
-  # abaixo.
   if (anyNA(interno)) {
     message("colunas do arquivo ignoradas por nao estarem declaradas: ",
             paste(names(bruto)[is.na(interno)], collapse = ", "))
@@ -137,7 +135,6 @@ ler_bruto <- function(caminho, qst) {
 
   if (anyDuplicated(bruto$respondent_id)) stop("respondent_id repetido")
 
-  # celula vazia ou so com espaco vira NA
   dplyr::mutate(
     bruto,
     dplyr::across(dplyr::where(is.character),
@@ -145,8 +142,6 @@ ler_bruto <- function(caminho, qst) {
   )
 }
 
-# Resposta fora dos niveis e ERRO, nunca NA. Os niveis declarados sao o texto
-# exato do arquivo: divergencia e erro do questionario.yaml, nao do dado.
 montar_respondentes <- function(base, qst) {
 
   for (nome in names(qst$questoes)) {
@@ -222,7 +217,6 @@ cortar_amostra <- function(base, spec) {
   base[sort(cronologica[seq_len(n)]), ]
 }
 
-# Tipos: mapa, mapa_com_resto, agrupamento, voto_pregresso, limiar.
 aplicar_derivada <- function(base, nome, spec) {
 
   exige <- function(colunas) {
@@ -381,10 +375,9 @@ conferir_marginais <- function(alvos, tolerancia_pp) {
       if (dif > tolerancia_pp) {
         stop("margens incompativeis em ", v, ": '", names(com_v)[[1]], "' e '",
              nome, "' implicam distribuicoes diferentes (divergencia maxima ",
-             sprintf("%.2f", dif), " pp). Fontes diferentes medem universos ",
-             "diferentes -- a da PNADc e a populacao residente, a do TSE e o ",
-             "comparecimento. Use a mesma fonte para ", v, " em todas as ",
-             "margens, ou tire ", v, " de uma delas.", call. = FALSE)
+             sprintf("%.2f", dif), " pp). A PNADc mede populacao residente e ",
+             "o TSE mede comparecimento. Use a mesma fonte para ", v, " em ",
+             "todas as margens, ou tire ", v, " de uma delas.", call. = FALSE)
       }
     }
   }
@@ -443,7 +436,7 @@ rake_weights <- function(dados, alvos, tolerancia = 1e-7, max_iteracoes = 200) {
   if (nrow(completos) == 0) {
     stop("nenhum caso completo nas variaveis de calibracao")
   }
-  
+
   for (v in usadas) {
     if (is.factor(completos[[v]])) {
       completos[[v]] <- droplevels(factor(completos[[v]], ordered = FALSE))
@@ -451,7 +444,7 @@ rake_weights <- function(dados, alvos, tolerancia = 1e-7, max_iteracoes = 200) {
   }
 
   conferir_celulas(completos, alvos, por_alvo)
-  
+
   desenho <- survey::calibrate(
     design = survey::svydesign(ids = ~1, data = completos, weights = ~1),
     formula = unname(purrr::map(
@@ -492,14 +485,14 @@ conferir_celulas <- function(dados, alvos, por_alvo) {
 
     if (sem_caso > 0) {
       stop("margem '", nome, "': ", sem_caso, " de ", nrow(cruzado),
-           " celulas tem populacao e nenhum respondente. Este cruzamento e ",
-           "fino demais para o n desta onda -- cruze menos variaveis, agrupe ",
-           "categorias, ou use margens marginais.", call. = FALSE)
+           " celulas tem populacao e nenhum respondente. Cruze menos ",
+           "variaveis, agrupe categorias, ou use margens marginais.",
+           call. = FALSE)
     }
 
     if (sem_pop > 0) {
       stop("margem '", nome, "': ", sem_pop, " celula(s) com respondente e sem ",
-           "populacao no alvo. Nenhum peso zera um caso -- agrupe categorias.",
+           "populacao no alvo. Agrupe categorias: nenhum peso zera um caso.",
            call. = FALSE)
     }
   }
