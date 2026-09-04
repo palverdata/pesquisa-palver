@@ -157,7 +157,7 @@ questoes:
   stimulated_1r_vote_2:
     numero: "5"
     texto: "Se a eleição para presidente fosse acontecer hoje e estes fossem os candidatos, em quem você votaria? (cenário 2)"
-    tipo: "radio"    
+    tipo: "radio"
     niveis:
       - "Flávio Bolsonaro (PL)"
       - "Lula (PT)"
@@ -236,7 +236,7 @@ questoes:
   stimulated_2r_vote_1:
     numero: "7"
     texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 1)"
-    tipo: "radio"    
+    tipo: "radio"
     niveis:
       - "Flávio Bolsonaro (PL)"
       - "Lula (PT)"
@@ -247,7 +247,7 @@ questoes:
   stimulated_2r_vote_2:
     numero: "8"
     texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 2)"
-    tipo: "radio"    
+    tipo: "radio"
     niveis:
       - "Lula (PT)"
       - "Renan Santos (Missão)"
@@ -258,7 +258,7 @@ questoes:
   stimulated_2r_vote_3:
     numero: "9"
     texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 3)"
-    tipo: "radio"    
+    tipo: "radio"
     niveis:
       - "Lula (PT)"
       - "Romeu Zema (Novo)"
@@ -269,7 +269,7 @@ questoes:
   stimulated_2r_vote_4:
     numero: "10"
     texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 4)"
-    tipo: "radio"    
+    tipo: "radio"
     niveis:
       - "Lula (PT)"
       - "Ronaldo Caiado (PSD)"
@@ -842,7 +842,7 @@ derivadas:
 
   race_std:
     origem: race
-    tipo: mapa    
+    tipo: mapa
     mapa:
       "Branca": "Branca"
       "Preta": "Preta, Parda, Indígena ou Amarela"
@@ -855,7 +855,7 @@ derivadas:
 
   edu_std:
     origem: edu
-    tipo: mapa    
+    tipo: mapa
     mapa:
       "Sem instrução": "Fundamental"
       "Fundamental incompleto": "Fundamental"
@@ -872,7 +872,7 @@ derivadas:
 
   inc_std:
     origem: inc_fam
-    tipo: mapa    
+    tipo: mapa
     mapa:
       "Até R$1.621 (Até 1 salário-mínimo)": "0-2 SM"
       "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "0-2 SM"
@@ -888,7 +888,7 @@ derivadas:
 
   relig_std:
     origem: relig
-    tipo: mapa_com_resto    
+    tipo: mapa_com_resto
     resto: "Outra"
     mapa:
       "Católica": "Católica"
@@ -935,7 +935,7 @@ derivadas:
 
   vote_std:
     tipo: voto_pregresso
-    nota:      
+    nota:
     filtro_comparecimento:
       variavel: voted_2r_last_election
       valor_nao_votou: "Não"
@@ -944,7 +944,7 @@ derivadas:
     mapa:
       "Lula": "Lula"
       "Jair Bolsonaro": "Jair Bolsonaro"
-      "Branco/Nulo": "Branco/Nulo"    
+      "Branco/Nulo": "Branco/Nulo"
     vazio_para: "Branco/Nulo"
     niveis:
       - "Lula"
@@ -954,7 +954,7 @@ derivadas:
   anti_std:
     origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
     tipo: limiar
-    limiar: ["4", "5 - Totalmente"]    
+    limiar: ["4", "5 - Totalmente"]
     ordem_avaliacao:
       - variavel: neg_identification_antipetista
         valor: "Antipetista"
@@ -967,7 +967,7 @@ derivadas:
       - "Antibolsonarista"
 
 # ---------------------------------------------------------------------------
-# ESTRATIFICACAO (recortes da aba ResultsStrat)
+# ESTRATIFICACAO (recortes)
 # ---------------------------------------------------------------------------
 
 harmonizacao:
@@ -1079,7 +1079,7 @@ estratificacao:
   - variavel: anti_std
 
 # ---------------------------------------------------------------------------
-# ORDEM DE EXPORTACAO (aba Results / ResultsStrat)
+# ORDEM DE EXPORTACAO (ordem das colunas nos microdados)
 # ---------------------------------------------------------------------------
 exportar_ordem:
   - spontaneous_choice

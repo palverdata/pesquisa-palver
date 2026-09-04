@@ -1,21 +1,16 @@
-# Do peso calibrado aos arquivos de divulgacao.
+# Do peso calibrado aos arquivos da onda.
 #
-# Escreve sete arquivos em ondas/<onda>/output/:
+# Escreve cinco arquivos em ondas/<onda>/output/:
 #
-#   <prefixo>.xlsx             Stratification, Results e ResultsStrat
-#   <prefixo>_decimal.xlsx     as mesmas abas sem arredondamento
-#   <prefixo>_N.xlsx           as mesmas abas com o N nao ponderado
-#   <prefixo>_localidades.xlsx entrevistas por municipio
-#   <prefixo>_microdados.xlsx  uma linha por respondente, com o peso calibrado
-#   diagnostico-margens.csv    margem ponderada vs cota, por categoria
-#   ambiente.txt               versoes, margens usadas e o resultado da onda
+#   <id>_pesquisa_<AAAA>_<MM>_<DD>.json  os cruzamentos, para os graficos e
+#                                        para a plataforma
+#   <prefixo>_localidades.xlsx           entrevistas por municipio
+#   <prefixo>_microdados.xlsx            uma linha por respondente, com o peso
+#   diagnostico-margens.csv              margem ponderada vs cota, por categoria
+#   ambiente.txt                         versoes, margens usadas e o resultado
 #
-# E, quando a onda tem display.yaml, o JSON dos cruzamentos:
-#
-#   <id>_pesquisa_<AAAA>_<MM>_<DD>.json
-#
-# Nenhum vai para o git: output/ esta no .gitignore. O de microdados tambem nao
-# pode ser publicado -- ver a politica de dados no README.
+# Nenhum vai para o git: output/ esta no .gitignore. Ver a politica de dados no
+# README.
 
 # ==============================================================================
 # ESTIMATIVAS
@@ -107,32 +102,6 @@ estimate_svyby <- function(questao, recorte, desenho, nivel_confianca = 0.95) {
   })
 }
 
-formatar_percentuais <- function(tabela, decimais = 0) {
-
-  tabela <- dplyr::mutate(
-    tabela,
-    mean_percent = mean * 100,
-    conf_low_percent = conf_low * 100,
-    conf_high_percent = conf_high * 100
-  )
-
-  if (!is.null(decimais)) {
-    fmt <- paste0("%.", decimais, "f%% (%.", decimais, "f%%–%.", decimais,
-                  "f%%)")
-    tabela <- dplyr::mutate(
-      tabela,
-      dplyr::across(dplyr::ends_with("_percent"), ~ round(.x, decimais)),
-      estimate_ci = sprintf(fmt, mean_percent, conf_low_percent,
-                            conf_high_percent)
-    )
-  }
-
-  dplyr::select(tabela, -mean, -conf_low, -conf_high)
-}
-
-# ==============================================================================
-# AS TRES ABAS
-# ==============================================================================
 
 niveis_declarados <- function(qst) {
 
@@ -142,53 +111,6 @@ niveis_declarados <- function(qst) {
              ~ unlist(qst$derivadas[[.x]]$niveis %||% qst$questoes[[.x]]$niveis))
 }
 
-montar_results <- function(desenho, ordem, metadados, nivel) {
-
-  purrr::map_dfr(ordem, estimate_question, desenho = desenho,
-                 nivel_confianca = nivel) %>%
-    dplyr::mutate(question = factor(question, levels = ordem, ordered = TRUE)) %>%
-    dplyr::arrange(question) %>%
-    dplyr::mutate(question = as.character(question)) %>%
-    dplyr::left_join(metadados, by = c("question" = "question_id")) %>%
-    dplyr::rename(question_id = question) %>%
-    dplyr::select(question_id, question_text, response, mean, conf_low,
-                  conf_high)
-}
-
-montar_results_strat <- function(desenho, ordem, recortes, niveis, nivel) {
-
-  posicao <- function(lista, valor) {
-    if (is.null(lista)) NA_integer_ else match(valor, lista)
-  }
-
-  tidyr::crossing(question = ordem, stratification_variable = recortes) %>%
-    purrr::pmap_dfr(function(question, stratification_variable) {
-      estimate_svyby(question, stratification_variable, desenho, nivel)
-    }) %>%
-    dplyr::mutate(
-      question = factor(question, levels = ordem, ordered = TRUE),
-      stratification_variable = factor(stratification_variable,
-                                       levels = recortes, ordered = TRUE),
-      response_order = purrr::map2_int(as.character(question), response,
-                                       ~ posicao(niveis[[.x]], .y)),
-      stratification_order = purrr::map2_int(
-        as.character(stratification_variable), stratification_category,
-        ~ posicao(niveis[[.x]], .y)
-      )
-    ) %>%
-    dplyr::arrange(question, stratification_variable, response_order,
-                   stratification_order) %>%
-    dplyr::mutate(
-      question = as.character(question),
-      stratification_variable = as.character(stratification_variable)
-    ) %>%
-    dplyr::select(question, response, stratification_variable,
-                  stratification_category, mean, conf_low, conf_high)
-}
-
-# ==============================================================================
-# N NAO PONDERADO
-# ==============================================================================
 
 contar_localidades <- function(desenho) {
 
@@ -205,51 +127,6 @@ contar_localidades <- function(desenho) {
     dplyr::arrange(dplyr::desc(n_entrevistas), uf, municipio, bairro) %>%
     dplyr::select(regiao = regiao_arquivo, estado = uf, municipio, bairro,
                   n_entrevistas)
-}
-
-contar_ns <- function(desenho, ordem, recortes) {
-
-  dados <- desenho$variables
-
-  valida <- function(x) !is.na(x) & trimws(as.character(x)) != ""
-
-  por_questao <- function(questao, recorte = NULL) {
-
-    if (!all(c(questao, recorte) %in% names(dados))) return(NULL)
-
-    ok <- valida(dados[[questao]])
-    if (!is.null(recorte)) ok <- ok & valida(dados[[recorte]])
-    if (!any(ok)) return(NULL)
-
-    fora <- dados[ok, c(questao, recorte), drop = FALSE]
-    names(fora) <- c("response", if (!is.null(recorte)) "stratification_category")
-
-    fora <- dplyr::count(fora, dplyr::across(dplyr::everything()), name = "n",
-                         .drop = FALSE)
-
-    if (!is.null(recorte)) fora <- dplyr::group_by(fora,
-                                                  stratification_category)
-
-    fora %>%
-      dplyr::mutate(n_base = sum(n)) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(dplyr::across(dplyr::where(is.factor), as.character),
-                    question = questao,
-                    stratification_variable = recorte %||% NA_character_)
-  }
-
-  colunas <- function(x, ...) dplyr::select(x, ...)
-
-  list(
-    Stratification = purrr::map_dfr(recortes, por_questao) %>%
-      colunas(question, response, n, n_base),
-    Results = purrr::map_dfr(ordem, por_questao) %>%
-      colunas(question_id = question, response, n, n_base),
-    ResultsStrat = tidyr::crossing(questao = ordem, recorte = recortes) %>%
-      purrr::pmap_dfr(function(questao, recorte) por_questao(questao, recorte)) %>%
-      colunas(question, response, stratification_variable,
-              stratification_category, n, n_base)
-  )
 }
 
 # ==============================================================================
@@ -1052,40 +929,6 @@ exportar_onda <- function(fit, qst, cfg) {
   dir_saida <- cfg$caminhos$output
   dir.create(dir_saida, showWarnings = FALSE, recursive = TRUE)
 
-  recortes <- purrr::map_chr(qst$estratificacao, "variavel")
-  niveis <- niveis_declarados(qst)
-  ordem <- unlist(qst$exportar_ordem)
-  nivel <- cfg$diagnosticos$nivel_confianca
-
-  metadados <- tibble::tibble(
-    question_id = names(qst$questoes),
-    question_text = purrr::map_chr(qst$questoes,
-                                   ~ .x$titulo %||% .x$texto)
-  )
-
-  cru <- list(
-    Stratification = purrr::map_dfr(recortes, estimate_question,
-                                    desenho = fit$design,
-                                    nivel_confianca = nivel),
-    Results = montar_results(fit$design, ordem, metadados, nivel),
-    ResultsStrat = montar_results_strat(fit$design, ordem, recortes, niveis,
-                                        nivel)
-  )
-
-  tabelas <- purrr::map(cru, formatar_percentuais)
-
-  xlsx <- file.path(dir_saida, paste0(cfg$outputs$prefixo, ".xlsx"))
-  writexl::write_xlsx(tabelas, path = xlsx)
-
-  writexl::write_xlsx(purrr::map(cru, formatar_percentuais, decimais = NULL),
-                      path = file.path(dir_saida,
-                                       paste0(cfg$outputs$prefixo,
-                                              "_decimal.xlsx")))
-
-  ns <- contar_ns(fit$design, ordem, recortes)
-  writexl::write_xlsx(ns, path = file.path(
-    dir_saida, paste0(cfg$outputs$prefixo, "_N.xlsx")))
-
   localidades <- contar_localidades(fit$design)
   writexl::write_xlsx(list(Localidades = localidades), path = file.path(
     dir_saida, paste0(cfg$outputs$prefixo, "_localidades.xlsx")))
@@ -1110,29 +953,34 @@ exportar_onda <- function(fit, qst, cfg) {
   readr::write_csv(diagnostico, file.path(dir_saida, "diagnostico-margens.csv"))
   escrever_ambiente(fit, cfg, diagnostico, dir_saida)
 
-  cat(sprintf("\nescrito em %s/\n  %s.xlsx  (%d + %d + %d linhas)\n",
-              dir_saida, cfg$outputs$prefixo, nrow(tabelas$Stratification),
-              nrow(tabelas$Results), nrow(tabelas$ResultsStrat)))
-  cat(sprintf("  %s_decimal.xlsx  (as mesmas abas sem arredondamento)\n",
-              cfg$outputs$prefixo))
-  cat(sprintf("  %s_N.xlsx  (o N nao ponderado de cada estimativa)\n",
-              cfg$outputs$prefixo))
-  cat(sprintf("  %s_localidades.xlsx  (%d municipios)\n", cfg$outputs$prefixo,
-              nrow(localidades)))
-  if (is.null(microdados)) {
-    cat("  (sem microdados: outputs.microdados = false)\n")
+  cat(sprintf("
+escrito em %s/
+", dir_saida))
+  if (is.null(estrutura)) {
+    cat("  (sem JSON: a onda nao tem display.yaml)
+")
   } else {
-    cat(sprintf("  %s_microdados.xlsx  (%d respondentes x %d colunas)\n",
-                cfg$outputs$prefixo, nrow(microdados), ncol(microdados)))
-  }
-  if (!is.null(estrutura)) {
-    cat(sprintf("  %s  (%d cruzamentos, %d questoes)\n",
+    cat(sprintf("  %s  (%d cruzamentos, %d questoes)
+",
                 nome_arquivo_json(cfg), length(estrutura$crosstabs),
                 length(estrutura$questions)))
   }
-  cat("  diagnostico-margens.csv\n  ambiente.txt\n")
+  cat(sprintf("  %s_localidades.xlsx  (%d municipios)
+", cfg$outputs$prefixo,
+              nrow(localidades)))
+  if (is.null(microdados)) {
+    cat("  (sem microdados: outputs.microdados = false)
+")
+  } else {
+    cat(sprintf("  %s_microdados.xlsx  (%d respondentes x %d colunas)
+",
+                cfg$outputs$prefixo, nrow(microdados), ncol(microdados)))
+  }
+  cat("  diagnostico-margens.csv
+  ambiente.txt
+")
 
-  invisible(c(tabelas, list(Microdados = microdados)))
+  invisible(estrutura)
 }
 
 escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {

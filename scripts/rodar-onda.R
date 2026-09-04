@@ -18,6 +18,7 @@ source("R/onda.R")
 resultado <- rodar_onda(onda)
 
 # `resultado` fica no ambiente para inspecao:
-#   resultado$results        aba Results
+#   resultado$crosstabs      os cruzamentos do JSON
+#   resultado$sample         o resumo da amostra
 #   resultado$base           base no nivel do respondente
 #   resultado$fit$design     desenho calibrado (para analises proprias)
