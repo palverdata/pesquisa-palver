@@ -8,35 +8,37 @@ campo:
   data_inicio: "2026-08-03"
   data_fim: "2026-08-09"
 
-amostra:  
+amostra:
   registrada: 5000
   ordenar_por: end_timestamp
- 
-margens:  
-  pnadc: "margens/pnadc-2024-visita5.yaml"  
+
+margens:
+  pnadc: "margens/pnadc-2024-visita5.yaml"
   tse: "margens/tse-2022-turno2.yaml"
 
-calibracao:  
+calibracao:
   margens:
     - [sex_std]
     - [age_std]
     - [edu_std]
-    - [inc_std]         
-    - [inc_std, sex_std, age_std, reg_std]    
-    - [reg_std, vote_std]  
+    - [inc_std]
+    - [inc_std, sex_std, age_std, reg_std]
+    - [reg_std, vote_std]
   tolerancia: 1.0e-7
   max_iteracoes: 200
 
-trimming:  
+trimming:
   teto: null
   piso: null
   strict: true
 
 diagnosticos:
-  tolerancia_pp: 3.0 
+  tolerancia_pp: 3.0
   nivel_confianca: 0.95
   moe_maxima_pp: 4.0
 
 
 outputs:
   prefixo: "01_results_eleicoes_2026_08_10"
+  # microdados ponderados em output/ (fora do git, nunca publicados)
+  microdados: true

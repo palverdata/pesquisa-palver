@@ -1,13 +1,17 @@
 # Do peso calibrado aos arquivos de divulgacao.
 #
-# Escreve seis arquivos em ondas/<onda>/output/:
+# Escreve sete arquivos em ondas/<onda>/output/:
 #
 #   <prefixo>.xlsx             Stratification, Results e ResultsStrat
 #   <prefixo>_decimal.xlsx     as mesmas abas sem arredondamento
 #   <prefixo>_N.xlsx           as mesmas abas com o N nao ponderado
 #   <prefixo>_localidades.xlsx entrevistas por municipio
+#   <prefixo>_microdados.xlsx  uma linha por respondente, com o peso calibrado
 #   diagnostico-margens.csv    margem ponderada vs cota, por categoria
 #   ambiente.txt               versoes, margens usadas e o resultado da onda
+#
+# Nenhum vai para o git: output/ esta no .gitignore. O de microdados tambem nao
+# pode ser publicado -- ver a politica de dados no README.
 
 # ==============================================================================
 # ESTIMATIVAS
@@ -245,6 +249,92 @@ contar_ns <- function(desenho, ordem, recortes) {
 }
 
 # ==============================================================================
+# MICRODADOS PONDERADOS
+# ==============================================================================
+
+# peso: soma = populacao dos alvos. peso_norm: peso / media, soma = n.
+montar_microdados <- function(desenho, qst) {
+
+  fora <- desenho$variables
+  pesos <- as.numeric(stats::weights(desenho))
+
+  fora$peso <- pesos
+  fora$peso_norm <- pesos / mean(pesos)
+
+  frente <- c("respondent_id", "regiao_arquivo", "uf", "municipio", "bairro",
+              "tipo_municipio")
+
+  colunas <- unique(c(
+    intersect(frente, names(fora)),
+    "peso", "peso_norm",
+    intersect(purrr::map_chr(qst$estratificacao, "variavel"), names(fora)),
+    intersect(unlist(qst$exportar_ordem), names(fora)),
+    names(fora)
+  ))
+
+  fora[, colunas] %>%
+    dplyr::mutate(dplyr::across(dplyr::where(is.factor), as.character)) %>%
+    tibble::as_tibble()
+}
+
+dicionario_microdados <- function(qst, colunas) {
+
+  perguntas <- c(qst$questoes, qst$questoes_nao_exportadas)
+  metadados <- unlist(qst$colunas)
+
+  niveis_de <- function(spec) {
+    if (length(spec$niveis) == 0) return(NA_character_)
+    paste(unlist(spec$niveis), collapse = " | ")
+  }
+
+  origens_de <- function(spec) {
+    vars <- unlist(c(spec$origem, spec$origem_voto,
+                     spec$filtro_comparecimento$variavel,
+                     purrr::map(spec$ordem_avaliacao, "variavel")))
+    if (length(vars) == 0) NA_character_ else
+      paste("derivada de", paste(unique(vars), collapse = ", "))
+  }
+
+  descrever <- function(v) {
+
+    if (v == "peso") {
+      return(c("peso", "peso calibrado (soma = populacao dos alvos)",
+               NA_character_))
+    }
+    if (v == "peso_norm") {
+      return(c("peso", "peso / media (soma = n calibrado)", NA_character_))
+    }
+    if (v %in% metadados) {
+      return(c("metadado", names(metadados)[match(v, metadados)],
+               NA_character_))
+    }
+    if (!is.null(perguntas[[v]])) {
+      spec <- perguntas[[v]]
+      tipo <- if (is.null(spec$harmonizada_de)) "questao" else
+        paste("harmonizada de", spec$harmonizada_de)
+      return(c(tipo, spec$titulo %||% spec$texto %||% NA_character_,
+               niveis_de(spec)))
+    }
+    if (!is.null(qst$derivadas[[v]])) {
+      spec <- qst$derivadas[[v]]
+      return(c(paste0("derivada (", spec$tipo, ")"), origens_de(spec),
+               niveis_de(spec)))
+    }
+
+    c("(nao declarada)", NA_character_, NA_character_)
+  }
+
+  campos <- purrr::map(colunas, descrever)
+
+  tibble::tibble(
+    variavel = colunas,
+    tipo = purrr::map_chr(campos, 1),
+    enunciado = purrr::map_chr(campos, 2),
+    niveis = purrr::map_chr(campos, 3)
+  )
+}
+
+# ==============================================================================
 # SAIDA
 # ==============================================================================
 
@@ -291,6 +381,18 @@ exportar_onda <- function(fit, qst, cfg) {
   writexl::write_xlsx(list(Localidades = localidades), path = file.path(
     dir_saida, paste0(cfg$outputs$prefixo, "_localidades.xlsx")))
 
+  microdados <- if (isFALSE(cfg$outputs$microdados)) NULL else {
+    montar_microdados(fit$design, qst)
+  }
+
+  if (!is.null(microdados)) {
+    writexl::write_xlsx(
+      list(Microdados = microdados,
+           Dicionario = dicionario_microdados(qst, names(microdados))),
+      path = file.path(dir_saida,
+                       paste0(cfg$outputs$prefixo, "_microdados.xlsx")))
+  }
+
   diagnostico <- convergence_report(fit) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ round(.x, 6)))
 
@@ -306,9 +408,15 @@ exportar_onda <- function(fit, qst, cfg) {
               cfg$outputs$prefixo))
   cat(sprintf("  %s_localidades.xlsx  (%d municipios)\n", cfg$outputs$prefixo,
               nrow(localidades)))
+  if (is.null(microdados)) {
+    cat("  (sem microdados: outputs.microdados = false)\n")
+  } else {
+    cat(sprintf("  %s_microdados.xlsx  (%d respondentes x %d colunas)\n",
+                cfg$outputs$prefixo, nrow(microdados), ncol(microdados)))
+  }
   cat("  diagnostico-margens.csv\n  ambiente.txt\n")
 
-  invisible(tabelas)
+  invisible(c(tabelas, list(Microdados = microdados)))
 }
 
 escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
