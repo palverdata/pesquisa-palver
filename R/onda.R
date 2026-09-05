@@ -31,7 +31,8 @@ carregar_config <- function(onda) {
 
   if (!dir.exists(pasta)) {
     stop("onda nao encontrada: ", pasta, "\nondas disponiveis: ",
-         paste(basename(list.dirs("ondas", recursive = FALSE)), collapse = ", "))
+         paste(basename(list.dirs("ondas", recursive = FALSE)),
+               collapse = ", "))
   }
 
   cfg <- ler_yaml(file.path(pasta, "config.yaml"))
@@ -81,22 +82,24 @@ rodar_onda <- function(onda) {
   cat(sprintf("\nonda %s | registro %s | %d respondentes\n",
               cfg$onda$nome %||% onda, cfg$onda$registro, nrow(base)))
 
-  propensao <- NULL
-  if (!is.null(cfg$propensao) && (cfg$propensao$ativo %||% TRUE)) {
-    pnadc_prop <- baixar_pnadc_propensao(cfg$propensao$pnadc$ano,
-                                         cfg$propensao$pnadc$entrevista,
-                                         cfg$propensao$pnadc$sm)
-    propensao <- montar_propensao(base, pnadc_prop, unlist(cfg$propensao$variaveis),
-                                  cfg$propensao$semente, cfg$propensao$arvores,
-                                  cfg$propensao$no_minimo,
-                                  cfg$propensao$peso_fallback %||% 1)
-    base <- propensao$base
-  }
-
   fontes <- purrr::compact(list(
-    pnadc = if (!is.null(cfg$margens$pnadc)) carregar_margens(cfg$margens$pnadc),
+    pnadc = if (!is.null(cfg$margens$pnadc))
+      carregar_margens(cfg$margens$pnadc),
     tse = if (!is.null(cfg$margens$tse)) carregar_margens(cfg$margens$tse)
   ))
+
+  propensao <- NULL
+  if (isTRUE(cfg$propensao$ativo)) {
+    if (is.null(fontes$pnadc)) {
+      stop("propensao.ativo exige margens.pnadc no config.yaml", call. = FALSE)
+    }
+    p <- cfg$propensao
+    propensao <- montar_propensao(base, fontes$pnadc$tabela,
+                                  unlist(p$variaveis),
+                                  p$semente %||% 1234, p$arvores %||% 1000,
+                                  p$no_minimo %||% 20, p$peso_fallback %||% 1)
+    base <- propensao$base
+  }
 
   alvos <- montar_alvos(fontes, cfg$calibracao$margens)
 

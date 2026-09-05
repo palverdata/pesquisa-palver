@@ -934,6 +934,17 @@ dicionario_microdados <- function(qst, colunas) {
       return(c(paste0("derivada (", spec$tipo, ")"), origens_de(spec),
                niveis_de(spec)))
     }
+    if (v == "peso_inicial") {
+      return(c("peso", "peso inicial de propensao (media 1), antes do raking",
+               NA_character_))
+    }
+    geografia <- c("codigo_ibge", "codigo_tse", "populacao_ibge",
+                   "tipo_mun_std")
+    if (v %in% geografia) {
+      return(c("geografia", "insumos/municipios_brasil.yaml, por municipio + UF",
+               if (v == "tipo_mun_std") "Capital | RM | Interior" else
+                 NA_character_))
+    }
 
     c("(nao declarada)", NA_character_, NA_character_)
   }
@@ -1050,15 +1061,15 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       sprintf("  %s", cfg$margens$tse %||% "(sem margem de voto)"),
       "",
       "propensao (peso inicial):",
-      if (is.null(fit$propensao)) "  nao aplicada (peso inicial uniforme)" else c(
-        sprintf("  PNADc              : %d, entrevista %d",
-                cfg$propensao$pnadc$ano, cfg$propensao$pnadc$entrevista),
+      if (is.null(fit$propensao)) "  nao aplicada (peso uniforme)" else c(
+        sprintf("  conjunta PNADc     : %s (%d celulas)", cfg$margens$pnadc,
+                fit$propensao$n_celulas),
         sprintf("  variaveis          : %s",
                 paste(unlist(cfg$propensao$variaveis), collapse = ", ")),
         sprintf("  semente            : %s", cfg$propensao$semente),
-        sprintf("  n PNADc            : %d", fit$propensao$n_pnadc),
-        sprintf("  n painel incluido  : %d (%d com peso 1 por variavel ausente)",
-                fit$propensao$n_painel_incluido, fit$propensao$n_painel_fallback),
+        sprintf("  n painel incluido  : %d (%d sem variavel, peso fallback)",
+                fit$propensao$n_painel_incluido,
+                fit$propensao$n_painel_fallback),
         sprintf("  erro OOB do modelo : %.4f", fit$propensao$erro_oob),
         sprintf("  peso inicial       : %.2fx a %.2fx a media",
                 fit$propensao$peso_min, fit$propensao$peso_max)

@@ -19,10 +19,6 @@ margens:
 
 propensao:
   ativo: false
-  pnadc:
-    ano: 2024
-    entrevista: 5
-    sm: 1621
   variaveis: [sex_std, age, edu_std, inc_std_2, reg_std, tipo_mun_std]
   semente: 1234
   arvores: 1000
