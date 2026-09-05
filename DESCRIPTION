@@ -31,5 +31,4 @@ Imports:
     writexl (>= 1.5.4),
     yaml (>= 2.3.12)
 Suggests:
-    PNADcIBGE (>= 0.7.5),
-    testthat (>= 3.0.0)
+    PNADcIBGE (>= 0.7.5)

@@ -1,16 +1,5 @@
-# ==============================================================================
-# GERAR AS MARGENS DA PNAD CONTINUA
-#
-# Preencha o bloco abaixo e clique em Source (Ctrl+Shift+S).
-# Baixa ~172 MB do FTP do IBGE e escreve margens/pnadc-<ano>-visita<n>.yaml.
-#
-# Escreve a TABELA CONJUNTA das cinco variaveis (genero x idade x escolaridade x
-# renda x regiao). Qualquer cruzamento -- inclusive as marginais -- e obtido pelo
-# motor somando essa tabela, entao trocar as margens no config.yaml nao exige
-# regerar nada aqui.
-#
-# So precisa rodar quando a fonte muda (nova PNADc). O YAML gerado e versionado.
-# ==============================================================================
+# Gera margens/pnadc-<ano>-visita<n>.yaml: a tabela conjunta genero x idade x
+# escolaridade x renda x regiao, da PNADc. Rode quando a fonte mudar.
 
 ano        <- 2024   # ano da PNADc
 entrevista <- 5      # numero da visita
@@ -18,19 +7,17 @@ sm         <- 1621   # salario minimo das faixas de renda do questionario
 
 # ==============================================================================
 
-# Sobe ate a raiz do repositorio (com o .Rproj aberto isto nao faz nada).
 while (!file.exists("R/onda.R") && dirname(getwd()) != getwd()) setwd("..")
 if (!file.exists("R/onda.R")) {
   stop("abra o pesquisa-palver.Rproj antes de rodar, ou ajuste o diretorio ",
        "de trabalho para dentro do repositorio.", call. = FALSE)
 }
 
-# Idade minima do universo (eleitorado potencial).
-idade_minima <- 16L
+idade_minima <- 16L  # eleitorado potencial
 
 saida <- file.path("margens", sprintf("pnadc-%d-visita%d.yaml", ano, entrevista))
 
-############ 1. PACOTES --------------------------------------------------------
+# 1. PACOTES
 
 suppressPackageStartupMessages({
   library(PNADcIBGE)
@@ -39,7 +26,7 @@ suppressPackageStartupMessages({
   library(yaml)
 })
 
-############ 2. DOWNLOAD -------------------------------------------------------
+# 2. DOWNLOAD
 
 vars <- c(
   "ID_DOMICILIO", "Ano", "Trimestre", "UF",
@@ -54,7 +41,7 @@ message(sprintf("Baixando PNADc %d, entrevista %d ...", ano, entrevista))
 pnadc <- get_pnadc(year = ano, interview = entrevista, vars = vars,
                    design = FALSE)
 
-############ 3. RECODES --------------------------------------------------------
+# 3. RECODES
 
 # Mesmos recodes aplicados a amostra da onda -- qualquer divergencia aqui
 # desalinha silenciosamente a calibracao.
@@ -122,7 +109,7 @@ cat(sprintf("\ncasos completos nas 5 variaveis: %d de %d (perda %.3f%%)\n",
             nrow(completos), nrow(pnadc_std),
             100 * (nrow(pnadc_std) - nrow(completos)) / nrow(pnadc_std)))
 
-############ 4. TABELA CONJUNTA ------------------------------------------------
+# 4. TABELA CONJUNTA
 
 desenho <- pnadc_design(data_pnadc = completos)
 
@@ -139,7 +126,7 @@ conjunta <- svytable(
 n_pop <- sum(conjunta$freq)
 zeradas <- sum(conjunta$freq == 0)
 
-############ 5. DIAGNOSTICO ---------------------------------------------------
+# 5. DIAGNOSTICO
 
 cat(sprintf("\ntabela conjunta: %d celulas | %d zeradas | populacao %s\n",
             nrow(conjunta), zeradas, format(n_pop, big.mark = " ")))
@@ -164,7 +151,7 @@ for (v in names(niveis)) {
 cat("\n--- missing por variavel (antes do corte de casos completos) ---\n")
 print(round(missing_pct, 5))
 
-############ 6. SAIDA ---------------------------------------------------------
+# 6. SAIDA
 
 conteudo <- list(
   meta = list(

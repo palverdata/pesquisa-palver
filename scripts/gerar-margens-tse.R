@@ -1,20 +1,5 @@
-# ==============================================================================
-# GERAR A MARGEM DE VOTO DO TSE (2o turno presidencial de 2022, por regiao)
-#
-# Preencha o bloco abaixo e clique em Source (Ctrl+Shift+S).
-# Escreve margens/tse-2022-turno2.yaml.
-#
-# RODE DEPOIS DE gerar-margens-pnadc.R: a contagem de cada celula e a populacao
-# REGIONAL DA PNADc distribuida pelo percentual de voto do TSE dentro daquela
-# regiao. E isso que faz reg_std ter a mesma distribuicao nas duas fontes, e
-# permite usar regiao nas duas margens sem conflito.
-#
-# Baixe os dois CSV em https://dadosabertos.tse.jus.br/ (Resultados, 2022) e
-# ponha em insumos/tse/. O arquivo de candidatos tem ~4 GB e e lido em blocos,
-# sem carregar tudo na memoria.
-#
-# So precisa rodar quando a eleicao ou a PNADc de referencia muda.
-# ==============================================================================
+# Gera margens/tse-2022-turno2.yaml: voto no 2o turno por regiao, na escala da
+# populacao regional da PNADc. Rode depois de gerar-margens-pnadc.R.
 
 arq_candidatos <- "insumos/tse/votacao_candidato_munzona_2022_BRASIL.csv"
 arq_detalhe    <- "insumos/tse/detalhe_votacao_munzona_2022_BR.csv"
@@ -22,7 +7,6 @@ margens_pnadc  <- "margens/pnadc-2024-visita5.yaml"
 
 # ==============================================================================
 
-# Sobe ate a raiz do repositorio (com o .Rproj aberto isto nao faz nada).
 while (!file.exists("R/onda.R") && dirname(getwd()) != getwd()) setwd("..")
 if (!file.exists("R/onda.R")) {
   stop("abra o pesquisa-palver.Rproj antes de rodar, ou ajuste o diretorio ",
@@ -42,7 +26,7 @@ candidatos <- c(
 
 saida <- "margens/tse-2022-turno2.yaml"
 
-############ 1. MOTOR ----------------------------------------------------------
+# 1. MOTOR
 
 # Reusa ler_yaml (sem a coercao de booleano do YAML 1.1, que transformaria a
 # regiao "N" em FALSE), carregar_margens e arredondar_preservando_total.
@@ -61,10 +45,9 @@ regiao_de <- c(
 niveis_regiao <- c("N", "NE", "CO", "SE", "S")
 niveis_voto <- c("Lula", "Jair Bolsonaro", "Branco/Nulo")
 
-############ 2. VOTOS NOMINAIS (leitura em blocos) -----------------------------
+# 2. VOTOS NOMINAIS (leitura em blocos)
 
-# 50 colunas; le apenas turno (6), UF (11), cargo (18), candidato (21) e
-# votos nominais (46). Conferido contra o cabecalho do arquivo.
+# 50 colunas; le turno (6), UF (11), cargo (18), candidato (21), votos (46).
 col_spec <- "-----i----c------c--c------------------------i----"
 
 acumulado <- NULL
@@ -107,7 +90,7 @@ votos_uf <- acumulado %>%
   group_by(SG_UF, vote_std) %>%
   summarise(votos = sum(votos), .groups = "drop")
 
-############ 3. BRANCOS, NULOS E COMPARECIMENTO -------------------------------
+# 3. BRANCOS, NULOS E COMPARECIMENTO
 
 message("lendo detalhe: ", arq_detalhe)
 
@@ -145,7 +128,7 @@ comparecimento_uf <- detalhe %>%
     .groups = "drop"
   )
 
-############ 4. MONTAGEM ------------------------------------------------------
+# 4. MONTAGEM
 
 margem <- bind_rows(votos_uf, brancos_nulos_uf) %>%
   mutate(reg_std = unname(regiao_de[SG_UF])) %>%
@@ -178,11 +161,7 @@ referencia <- comparecimento_uf %>%
   summarise(across(c(aptos, comparecimento, abstencoes), sum), .groups = "drop") %>%
   arrange(match(reg_std, niveis_regiao))
 
-############ 4b. ESCALA: POPULACAO DA PNADc -----------------------------------
-
-# A celula deixa de ser contagem de voto e passa a ser populacao: a populacao
-# regional da PNADc distribuida pelo percentual de voto daquela regiao. Assim
-# reg_std tem exatamente a mesma distribuicao nas duas fontes.
+# 4b. ESCALA: POPULACAO DA PNADc
 
 pop_regional <- carregar_margens(margens_pnadc)$tabela %>%
   group_by(reg_std = as.character(reg_std)) %>%
@@ -197,12 +176,11 @@ if (length(faltando_reg) > 0) {
 margem <- margem %>%
   left_join(pop_regional, by = "reg_std") %>%
   group_by(reg_std) %>%
-  # arredondamento por regiao: o total de cada regiao fica igual ao da PNADc
   mutate(freq = arredondar_preservando_total(pct_na_regiao * pop)) %>%
   ungroup() %>%
   select(reg_std, vote_std, votos, pct_na_regiao, freq)
 
-############ 5. DIAGNOSTICO ---------------------------------------------------
+# 5. DIAGNOSTICO
 
 cat("
 --- regiao x voto: voto do TSE, contagem na escala da PNADc ---
@@ -243,7 +221,7 @@ cat("
 ")
 print(referencia)
 
-############ 6. SAIDA --------------------------------------------------------
+# 6. SAIDA
 
 conteudo <- list(
   meta = list(
@@ -280,7 +258,6 @@ conteudo <- list(
     vote_std = as.list(niveis_voto)
   ),
 
-  # Base para decidir o tratamento da abstencao sem reler os microdados.
   referencia_comparecimento = pmap(
     referencia,
     function(reg_std, aptos, comparecimento, abstencoes) {

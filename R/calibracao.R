@@ -99,8 +99,7 @@ enunciados_do_arquivo <- function(qst) {
 ler_bruto <- function(caminho, qst) {
 
   # trim_ws = FALSE: o readxl apara espaco por padrao, e isso faria o motor ler
-  # um valor diferente do que o arquivo tem. Com FALSE, o que o questionario.yaml
-  # declara e o que esta no arquivo.
+  # um valor diferente do que o arquivo tem.
   bruto <- readxl::read_excel(caminho, sheet = 1, col_types = "text",
                               trim_ws = FALSE, .name_repair = "minimal")
 
@@ -306,7 +305,7 @@ carregar_margens <- function(caminho) {
     }
   }
 
-  list(meta = bruto$meta, variaveis = variaveis, tabela = tabela)
+  list(variaveis = variaveis, tabela = tabela)
 }
 
 montar_alvos <- function(fontes, margens, tolerancia_pp = 0.05) {
@@ -455,14 +454,7 @@ rake_weights <- function(dados, alvos, tolerancia = 1e-7, max_iteracoes = 200) {
     maxit = max_iteracoes, epsilon = tolerancia, verbose = FALSE
   )
 
-  list(
-    design = desenho,
-    dados = completos,
-    alvos = alvos,
-    n_inicial = nrow(dados),
-    n_calibrado = nrow(completos),
-    perda = (nrow(dados) - nrow(completos)) / nrow(dados)
-  )
+  list(design = desenho, alvos = alvos, n_calibrado = nrow(completos))
 }
 
 conferir_celulas <- function(dados, alvos, por_alvo) {
@@ -517,10 +509,7 @@ trim_weights <- function(fit, teto = NULL, piso = NULL, strict = TRUE) {
   fit$design <- survey::trimWeights(fit$design, upper = limite_superior,
                                     lower = limite_inferior, strict = strict)
 
-  fit$trimming <- list(
-    aplicado = TRUE, teto = teto, piso = piso,
-    pesos_aparados = sum(pesos > limite_superior | pesos < limite_inferior)
-  )
+  fit$trimming <- list(aplicado = TRUE, teto = teto, piso = piso)
 
   fit
 }
@@ -563,14 +552,12 @@ convergence_report <- function(fit) {
   })
 }
 
-design_effect <- function(pesos) {
+design_effect <- function(desenho) {
 
-  if (inherits(pesos, "survey.design")) pesos <- stats::weights(pesos)
-
+  pesos <- stats::weights(desenho)
   n_eff <- sum(pesos)^2 / sum(pesos^2)
 
   list(
-    n = length(pesos),
     n_eff = n_eff,
     deff = length(pesos) / n_eff,
     razao_max = max(pesos) / mean(pesos),

@@ -1,10 +1,4 @@
-# Tudo o que a onda precisa e derivado do NOME DA PASTA:
-#
-#   ondas/<onda>/config.yaml         parametros
-#   ondas/<onda>/questionario.yaml   estrutura do instrumento
-#   ondas/<onda>/display.yaml        apresentacao (secoes, rotulos, ordens)
-#   ondas/<onda>/dados/*.xlsx        microdados (fora do git)
-#   ondas/<onda>/output/             saidas
+# ondas/<onda>/: config.yaml, questionario.yaml, display.yaml, dados/, output/.
 
 suppressPackageStartupMessages({
   library(tidyverse)
@@ -36,8 +30,7 @@ carregar_config <- function(onda) {
 
   if (!dir.exists(pasta)) {
     stop("onda nao encontrada: ", pasta, "\nondas disponiveis: ",
-         paste(setdiff(basename(list.dirs("ondas", recursive = FALSE)),
-                       "_template"), collapse = ", "))
+         paste(basename(list.dirs("ondas", recursive = FALSE)), collapse = ", "))
   }
 
   cfg <- ler_yaml(file.path(pasta, "config.yaml"))
@@ -54,7 +47,7 @@ carregar_config <- function(onda) {
          "  data_divulgacao : ", cfg$onda$data_divulgacao)
   }
 
-    arquivos <- cfg$dados$arquivo %||%
+  arquivos <- cfg$dados$arquivo %||%
     list.files(file.path(pasta, "dados"), pattern = "[.]xlsx$")
 
   if (length(arquivos) != 1) {
@@ -97,7 +90,7 @@ rodar_onda <- function(onda) {
   fit <- trim_weights(fit, cfg$trimming$teto, cfg$trimming$piso,
                       cfg$trimming$strict)
 
-  tabelas <- exportar_onda(fit, qst, cfg)
+  estrutura <- exportar_onda(fit, qst, cfg)
 
-  invisible(c(list(cfg = cfg, base = base, fit = fit), tabelas))
+  invisible(c(list(cfg = cfg, base = base, fit = fit), estrutura))
 }
