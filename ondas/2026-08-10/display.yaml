@@ -1,21 +1,16 @@
-# Como esta onda se apresenta: secoes, rotulos, ordens, agrupamentos, cores e
-# os recortes que o menu de cruzamento oferece.
-#
-# A referencia das chaves esta no README, na secao "O JSON da onda".
+# Chaves: README, secao "O JSON da onda".
 
 meta:
   onda: "2026-08-10"
 
-# Blocos reaproveitados pelas ancoras do YAML. Nada aqui vai para o JSON.
+# Nada aqui vai para o JSON.
 ancoras:
 
-# Encurta o rotulo para o grafico.
   escala_dias: &escala_dias
     mapa:
       "Alguns dias (1 a 3 dias)": "1 a 3 dias"
       "A maioria dos dias (4 a 6 dias)": "4 a 6 dias"
 
-# Da exposicao maxima a nenhuma; "Não sei" no fim.
   ordem_dias: &ordem_dias
     - "Todos os dias"
     - "4 a 6 dias"
@@ -29,7 +24,6 @@ ancoras:
     - "Nem um pouco (1-2)"
     - "Não sei"
 
-# Tira o prefixo "Conheço e ", que se repete em quatro dos cinco niveis.
   escala_recall: &escala_recall
     mapa:
       "Conheço e não votaria de jeito nenhum": "Não votaria de jeito nenhum"
@@ -38,7 +32,6 @@ ancoras:
       "Conheço e com certeza votaria": "Com certeza votaria"
       "Não conheço ou não sei": "Não conhece ou não sabe"
 
-# Da maior chance de voto a rejeicao total; o reconhecimento no fim.
   ordem_recall: &ordem_recall
     - "Com certeza votaria"
     - "Poderia votar"
@@ -50,34 +43,22 @@ ancoras:
     mapa:
       "Ficou praticamente igual": "Igual"
 
-# Sao duas ancoras porque o nivel de economic_pocket_prosp tem espaco no fim
-# no arquivo bruto, e o motor le o texto como ele e.
-  escala_prosp: &escala_prosp
-    mapa:
-      "Vai ficar do mesmo jeito": "Igual"
-
-  escala_prosp_pocket: &escala_prosp_pocket
-    mapa:
-      "Vai ficar do mesmo jeito ": "Igual"
-
-# Sai da ordenacao das duas espontaneas.
   fim_espontanea: &fim_espontanea
     - "Outros"
-    - "Branco/nulo, não votaria ou não sabe"
+    - "Branco/nulo, indecisos ou não votaria"
 
-# As duas espontaneas normalizadas valem so para quem disse ter escolhido o
-# voto. A normalizacao herda um valor para quem nao foi perguntado.
-  base_escolheu: &base_escolheu
+  mesclar_escolheu: &mesclar_escolheu
     variavel: spontaneous_choice
-    valores:
-      - "Sim, já escolhi"
+    mapa:
+      "Não, ainda não escolhi": "Indeciso / Não Respondeu"
+      "Votarei em branco/nulo": "Branco/Nulo"
+      "Não pretendo votar": "Não irei votar"
+      "Não sei": "Indeciso / Não Respondeu"
 
-# Sai da ordenacao dos seis cenarios: nao disputa colocacao com candidato.
   fim_cenario: &fim_cenario
-    - "Branco/nulo, não votaria ou não sabe"
+    - "Branco/nulo, indecisos ou não votaria"
 
-# O resumo que abre a divulgacao. O motor confere a lista contra
-# `calibracao.margens` e interrompe a onda se divergir.
+# O motor confere esta lista contra calibracao.margens.
 amostra:
   - variavel: sex_std
     rotulo: "Gênero"
@@ -95,22 +76,30 @@ amostra:
 # Cor por rotulo. A chave e o rotulo pos-harmonizacao.
 cores:
 
-# Candidatos. O mesmo hex nas tres grafias do mesmo ator.
+# Candidatos. O mesmo hex em toda grafia do mesmo ator, e no numero dele.
   "Lula (PT)": "#FA5252"
   "Lula": "#FA5252"
   "Reeleição de Lula": "#FA5252"
+  "13": "#FA5252"
   "Flávio Bolsonaro (PL)": "#4C6EF5"
+  "Flávio Bolsonaro": "#4C6EF5"
   "Jair Bolsonaro": "#4C6EF5"
   "Eleição de Flávio Bolsonaro": "#4C6EF5"
+  "22": "#4C6EF5"
   "Renan Santos (Missão)": "#FAB005"
+  "Renan Santos": "#FAB005"
+  "14": "#FAB005"
   "Romeu Zema (Novo)": "#FD7E14"
+  "Romeu Zema": "#FD7E14"
+  "30": "#FD7E14"
   "Ronaldo Caiado (PSD)": "#12B886"
+  "Ronaldo Caiado": "#12B886"
+  "55": "#12B886"
   "Samara Martins (UP)": "#E64980"
   "Augusto Cury (Avante)": "#15AABF"
   "Cabo Daciolo (Mobiliza)": "#7950F2"
 
-# Avaliacao e expectativa. "Ótimo/Bom" e um rotulo so e fica com o verde do
-# Ótimo; "Ruim/Péssimo" com o vermelho do Péssimo.
+# Avaliacao e expectativa.
   "Aprova": "#2E9E5B"
   "Desaprova": "#DE4B3B"
   "Ótimo/Bom": "#2E9E5B"
@@ -135,22 +124,20 @@ cores:
   "Independente": "#F59F00"
   "Sem posicionamento definido": "#8F9498"
 
-# Reconhecimento e rejeicao: a escala avaliativa, sem o ambar do meio, que
-# esta escala nao tem.
+# Reconhecimento e rejeicao.
   "Com certeza votaria": "#2E9E5B"
   "Poderia votar": "#8CBF44"
   "Provavelmente não votaria": "#E87E35"
   "Não votaria de jeito nenhum": "#DE4B3B"
 
-# Antipetismo e antibolsonarismo: uma matiz so, escurecendo com a intensidade.
-# A mesma rampa nas duas questoes, que existem para ser comparadas.
+# Antipetismo e antibolsonarismo: uma matiz, escurecendo com a intensidade.
   "Totalmente (4-5)": "#862E9C"
   "Intermediário (3)": "#BE4BDB"
   "Nem um pouco (1-2)": "#DA77F2"
 
 # Residuais: um cinza so para tudo que nao e resposta substantiva.
-  "Branco/nulo, não votaria ou não sabe": "#8F9498"
-  "Branco/Nulo": "#8F9498"
+  "Branco/nulo, indecisos ou não votaria": "#8F9498"
+  "Indeciso / Não Respondeu": "#8F9498"
   "Não sei": "#8F9498"
   "Não conhece ou não sabe": "#8F9498"
   "Outra": "#8F9498"
@@ -161,15 +148,10 @@ secoes:
   - titulo: "1º turno espontânea"
     questoes:
 
-# Perguntada a todos, entao nao leva filtro de base.
-      - variavel: spontaneous_choice
-        rotulo: "Já escolheu o voto"
-
-# 26 niveis normalizados com cauda longa. Mantem os cinco candidatos do
-# cenario estimulado; o resto vira "Outros".
       - variavel: spontaneous_vote_norm
         rotulo: "Voto espontâneo"
-        base: *base_escolheu
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido, votar em branco ou não votar entra como não-voto."
+        mesclar: *mesclar_escolheu
         harmonizar:
           mapa:
             "Lula": "Lula"
@@ -177,22 +159,19 @@ secoes:
             "Renan Santos": "Renan Santos"
             "Romeu Zema": "Romeu Zema"
             "Ronaldo Caiado": "Ronaldo Caiado"
-            "Branco/Nulo": "Branco/nulo, não votaria ou não sabe"
-            "Ninguém": "Branco/nulo, não votaria ou não sabe"
-            "Não irei votar": "Branco/nulo, não votaria ou não sabe"
-            "Indefinido": "Branco/nulo, não votaria ou não sabe"
-            "Indeciso / Não Respondeu": "Branco/nulo, não votaria ou não sabe"
+            "Branco/Nulo": "Branco/nulo, indecisos ou não votaria"
+            "Ninguém": "Branco/nulo, indecisos ou não votaria"
+            "Não irei votar": "Branco/nulo, indecisos ou não votaria"
+            "Indefinido": "Branco/nulo, indecisos ou não votaria"
+            "Indeciso / Não Respondeu": "Branco/nulo, indecisos ou não votaria"
           resto: "Outros"
         ordenar: decrescente
         fixar_no_fim: *fim_espontanea
 
-# Mantem os numeros dos cinco candidatos do cenario estimulado e recolhe o
-# resto em "Outros". Qual numero e de quem sai do cruzamento das duas
-# espontaneas: 13 Lula, 22 Flávio Bolsonaro, 14 Renan Santos, 30 Romeu Zema,
-# 55 Ronaldo Caiado.
       - variavel: spontaneous_number_norm
         rotulo: "Número do candidato"
-        base: *base_escolheu
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e número do candidato digitado em caixa de texto. Quem disse não ter escolhido, votar em branco ou não votar entra como não-voto."
+        mesclar: *mesclar_escolheu
         harmonizar:
           mapa:
             "13": "13"
@@ -200,9 +179,9 @@ secoes:
             "14": "14"
             "30": "30"
             "55": "55"
-            "Branco/Nulo": "Branco/nulo, não votaria ou não sabe"
-            "Não irei votar": "Branco/nulo, não votaria ou não sabe"
-            "Indeciso / Não Respondeu": "Branco/nulo, não votaria ou não sabe"
+            "Branco/Nulo": "Branco/nulo, indecisos ou não votaria"
+            "Não irei votar": "Branco/nulo, indecisos ou não votaria"
+            "Indeciso / Não Respondeu": "Branco/nulo, indecisos ou não votaria"
           resto: "Outros"
         ordenar: decrescente
         fixar_no_fim: *fim_espontanea
@@ -272,7 +251,6 @@ secoes:
         harmonizar: *escala_recall
         respostas: *ordem_recall
 
-# Ja harmonizadas no questionario.yaml pelo bloco `avaliacao_governo`.
   - titulo: "Aprovação e Avaliação do Governo"
     questoes:
       - variavel: president_approval
@@ -294,8 +272,25 @@ secoes:
       - variavel: government_issue_evaluation_environment_h
         rotulo: "Meio ambiente"
 
-  - titulo: "Expectativas Econômicas"
+  - titulo: "Problemas do Brasil e Expectativas Econômicas"
     questoes:
+
+# Os seis maiores codigos; o resto vira Outro.
+      - variavel: issue_perception
+        rotulo: "Maior problema do Brasil"
+        harmonizar:
+          mapa:
+            "Corrupção": "Corrupção"
+            "Segurança pública e violência": "Segurança pública e violência"
+            "Bolsonarismo e extrema direita": "Bolsonarismo e extrema direita"
+            "Política, Congresso e partidos": "Política, Congresso e partidos"
+            "Lula e o governo atual": "Lula e o governo atual"
+            "Economia, custo de vida e desemprego": "Economia, custo de vida e desemprego"
+            "Desemprego": "Economia, custo de vida e desemprego"
+            "Indeciso / Não Respondeu": "Indeciso / Não Respondeu"
+          resto: "Outro"
+        ordenar: decrescente
+        fixar_no_fim: ["Outro", "Indeciso / Não Respondeu"]
       - variavel: economic_macro_retro
         rotulo: "País, últimos 12 meses"
         harmonizar: *escala_retro
@@ -304,10 +299,14 @@ secoes:
         harmonizar: *escala_retro
       - variavel: economic_macro_prosp
         rotulo: "País, próximos 12 meses"
-        harmonizar: *escala_prosp
+        harmonizar:
+          mapa:
+            "Vai ficar do mesmo jeito": "Igual"
       - variavel: economic_pocket_prosp
         rotulo: "Família, próximos 12 meses"
-        harmonizar: *escala_prosp_pocket
+        harmonizar:
+          mapa:
+            "Vai ficar do mesmo jeito ": "Igual"  # espaco no fim, como no bruto
 
   - titulo: "Consumo de Mídia"
     questoes:
@@ -377,7 +376,6 @@ secoes:
           mapa:
             "Não me identifico com um posicionamento definido": "Sem posicionamento definido"
 
-# A questao mostra os 7 niveis; o recorte de mesmo nome junta os dois menores.
       - variavel: identification_h
         rotulo: "Identidade política"
 
@@ -398,15 +396,7 @@ secoes:
         rotulo: "Frequência com que vota"
       - variavel: registered_same_city
         rotulo: "Vota na cidade onde mora"
-      - variavel: voted_2r_last_election
-        rotulo: "Compareceu no 2º turno de 2022"
-      - variavel: vote_2r_last_election
-        rotulo: "Voto no 2º turno de 2022"
-        ordenar: decrescente
-        fixar_no_fim:
-          - "Branco/Nulo"
-
-# Categoria de recorte aparece na tela como esta aqui: ela nao passa pelo i18n.
+# O rotulo de recorte nao passa pelo i18n.
 recortes:
 
   - variavel: sex_std
@@ -439,8 +429,6 @@ recortes:
         "SE": "Sudeste"
         "S": "Sul"
 
-# O balde "Branco/Nulo" desta derivada tambem recebe quem nao compareceu
-# (filtro_comparecimento) e quem nao respondeu (vazio_para).
   - variavel: vote_std
     rotulo: "Voto no 2º turno de 2022"
     harmonizar:
@@ -453,8 +441,6 @@ recortes:
       mapa:
         "Sem Religião/Ateu/Agnóstico": "Sem religião"
 
-# Centro e pequeno demais para leitura propria; junto com Sem posicionamento
-# a leitura fica esquerda / meio sem lado / direita.
   - variavel: ideol_std
     rotulo: "Ideologia"
     harmonizar:
@@ -462,7 +448,6 @@ recortes:
         "Centro": "Centro ou sem posicionamento"
         "Sem posicionamento": "Centro ou sem posicionamento"
 
-# Junta os dois grupos menores e tira o resultado da tela e da base.
   - variavel: identification_h
     rotulo: "Identidade política"
     harmonizar:

@@ -16,9 +16,6 @@ colunas:
   tipo_municipio: tipo_municipio
   regiao: regiao_arquivo
 
-# ---------------------------------------------------------------------------
-# MATRIZES
-# ---------------------------------------------------------------------------
 matrizes:
   recall_rejection:
     numero: "6"
@@ -119,9 +116,6 @@ matrizes:
         rotulo: "Antibolsonarista"
         numero: "25b"
 
-# ---------------------------------------------------------------------------
-# QUESTOES
-# ---------------------------------------------------------------------------
 questoes:
   spontaneous_choice:
     numero: "1"
@@ -715,8 +709,6 @@ questoes:
       - "Não sei"
 
 
-  # tabulacao da espontanea feita fora do questionario;
-  # o texto aberto original fica em questoes_nao_exportadas
   spontaneous_vote_norm:
     tipo: "tabulada"
     texto: "voto_presidente_norm"
@@ -733,24 +725,23 @@ questoes:
       - "Hertz Dias"
       - "Jair Bolsonaro"
       - "Aldo Rabelo"
-      - "ACM Neto"
       - "Joaquim Barbosa"
       - "Carlos Bolsonaro"
       - "Fábio Bolsonaro"
       - "Ciro Gomes"
       - "Rui Costa Pimenta"
-      - "Ciro"
       - "Nicolas Ferreira"
-      - "Cabo Daciolo"
-      - "Luka"
+      - "Aldo Rebelo"
+      - "Eduardo Bolsonaro"
+      - "Flávia Bolsonaro"
+      - "Michele Bolsonaro"
+      - "Samira Martins"
       - "Branco/Nulo"
       - "Ninguém"
       - "Não irei votar"
       - "Indefinido"
       - "Indeciso / Não Respondeu"
 
-  # tabulacao da espontanea feita fora do questionario;
-  # o texto aberto original fica em questoes_nao_exportadas
   spontaneous_number_norm:
     tipo: "tabulada"
     texto: "numero_voto_norm"
@@ -768,9 +759,37 @@ questoes:
       - "55"
       - "70"
       - "80"
+      - "01"
+      - "1"
+      - "12"
+      - "20"
+      - "29"
+      - "45"
       - "Branco/Nulo"
       - "Não irei votar"
       - "Indeciso / Não Respondeu"
+  issue_perception:
+    tipo: "tabulada"
+    texto: "problema_brasil_cod"
+    titulo: "Na sua opinião, qual é o maior problema do Brasil hoje em dia?"
+    niveis:
+      - "Corrupção"
+      - "Segurança pública e violência"
+      - "Economia, custo de vida e desemprego"
+      - "Saúde"
+      - "Educação"
+      - "Desigualdade e pobreza"
+      - "Política, Congresso e partidos"
+      - "Justiça e Judiciário"
+      - "Lula e o governo atual"
+      - "Bolsonarismo e extrema direita"
+      - "Esquerda e comunismo"
+      - "Desinformação e imprensa"
+      - "Costumes, religião e família"
+      - "Outro"
+      - "Indeciso / Não Respondeu"
+      - "Desemprego"
+
 questoes_nao_exportadas:
   sex:
     texto: "Qual é o seu gênero?"
@@ -790,30 +809,12 @@ questoes_nao_exportadas:
   relig:
     texto: "Qual é a sua religião?"
     motivo: "origem de relig_std; entra na calibracao pela derivada"
-  spontaneous_vote_choice:
-    tipo: "open_text"
-    texto: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria? (RAW)"
-    motivo: "resposta aberta (nome do candidato); nao entra no Excel"
-    exportar: false
-  q_1785367910450_2:
-    tipo: "open_text"
-    texto: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco) (RAW)"
-    motivo: "resposta aberta (numero do candidato); renomeada para spontaneous_number"
-    exportar: false
-  issue_perception:
-    tipo: "open_text"
-    texto: "Na sua opinião, qual é o maior problema do Brasil hoje em dia?"
-    motivo: "resposta aberta (tema mais importante); nao entra no Excel"
-    exportar: false
   relig_evang:
     tipo: "radio"
     texto: "Qual é a sua denominação?"
     motivo: "denominacao evangelica; usada apenas em recortes especificos"
     exportar: false
 
-# ---------------------------------------------------------------------------
-# VARIAVEIS DERIVADAS
-# ---------------------------------------------------------------------------
 derivadas:
 
   sex_std:
@@ -935,7 +936,6 @@ derivadas:
 
   vote_std:
     tipo: voto_pregresso
-    nota:
     filtro_comparecimento:
       variavel: voted_2r_last_election
       valor_nao_votou: "Não"
@@ -966,14 +966,9 @@ derivadas:
       - "Não alinhado"
       - "Antibolsonarista"
 
-# ---------------------------------------------------------------------------
-# ESTRATIFICACAO (recortes)
-# ---------------------------------------------------------------------------
 
 harmonizacao:
 
-  # recall: nao conhece e nao sabe viram um so rotulo. As alternativas
-  # de intencao ficam com o proprio rotulo e nao aparecem no mapa.
   recall_conhecimento:
     aplicar_a:
       - recall_rejection_flavio_bolsonaro
@@ -985,9 +980,7 @@ harmonizacao:
       "Não conheço": "Não conheço ou não sei"
       "Não sei": "Não conheço ou não sei"
 
-  # cenario eleitoral: branco/nulo, nao votaria e nao sabe viram um so
-  # rotulo. Os candidatos ficam com o proprio rotulo, e por isso nao
-  # aparecem no mapa -- cada cenario tem uma lista diferente.
+  # O mapa so tras os residuais: a lista de candidatos varia por cenario.
   cenario_eleitoral:
     aplicar_a:
       - stimulated_1r_vote_1
@@ -997,11 +990,10 @@ harmonizacao:
       - stimulated_2r_vote_3
       - stimulated_2r_vote_4
     mapa:
-      "Votaria em branco/nulo": "Branco/nulo, não votaria ou não sabe"
-      "Não iria votar": "Branco/nulo, não votaria ou não sabe"
-      "Não sei": "Branco/nulo, não votaria ou não sabe"
+      "Votaria em branco/nulo": "Branco/nulo, indecisos ou não votaria"
+      "Não iria votar": "Branco/nulo, indecisos ou não votaria"
+      "Não sei": "Branco/nulo, indecisos ou não votaria"
 
-  # Otimo/Bom, Regular, Ruim/Pessimo
   avaliacao_governo:
     aplicar_a:
       - government_evaluation
@@ -1020,7 +1012,6 @@ harmonizacao:
       "Péssimo": "Ruim/Péssimo"
       "Não sei": "Não sei"
 
-  # junta 1 com 2 e 4 com 5; o 3 fica sozinho
   escala_1_5:
     aplicar_a:
       - neg_identification_antipetista
@@ -1033,7 +1024,6 @@ harmonizacao:
       "5 - Totalmente": "Totalmente (4-5)"
       "Não sei": "Não sei"
 
-  # rotulo curto para caber no grafico
   meio_principal:
     aplicar_a:
       - media_main
@@ -1052,7 +1042,6 @@ harmonizacao:
       "Outra": "Outra"
       "Não sei": "Não sei"
 
-  # rotulo curto para caber no grafico
   identificacao:
     aplicar_a:
       - identification
@@ -1078,13 +1067,11 @@ estratificacao:
   - variavel: identification
   - variavel: anti_std
 
-# ---------------------------------------------------------------------------
-# ORDEM DE EXPORTACAO (ordem das colunas nos microdados)
-# ---------------------------------------------------------------------------
 exportar_ordem:
   - spontaneous_choice
   - spontaneous_vote_norm
   - spontaneous_number_norm
+  - issue_perception
   - stimulated_1r_vote_1
   - stimulated_1r_vote_2
   - recall_rejection_flavio_bolsonaro

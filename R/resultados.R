@@ -1,16 +1,4 @@
-# Do peso calibrado aos arquivos da onda.
-#
-# Escreve cinco arquivos em ondas/<onda>/output/:
-#
-#   <id>_pesquisa_<AAAA>_<MM>_<DD>.json  os cruzamentos, para os graficos e
-#                                        para a plataforma
-#   <prefixo>_localidades.xlsx           entrevistas por municipio
-#   <prefixo>_microdados.xlsx            uma linha por respondente, com o peso
-#   diagnostico-margens.csv              margem ponderada vs cota, por categoria
-#   ambiente.txt                         versoes, margens usadas e o resultado
-#
-# Nenhum vai para o git: output/ esta no .gitignore. Ver a politica de dados no
-# README.
+# Do peso calibrado aos arquivos de ondas/<onda>/output/.
 
 # ==============================================================================
 # ESTIMATIVAS
@@ -102,7 +90,6 @@ estimate_svyby <- function(questao, recorte, desenho, nivel_confianca = 0.95) {
   })
 }
 
-
 niveis_declarados <- function(qst) {
 
   nomes <- unique(c(names(qst$derivadas), names(qst$questoes)))
@@ -110,7 +97,6 @@ niveis_declarados <- function(qst) {
   purrr::map(purrr::set_names(nomes),
              ~ unlist(qst$derivadas[[.x]]$niveis %||% qst$questoes[[.x]]$niveis))
 }
-
 
 contar_localidades <- function(desenho) {
 
@@ -132,7 +118,6 @@ contar_localidades <- function(desenho) {
 # ==============================================================================
 # O JSON DA ONDA
 # ==============================================================================
-
 
 carregar_display <- function(caminho, onda) {
 
@@ -182,6 +167,21 @@ carregar_display <- function(caminho, onda) {
         }
       }
 
+      if (!is.null(q$mesclar)) {
+        faltando <- setdiff(c("variavel", "mapa"), names(q$mesclar))
+        if (length(faltando) > 0) {
+          stop("display.yaml: `mesclar` de ", variavel, " sem ",
+               paste(faltando, collapse = " e "), call. = FALSE)
+        }
+        if (length(q$mesclar$mapa) == 0) {
+          stop("display.yaml: mesclar sem `mapa` -> ", variavel, call. = FALSE)
+        }
+        if (!is.null(q$base)) {
+          stop("display.yaml: `base` e `mesclar` na mesma questao -> ", variavel,
+               ". `mesclar` ja define quem entra.", call. = FALSE)
+        }
+      }
+
       if (!is.null(q$excluir)) {
         stop("display.yaml: `excluir` vale so em recorte, nao em questao -> ",
              variavel, ". Tirar uma resposta faria o grupo nao somar 100%.",
@@ -206,6 +206,10 @@ carregar_display <- function(caminho, onda) {
         harmonizar = q$harmonizar,
         base = if (is.null(q$base)) NULL else
           list(variavel = q$base$variavel, valores = unlist(q$base$valores)),
+        mesclar = if (is.null(q$mesclar)) NULL else
+          list(variavel = q$mesclar$variavel, mapa = unlist(q$mesclar$mapa)),
+        nota = if (is.null(q$nota)) NULL else
+          texto(q$nota, paste0("`nota` vazia -> ", variavel)),
         ordenar = q$ordenar,
         fixar_no_fim = if (length(q$fixar_no_fim) == 0) NULL else
           unlist(q$fixar_no_fim),
@@ -218,6 +222,10 @@ carregar_display <- function(caminho, onda) {
     variavel <- texto(r$variavel, "recorte sem variavel")
     if (!is.null(r$harmonizar) && length(r$harmonizar$mapa) == 0) {
       stop("display.yaml: harmonizar sem `mapa` -> ", variavel, call. = FALSE)
+    }
+    if (!is.null(r$mesclar) || !is.null(r$nota)) {
+      stop("display.yaml: `mesclar` e `nota` valem so em questao, nao em ",
+           "recorte -> ", variavel, call. = FALSE)
     }
     list(
       variavel = variavel,
@@ -270,12 +278,11 @@ carregar_display <- function(caminho, onda) {
        cores = cores)
 }
 
-
 kish <- function(pesos) sum(pesos)^2 / sum(pesos^2)
 
 resposta_valida <- function(x) !is.na(x) & trimws(as.character(x)) != ""
 
-# Sobrescrita que omite valor observado e erro: a celula desapareceria da tela.
+# A celula omitida desapareceria da tela.
 ordenar_valores <- function(observados, declarados, sobrescrita, contexto) {
 
   if (!is.null(sobrescrita)) {
@@ -294,9 +301,7 @@ ordenar_valores <- function(observados, declarados, sobrescrita, contexto) {
 
 recortar <- function(x) pmin(pmax(x, 0), 1)
 
-# Precedencia: `respostas` manda; senao `ordenar`; `fixar_no_fim` sai da
-# ordenacao. A ordenacao usa o share do total, nao o do recorte. Empate cai na
-# ordem declarada: order() e estavel.
+# Empate cai na ordem declarada: order() e estavel.
 ordenar_respostas <- function(est, q, declarados, contexto) {
 
   observados <- est$response
@@ -323,7 +328,6 @@ ordenar_respostas <- function(est, q, declarados, contexto) {
 
   c(setdiff(ordem, fim), intersect(fim, observados))
 }
-
 
 # Agrupa niveis ANTES de estimar: somar `share` depois nao serve, porque o
 # intervalo da soma nao e a soma dos intervalos.
@@ -361,9 +365,31 @@ harmonizar_resposta <- function(valores, spec, declarados, contexto) {
        niveis = rotulos)
 }
 
+# Nas linhas que o mapa cita a fechada manda; as demais ficam.
+mesclar_resposta <- function(valores, fechada, spec, declarados, niveis_fechada,
+                             contexto) {
 
-# Questao condicional. O filtro corta o DESENHO, entao vale igual no total e
-# em todo recorte, e a estimativa se refaz entre quem foi perguntado.
+  fora <- setdiff(names(spec$mapa), niveis_fechada)
+  if (length(fora) > 0) {
+    stop(contexto, ": mesclar.mapa cita valor que ", spec$variavel,
+         " nao declara -> ", paste(sprintf("'%s'", fora), collapse = ", "),
+         call. = FALSE)
+  }
+
+  fora <- setdiff(unname(spec$mapa), declarados)
+  if (length(fora) > 0) {
+    stop(contexto, ": mesclar.mapa produz nivel que a questao nao declara -> ",
+         paste(sprintf("'%s'", fora), collapse = ", "), call. = FALSE)
+  }
+
+  idx <- match(as.character(fechada), names(spec$mapa))
+  novo <- as.character(valores)
+  novo[!is.na(idx)] <- unname(spec$mapa[idx[!is.na(idx)]])
+  novo
+}
+
+# O filtro corta o DESENHO: vale igual no total e em todo recorte, e a
+# estimativa se refaz entre quem foi perguntado.
 filtrar_base <- function(design, spec, contexto) {
 
   dados <- design$variables
@@ -389,7 +415,6 @@ filtrar_base <- function(design, spec, contexto) {
 
   list(design = design[dentro, ], n_fora = sum(!dentro))
 }
-
 
 # recorte = NULL devolve o total, como um recorte de um grupo so.
 montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
@@ -503,7 +528,6 @@ montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
   fora
 }
 
-
 # A distribuicao das variaveis que a calibracao ajusta. Sem intervalo: margem
 # de calibracao tem intervalo de largura zero por construcao.
 montar_resumo <- function(design, amostra, nivel) {
@@ -543,7 +567,6 @@ conferir_resumo <- function(amostra, margens) {
 
   declaradas <- purrr::map_chr(amostra, "variavel")
 
-  # uma margem e marginal ou cruzada; o conjunto e a uniao das variaveis citadas
   das_margens <- unique(unlist(purrr::map(margens, function(m) {
     if (is.list(m) && !is.null(m$variaveis)) unlist(m$variaveis) else unlist(m)
   })))
@@ -562,7 +585,6 @@ conferir_resumo <- function(amostra, margens) {
 
   invisible(TRUE)
 }
-
 
 montar_json <- function(fit, qst, display, cfg) {
 
@@ -601,16 +623,28 @@ montar_json <- function(fit, qst, display, cfg) {
     enunciado
   }
 
-  # Coluna de trabalho por variavel harmonizada, com prefixo distinto para
-  # questao e recorte. A coluna original nunca e tocada: ela pode ser margem.
+  # A coluna original nunca e tocada: ela pode ser margem.
   preparar <- function(spec, prefixo, tipo) {
 
     spec$coluna <- spec$variavel
     spec$niveis <- niveis[[spec$variavel]]
+    valores <- dados[[spec$variavel]]
+
+    if (!is.null(spec$mesclar)) {
+      if (!spec$mesclar$variavel %in% names(dados)) {
+        stop(tipo, " ", spec$variavel, ": `mesclar.variavel` nao existe na base -> ",
+             spec$mesclar$variavel, call. = FALSE)
+      }
+      valores <- mesclar_resposta(valores, dados[[spec$mesclar$variavel]],
+                                  spec$mesclar, spec$niveis,
+                                  niveis[[spec$mesclar$variavel]],
+                                  paste(tipo, spec$variavel))
+      spec$coluna <- paste0(prefixo, spec$variavel)
+      spec$valores <- factor(valores, levels = spec$niveis, ordered = TRUE)
+    }
 
     if (!is.null(spec$harmonizar)) {
-      harmonizada <- harmonizar_resposta(dados[[spec$variavel]],
-                                        spec$harmonizar, spec$niveis,
+      harmonizada <- harmonizar_resposta(valores, spec$harmonizar, spec$niveis,
                                         paste(tipo, spec$variavel))
       spec$coluna <- paste0(prefixo, spec$variavel)
       spec$niveis <- harmonizada$niveis
@@ -620,7 +654,7 @@ montar_json <- function(fit, qst, display, cfg) {
     # `excluir` cita o rotulo pos-harmonizacao, que so existe aqui.
     fora <- setdiff(spec$excluir, spec$niveis)
     if (length(fora) > 0) {
-      stop("recorte ", spec$variavel, ": `excluir` cita grupo que o recorte ",
+      stop(tipo, " ", spec$variavel, ": `excluir` cita grupo que o recorte ",
            "nao tem -> ", paste(sprintf("'%s'", fora), collapse = ", "),
            call. = FALSE)
     }
@@ -681,10 +715,10 @@ montar_json <- function(fit, qst, display, cfg) {
       crosstabs[[paste0(q$variavel, "|", recorte$variavel)]] <- cruzamento
     }
 
-    questions[[length(questions) + 1]] <- list(
-      key = q$variavel, label = q$rotulo, statement = statement,
-      section = q$secao
-    )
+    entrada <- list(key = q$variavel, label = q$rotulo, statement = statement,
+                    section = q$secao)
+    if (!is.null(q$nota)) entrada$note <- q$nota
+    questions[[length(questions) + 1]] <- entrada
   }
 
   breakdowns <- purrr::map(display$recortes, function(recorte) {
@@ -726,9 +760,7 @@ montar_json <- function(fit, qst, display, cfg) {
   estrutura
 }
 
-
-# Cor sem rotulo correspondente nao quebra a plataforma, mas costuma ser erro
-# de digitacao: avisa e segue.
+# Cor sem rotulo costuma ser erro de digitacao, e nao quebra a plataforma.
 conferir_cores <- function(cores, crosstabs) {
 
   if (length(cores) == 0) return(invisible(NULL))
@@ -749,8 +781,6 @@ conferir_cores <- function(cores, crosstabs) {
   invisible(orfas)
 }
 
-
-# A plataforma nao verifica nada em runtime: a conferencia e antes de escrever.
 conferir_json <- function(estrutura, display, tolerancia = 1e-9) {
 
   esperadas <- purrr::map(display$questoes, function(q) {
@@ -795,15 +825,12 @@ conferir_json <- function(estrutura, display, tolerancia = 1e-9) {
   invisible(TRUE)
 }
 
-
 nome_arquivo_json <- function(cfg) {
   sprintf("%02d_pesquisa_%s.json", as.integer(cfg$onda$sequencia),
           gsub("-", "_", cfg$onda$data_divulgacao))
 }
 
-# auto_unbox colapsaria vetor de um elemento em escalar, e por isso os arrays
-# vao marcados com I() na montagem. digits = NA guarda a precisao cheia;
-# na = "null" e o que faz breakdown_key do total sair nulo.
+# auto_unbox colapsaria vetor de um elemento: os arrays vao com I() na montagem.
 escrever_json <- function(estrutura, cfg, dir_saida) {
 
   caminho <- file.path(dir_saida, nome_arquivo_json(cfg))
@@ -815,7 +842,6 @@ escrever_json <- function(estrutura, cfg, dir_saida) {
   caminho
 }
 
-# Sem display.yaml nao ha JSON: avisa e devolve NULL.
 exportar_json <- function(fit, qst, cfg, dir_saida) {
 
   caminho <- cfg$caminhos$display %||% ""
@@ -838,7 +864,6 @@ exportar_json <- function(fit, qst, cfg, dir_saida) {
 # MICRODADOS PONDERADOS
 # ==============================================================================
 
-# peso: soma = populacao dos alvos. peso_norm: peso / media, soma = n.
 montar_microdados <- function(desenho, qst) {
 
   fora <- desenho$variables
@@ -985,8 +1010,8 @@ escrito em %s/
 
 escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
 
-  pacotes <- c("dplyr", "purrr", "readr", "readxl", "stringr", "survey",
-               "tibble", "tidyr", "writexl", "yaml")
+  pacotes <- c("dplyr", "jsonlite", "purrr", "readr", "readxl", "stringr",
+               "survey", "tibble", "writexl", "yaml")
 
   ef <- design_effect(fit$design)
   desvio <- max(abs(diagnostico$desvio_pp))
@@ -1032,7 +1057,8 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       sprintf("  desvio max vs cota : %.4f pp", desvio),
       sprintf("  aparo              : %s",
               if (isTRUE(fit$trimming$aplicado))
-                sprintf("teto %gx a media", cfg$trimming$teto) else "nenhum"),
+                sprintf("teto %sx, piso %sx a media", fit$trimming$teto %||% "-",
+                        fit$trimming$piso %||% "-") else "nenhum"),
       sprintf("  criterios          : %s", veredito)
     ),
     file.path(dir_saida, "ambiente.txt")
