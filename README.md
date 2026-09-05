@@ -52,7 +52,7 @@ gerados a partir do que está versionado:
 | arquivo                       | conteúdo                                                  |
 | ----------------------------- | --------------------------------------------------------- |
 | `<id>_pesquisa_<AAAA>_<MM>_<DD>.json` | os cruzamentos prontos: a fonte única dos gráficos e da plataforma |
-| `<prefixo>_localidades.xlsx` | entrevistas por município                                |
+| `<prefixo>_localidades.xlsx` | entrevistas por município, com códigos IBGE e TSE e tipo de município |
 | `<prefixo>_microdados.xlsx`  | uma linha por respondente, com o peso calibrado           |
 | `diagnostico-margens.csv`   | margem ponderada contra a cota, célula por célula        |
 | `ambiente.txt`              | versões, margens usadas e o veredito da onda              |
@@ -189,9 +189,43 @@ Origem: [dadosabertos.tse.jus.br](https://dadosabertos.tse.jus.br/dataset/result
 (Resultados, 2022). Depois rode
 [scripts/gerar-margens-tse.R](scripts/gerar-margens-tse.R).
 
+A conjunta da PNADc é gravada no nível fino — idade em 5 faixas, renda em 5, tipo
+de município — com as faixas grossas ao lado. O raking soma as grossas; a
+propensão, abaixo, lê as finas.
+
 **TSE depois da PNADc.** A população de cada célula do TSE é a população
 regional da PNADc distribuída pelo percentual de voto do TSE naquela região;
 assim `reg_std` tem a mesma distribuição nas duas fontes.
+
+## Propensão a participação
+
+Etapa opcional, por onda, em `config.yaml`:
+
+```yaml
+propensao:
+  ativo: false
+  variaveis: [sex_std, age, edu_std, inc_std_2, reg_std, tipo_mun_std]
+  semente: 1234
+  arvores: 1000
+  no_minimo: 20
+  peso_fallback: 1
+```
+
+Ligada, o peso inicial do `svydesign` deixa de ser uniforme: um random forest
+(`ranger`) empilha o painel contra a conjunta da PNADc e devolve `(1 − p) / p`,
+com `p` a probabilidade fora da amostra de cada respondente ter participado,
+normalizado para média 1. O raking segue igual depois. A população vem da mesma
+conjunta que as margens usam, sem download na rodada; as `variaveis` têm de
+existir nela e no painel. `ranger` só é exigido com `ativo: true`. O
+`ambiente.txt` registra se a etapa foi aplicada e, quando foi, o erro OOB e a
+faixa do peso inicial; os microdados ganham a coluna `peso_inicial`.
+
+Bloco ausente ou `ativo: false`: o motor é idêntico ao de antes.
+
+Todo respondente é casado ao crosswalk `insumos/municipios_brasil.yaml` por
+município e UF; município desconhecido interrompe a onda. Daí saem `codigo_ibge`,
+`codigo_tse`, `populacao_ibge` e o tipo de município (Capital / RM / Interior),
+nos microdados e em `localidades.xlsx`.
 
 ## Estrutura
 
@@ -200,7 +234,8 @@ pesquisa-palver/
 ├── R/                          # o motor, igual para todas as ondas
 │   ├── onda.R                  #   fluxo; único source() dos scripts
 │   ├── calibracao.R            #   xlsx -> base -> alvos -> raking -> aparo
-│   └── resultados.R            #   estimativas, o JSON, microdados, ambiente
+│   ├── resultados.R            #   estimativas, o JSON, microdados, ambiente
+│   └── propensao.R             #   peso inicial por propensão (opcional)
 ├── scripts/                    # abra no RStudio, preencha o topo e Source
 │   ├── rodar-onda.R
 │   ├── gerar-margens-pnadc.R
@@ -212,7 +247,9 @@ pesquisa-palver/
 ├── margens/                    # alvos populacionais, compartilhados
 │   ├── pnadc-2024-visita5.yaml
 │   └── tse-2022-turno2.yaml
-├── insumos/tse/                # microdados do TSE (fora do git)
+├── insumos/
+│   ├── municipios_brasil.yaml  #   crosswalk de municípios, versionado
+│   └── tse/                    #   microdados do TSE (fora do git)
 └── ondas/2026-08-10/           # pasta = data de divulgação
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
