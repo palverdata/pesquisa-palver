@@ -1,0 +1,110 @@
+{
+  "instrucao": "Você codifica respostas de uma pergunta aberta. A pergunta foi: \"Na sua opinião, qual é o maior problema do Brasil hoje em dia?\" Cada entrada é o texto que um respondente digitou, de uma palavra a um parágrafo. Devolva a categoria que descreve o tema principal do que a pessoa escreveu. As categorias são: Corrupção; Segurança pública e violência; Economia, custo de vida e desemprego; Saúde; Educação; Desigualdade e pobreza; Política, Congresso e partidos; Justiça e Judiciário; Lula e o governo atual; Bolsonarismo e extrema direita; Esquerda e comunismo; Desinformação e imprensa; Costumes, religião e família; Outro; Indeciso / Não Respondeu. Responda só com a categoria, escrita exatamente como acima, numa linha.",
+  "regras": [
+    "Codifique o tema, não a palavra.",
+    "Quando o texto traz mais de um tema, escolha o que aparece primeiro e com mais peso.",
+    "Quando o texto nomeia uma pessoa ou um grupo político como o problema, codifique o grupo.",
+    "Crime, violência, tráfico, facção e polícia vão para segurança pública.",
+    "STF, ministro e decisão judicial vão para Justiça. Corrupção de político vai para Corrupção.",
+    "Congresso, políticos em geral e sistema partidário vão para política e partidos.",
+    "Fake news, imprensa, redes sociais e discurso de ódio vão para desinformação.",
+    "Aborto, drogas, gênero, religião e família vão para costumes.",
+    "Comunismo, socialismo e \"a esquerda\" como problema vão para esquerda e comunismo.",
+    "Tema real que nenhuma categoria cobre vai para \"Outro\".",
+    "Vazio, ilegível e resposta que não nomeia tema vão para não-resposta. \"Tudo\" não é um tema."
+  ],
+  "exemplos": [
+    {
+      "entrada": "Corrupção",
+      "saida": "Corrupção"
+    },
+    {
+      "entrada": "A corrupção",
+      "saida": "Corrupção"
+    },
+    {
+      "entrada": "Corrupção do congresso nacional e das milícias, tráfico de armas, ...",
+      "saida": "Corrupção"
+    },
+    {
+      "entrada": "Segurança pública",
+      "saida": "Segurança pública e violência"
+    },
+    {
+      "entrada": "Criminalidade",
+      "saida": "Segurança pública e violência"
+    },
+    {
+      "entrada": "Crime organizado",
+      "saida": "Segurança pública e violência"
+    },
+    {
+      "entrada": "Economia",
+      "saida": "Economia, custo de vida e desemprego"
+    },
+    {
+      "entrada": "Econômico,  preços altos, inflação alta e salario mínimo baixo. Povo endividado sem poder de compra",
+      "saida": "Economia, custo de vida e desemprego"
+    },
+    {
+      "entrada": "Inflação",
+      "saida": "Economia, custo de vida e desemprego"
+    },
+    {
+      "entrada": "Saúde",
+      "saida": "Saúde"
+    },
+    {
+      "entrada": "Educação",
+      "saida": "Educação"
+    },
+    {
+      "entrada": "Desigualdade social",
+      "saida": "Desigualdade e pobreza"
+    },
+    {
+      "entrada": "Os políticos que só trabalham em causa própria e sempre defendem os bandidos.",
+      "saida": "Política, Congresso e partidos"
+    },
+    {
+      "entrada": "O congresso Nacional travando os projetos como e o caso da escala 6x1.",
+      "saida": "Política, Congresso e partidos"
+    },
+    {
+      "entrada": "Lula",
+      "saida": "Lula e o governo atual"
+    },
+    {
+      "entrada": "O PT",
+      "saida": "Lula e o governo atual"
+    },
+    {
+      "entrada": "O presidente",
+      "saida": "Lula e o governo atual"
+    },
+    {
+      "entrada": "A extrema direita",
+      "saida": "Bolsonarismo e extrema direita"
+    },
+    {
+      "entrada": "Família Bolsonaro",
+      "saida": "Bolsonarismo e extrema direita"
+    },
+    {
+      "entrada": "Bolsonarismo",
+      "saida": "Bolsonarismo e extrema direita"
+    },
+    {
+      "entrada": "Desinformação e confundir liberdade de expressão com passe livre para disparar discursos de ódio",
+      "saida": "Desinformação e imprensa"
+    },
+    {
+      "entrada": "Tudo",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": ".",
+      "saida": "Indeciso / Não Respondeu"
+    }
+  ]
+}

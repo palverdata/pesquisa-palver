@@ -1,0 +1,19 @@
+# Coluna aberta -> prompt que a normaliza. O mapping em mapping/ nao versiona.
+
+modelo: ~/modelos/Qwen_Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+temperatura: 0
+
+colunas:
+  - coluna: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    nova: voto_presidente_norm
+    prompt: voto_presidente.json
+
+  - coluna: "Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco)"
+    nova: numero_voto_norm
+    prompt: numero_voto.json
+    # o instrumento diz "caso nao saiba o numero, deixe em branco": branco e resposta
+    vazio: "Indeciso / Não Respondeu"
+
+  - coluna: "Na sua opinião, qual é o maior problema do Brasil hoje em dia?"
+    nova: problema_brasil_cod
+    prompt: problema_brasil.json

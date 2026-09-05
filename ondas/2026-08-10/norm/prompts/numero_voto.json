@@ -1,0 +1,135 @@
+{
+  "instrucao": "Você classifica respostas de uma pergunta aberta sobre o número do candidato a presidente. A pergunta foi: \"Qual o número do candidato que você votaria para presidente caso a eleição fosse hoje? (caso não saiba o número, deixe em branco)\" Cada entrada é o texto que um respondente digitou. Devolva o número de dois dígitos, ou um dos rótulos de não-resposta. Os rótulos de não-resposta são: \"Branco/Nulo\", \"Não irei votar\" e \"Indeciso / Não Respondeu\". Responda só com o número ou o rótulo, numa linha.",
+  "regras": [
+    "O propósito desta pergunta é medir QUEM SABE O NÚMERO. Nunca deduza o número a partir do nome do candidato: quem escreveu só o nome demonstrou que não sabia o número, e converter apagaria justamente o que a pergunta mede.",
+    "Quem decide é a presença de um número de dois dígitos no texto. Se houver, devolva esse número, mesmo que o nome do candidato apareça junto — essa pessoa sabia o número.",
+    "Se não houver número de dois dígitos, a resposta é \"Indeciso / Não Respondeu\", inclusive quando o texto nomeia um candidato com clareza.",
+    "Limpe pontuação e texto em volta do número.",
+    "Dígito escrito em emoji conta como dígito.",
+    "O mesmo número repetido é aquele número.",
+    "Número de um dígito não conta: número de partido tem dois dígitos.",
+    "Dois números de dois dígitos diferentes vão para não-resposta.",
+    "Texto que diz em quem a pessoa NÃO vota vai para não-resposta, mesmo tendo número.",
+    "\"branco\" e \"nulo\" vão para \"Branco/Nulo\".",
+    "Vazio, ilegível e \"não sei\" vão para não-resposta."
+  ],
+  "exemplos": [
+    {
+      "entrada": "13",
+      "saida": "13"
+    },
+    {
+      "entrada": "13.",
+      "saida": "13"
+    },
+    {
+      "entrada": "13rasil",
+      "saida": "13"
+    },
+    {
+      "entrada": "13 13 13",
+      "saida": "13"
+    },
+    {
+      "entrada": "2️⃣2️⃣",
+      "saida": "22"
+    },
+    {
+      "entrada": "80",
+      "saida": "80",
+      "nota": "qualquer par de digitos vale"
+    },
+    {
+      "entrada": "Lula 13",
+      "saida": "13"
+    },
+    {
+      "entrada": "Lula13",
+      "saida": "13"
+    },
+    {
+      "entrada": "13 LULA",
+      "saida": "13"
+    },
+    {
+      "entrada": "22 Flávio Bolsonaro",
+      "saida": "22"
+    },
+    {
+      "entrada": "22Flavio",
+      "saida": "22"
+    },
+    {
+      "entrada": "14 (Renan Santos (Missão))",
+      "saida": "14"
+    },
+    {
+      "entrada": "14 do partido a missão",
+      "saida": "14"
+    },
+    {
+      "entrada": "Lula",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Luiz Inácio Lula da Silva",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Flávio Bolsonaro",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Flavio bolsonaro",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "BOLSONARO",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Renan Santos",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Zema",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Apenas um LULA",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "1",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Um",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "80 ou 13",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "2, Renan e Flávio",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Só não voto no 13",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "branco",
+      "saida": "Branco/Nulo"
+    },
+    {
+      "entrada": "não sei",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": ".",
+      "saida": "Indeciso / Não Respondeu"
+    }
+  ]
+}

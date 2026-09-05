@@ -5,51 +5,43 @@
 .Rprofile.local
 .Renviron
 .Rproj.user/
+.Rbuildignore
 
-# Microdados de pesquisa nunca entram no repo (ver politica de dados no README).
+# Ver a politica de dados no README.
 ondas/*/dados/*
 !ondas/*/dados/.gitkeep
 
-# Resultados: gerados pelo motor a partir do que esta versionado.
 ondas/*/output/*
 !ondas/*/output/.gitkeep
 
-# Microdados de origem das margens: grandes, publicos e reprodutiveis pela fonte
-# oficial. O que se versiona e o derivado, em margens/.
+# O que se versiona e o derivado, em margens/.
 insumos/**
 !insumos/*/
 !insumos/*/.gitkeep
 
-# Formatos de microdado, em qualquer lugar
 *.sav
 *.dta
 *.rds
 *.RDS
 
-# CSV bruto de pesquisa deixado fora de ondas/*/dados/ por engano
-/survey-*.csv
-
 /00_RProject/
 
-# Sistema operacional e configuracao de editor
 .DS_Store
 Thumbs.db
 .claude/
 
-# Microdados deixados na raiz
 /*.xlsx
 /*.csv
-
-# JSON de resultado deixado na raiz; o lugar dele e ondas/<onda>/output/
 /*.json
 
-# Paradata da onda: mesmos respondentes do export de dados/, com colunas de
-# fingerprint, ip_hash e user_agent. Sensivel, nunca versionado.
-ondas/*/paradata/*
-!ondas/*/paradata/.gitkeep
-
-/testes/
-
-/experimentos/
-
 /docs/
+
+# O mapping e resposta individual.
+ondas/*/norm/mapping/
+
+# Ambiente Python da normalizacao.
+normalizacao/.venv/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
