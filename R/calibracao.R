@@ -286,10 +286,7 @@ aplicar_derivada <- function(base, nome, spec) {
 # GEOGRAFIA (MUNICIPIOS)
 # ==============================================================================
 
-# Crosswalk curado de municipio (codigo IBGE, codigo TSE, populacao,
-# classificacao_pnadc) -- ver insumos/municipios_brasil.yaml. classificacao_pnadc
-# foi construida para bater com a mesma definicao de Capital/Regiao Metropolitana/
-# Interior que a PNADc usa via Capital/RM_RIDE (ver R/propensao.R).
+# Crosswalk curado: codigo IBGE, codigo TSE, populacao e Capital/RM/Interior.
 carregar_municipios <- function(caminho = "insumos/municipios_brasil.yaml") {
 
   municipios <- ler_yaml(caminho)$municipios %>%
@@ -303,11 +300,7 @@ carregar_municipios <- function(caminho = "insumos/municipios_brasil.yaml") {
   municipios
 }
 
-# Grafias do municipio que a plataforma de coleta usa e que divergem do IBGE --
-# particularidade da plataforma, não da onda, por isso mora aqui e não em
-# questionario.yaml. Verificado uma a uma contra insumos/municipios_brasil.yaml
-# (nao e so um reaproveitamento as cegas de uma lista antiga: duas ou tres grafias
-# que pareciam precisar de correcao na verdade ja batiam com o crosswalk atual).
+# Grafias da plataforma de coleta que divergem do IBGE.
 correcoes_municipio <- tibble::tribble(
   ~uf,  ~de,                          ~para,
   "SC", "PIÇARRAS",                   "BALNEÁRIO PIÇARRAS",
@@ -335,10 +328,7 @@ correcoes_municipio <- tibble::tribble(
   "GO", "SÃO LUÍZ DO NORTE",          "SÃO LUIZ DO NORTE"
 )
 
-# Casa a base do painel contra o crosswalk por municipio + UF e traz codigo_ibge,
-# codigo_tse, populacao_ibge e tipo_mun_std (Capital/RM/Interior, mesma escala do
-# lado da PNADc em R/propensao.R). Municipio sem casamento e erro, nunca NA
-# silencioso -- o painel so deveria trazer municipios validos do IBGE.
+# Municipio sem casamento e erro, nunca NA silencioso.
 padronizar_geografia <- function(base, municipios) {
 
   municipio_std <- toupper(base$municipio)
@@ -348,22 +338,19 @@ padronizar_geografia <- function(base, municipios) {
   corrigir <- !is.na(idx_correcao)
   municipio_std[corrigir] <- correcoes_municipio$para[idx_correcao[corrigir]]
 
-  # DF e um unico municipio (Brasilia) para o IBGE/TSE, mas a plataforma reporta
-  # a Regiao Administrativa (Taguatinga, Ceilandia, Gama etc.) como municipio.
+  # a plataforma reporta a Regiao Administrativa do DF como municipio
   municipio_std[base$uf == "DF"] <- "BRASÍLIA"
 
   chave <- paste(municipio_std, base$uf)
   idx <- match(chave, municipios$.chave)
 
-  # sem_casamento so e computado dentro do if: paste0() com separador de tamanho 1
-  # NAO devolve character(0) quando os dois vetores reciclados sao vazios -- devolve
-  # "/" (o separador reciclado contra "") -- calcular fora do if faria o stop()
-  # disparar mesmo com todo mundo casado.
+  # paste0() de vetores vazios devolve "/", nao character(0): so dentro do if
   if (any(is.na(idx))) {
     sem_casamento <- unique(paste0(base$municipio[is.na(idx)], "/",
                                    base$uf[is.na(idx)]))
-    stop(length(sem_casamento), " municipio/UF do painel sem casamento no crosswalk ",
-         "(mesmo apos as correcoes de grafia conhecidas em correcoes_municipio):\n  ",
+    stop(length(sem_casamento),
+         " municipio/UF do painel sem casamento no crosswalk ",
+         "(mesmo apos as correcoes conhecidas em correcoes_municipio):\n  ",
          paste(sem_casamento, collapse = "\n  "))
   }
 
@@ -540,12 +527,13 @@ rake_weights <- function(dados, alvos, tolerancia = 1e-7, max_iteracoes = 200) {
 
   conferir_celulas(completos, alvos, por_alvo)
 
-  # Sem propensao configurada (ver R/propensao.R), completos nunca tem peso_inicial
-  # e o comportamento e identico ao de sempre: peso uniforme antes do raking.
-  peso_formula <- if ("peso_inicial" %in% names(completos)) ~peso_inicial else ~1
+  # sem propensao nao ha peso_inicial, e o ponto de partida segue uniforme
+  tem_propensao <- "peso_inicial" %in% names(completos)
+  peso_formula <- if (tem_propensao) ~peso_inicial else ~1
 
   desenho <- survey::calibrate(
-    design = survey::svydesign(ids = ~1, data = completos, weights = peso_formula),
+    design = survey::svydesign(ids = ~1, data = completos,
+                               weights = peso_formula),
     formula = unname(purrr::map(
       por_alvo, ~ stats::as.formula(paste("~", paste(.x, collapse = " + ")))
     )),
