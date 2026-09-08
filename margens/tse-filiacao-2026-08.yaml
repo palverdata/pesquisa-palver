@@ -1,0 +1,99 @@
+meta:
+  fonte: TSE, perfil do eleitorado - filiacao partidaria
+  arquivo: perfil_filiacao_partidaria.csv
+  url: https://cdn.tse.jus.br/estatistica/sead/odsele/filiacao_partidaria/perfil_filiacao_partidaria.zip
+  ano_mes: '202608'
+  definicao: 'Filiados: soma de QT_FILIADO por partido; PL, PT e Missao tem nivel
+    proprio, os demais partidos somam em Outros filiados. Nao filiado: populacao 16+
+    da PNADc menos o total de filiados.'
+  derivado_de: margens/pnadc-2024-visita5.yaml
+  escala: contagem POPULACIONAL, no total nacional de margens/pnadc-2024-visita5.yaml
+    para poder entrar no raking ao lado das outras margens.
+  variaveis:
+  - filiacao_std
+  n_celulas: 5
+  n_pop: 166895914
+  n_filiados: 16122376
+  gerado_por: scripts/gerar-margens-filiacao.R
+  gerado_em: '2026-09-08'
+niveis:
+  filiacao_std:
+  - Não filiado
+  - PL
+  - PT
+  - Missão
+  - Outros filiados
+filiados_por_partido:
+- partido: MDB
+  filiados: 2018641
+- partido: PT
+  filiados: 1665676
+- partido: PP
+  filiados: 1285934
+- partido: PRD
+  filiados: 1280750
+- partido: PSDB
+  filiados: 1260423
+- partido: PDT
+  filiados: 1073069
+- partido: UNIÃO
+  filiados: 1067357
+- partido: PL
+  filiados: 955306
+- partido: PODE
+  filiados: 796910
+- partido: PSB
+  filiados: 639067
+- partido: REPUBLICANOS
+  filiados: 565839
+- partido: PSD
+  filiados: 466241
+- partido: CIDADANIA
+  filiados: 413584
+- partido: PCDOB
+  filiados: 383643
+- partido: SOLIDARIEDADE
+  filiados: 374209
+- partido: PV
+  filiados: 340466
+- partido: PSOL
+  filiados: 291251
+- partido: AVANTE
+  filiados: 243564
+- partido: MOBILIZA
+  filiados: 207080
+- partido: AGIR
+  filiados: 194426
+- partido: DC
+  filiados: 182753
+- partido: PRTB
+  filiados: 142809
+- partido: NOVO
+  filiados: 82108
+- partido: REDE
+  filiados: 55748
+- partido: DEMOCRATA
+  filiados: 55519
+- partido: MISSÃO
+  filiados: 29911
+- partido: UP
+  filiados: 16197
+- partido: PSTU
+  filiados: 14639
+- partido: PCB
+  filiados: 11759
+- partido: PCO
+  filiados: 7054
+- partido: PSC
+  filiados: 443
+conjunta:
+- filiacao_std: Não filiado
+  freq: 150773538
+- filiacao_std: PL
+  freq: 955306
+- filiacao_std: PT
+  freq: 1665676
+- filiacao_std: Missão
+  freq: 29911
+- filiacao_std: Outros filiados
+  freq: 13471483
