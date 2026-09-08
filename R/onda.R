@@ -101,6 +101,15 @@ rodar_onda <- function(onda) {
     base <- propensao$base
   }
 
+  # filiacao.ativo: a margem de filiacao partidaria entra no raking
+  if (isTRUE(cfg$filiacao$ativo)) {
+    if (is.null(cfg$margens$filiacao)) {
+      stop("filiacao.ativo exige margens.filiacao no config.yaml", call. = FALSE)
+    }
+    fontes$filiacao <- carregar_margens(cfg$margens$filiacao)
+    cfg$calibracao$margens <- c(cfg$calibracao$margens, list(list("filiacao_std")))
+  }
+
   alvos <- montar_alvos(fontes, cfg$calibracao$margens)
 
   fit <- rake_weights(base, alvos, cfg$calibracao$tolerancia,

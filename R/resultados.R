@@ -204,6 +204,9 @@ carregar_display <- function(caminho, onda) {
 
       questoes[[length(questoes) + 1]] <- list(
         variavel = variavel,
+        # `chave` e o nome no JSON; a variavel continua sendo a coluna
+        chave = if (is.null(q$chave)) variavel else
+          texto(q$chave, paste0("`chave` vazia -> ", variavel)),
         rotulo = texto(q$rotulo, paste0("questao sem rotulo -> ", variavel)),
         secao = titulo,
         harmonizar = q$harmonizar,
@@ -221,19 +224,36 @@ carregar_display <- function(caminho, onda) {
     }
   }
 
+  chaves <- purrr::map_chr(questoes, "chave")
+  if (anyDuplicated(chaves)) {
+    stop("display.yaml: `chave` repetida -> ",
+         paste(unique(chaves[duplicated(chaves)]), collapse = ", "),
+         call. = FALSE)
+  }
+
   recortes <- purrr::map(disp$recortes, function(r) {
     variavel <- texto(r$variavel, "recorte sem variavel")
     if (!is.null(r$harmonizar) && length(r$harmonizar$mapa) == 0) {
       stop("display.yaml: harmonizar sem `mapa` -> ", variavel, call. = FALSE)
     }
-    if (!is.null(r$mesclar) || !is.null(r$nota)) {
-      stop("display.yaml: `mesclar` e `nota` valem so em questao, nao em ",
-           "recorte -> ", variavel, call. = FALSE)
+    if (!is.null(r$nota)) {
+      stop("display.yaml: `nota` vale so em questao, nao em recorte -> ",
+           variavel, call. = FALSE)
+    }
+    if (!is.null(r$mesclar)) {
+      faltando <- setdiff(c("variavel", "mapa"), names(r$mesclar))
+      if (length(faltando) > 0 || length(r$mesclar$mapa) == 0) {
+        stop("display.yaml: `mesclar` do recorte ", variavel, " sem ",
+             paste(c(faltando, if (length(r$mesclar$mapa) == 0) "mapa"),
+                   collapse = " e "), call. = FALSE)
+      }
     }
     list(
       variavel = variavel,
       rotulo = texto(r$rotulo, paste0("recorte sem rotulo -> ", variavel)),
       harmonizar = r$harmonizar,
+      mesclar = if (is.null(r$mesclar)) NULL else
+        list(variavel = r$mesclar$variavel, mapa = unlist(r$mesclar$mapa)),
       excluir = if (length(r$excluir) == 0) NULL else unlist(r$excluir),
       grupos = if (length(r$grupos) == 0) NULL else unlist(r$grupos)
     )
@@ -501,7 +521,7 @@ montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
 
   fora <- list(
     wave_id = wave_id,
-    question_key = q$variavel,
+    question_key = q$chave,
     question_label = q$rotulo,
     question_statement = statement,
     question_section = q$secao,
@@ -602,6 +622,13 @@ montar_json <- function(fit, qst, display, cfg) {
          "precisa dela para wave.id e wave.sequence.", call. = FALSE)
   }
   wave_id <- sprintf("%02d", as.integer(sequencia))
+
+  # a margem de filiacao entra pelo toggle, nao pelo display: o resumo a recebe aqui
+  if (isTRUE(cfg$filiacao$ativo) &&
+      !"filiacao_std" %in% purrr::map_chr(display$amostra, "variavel")) {
+    display$amostra <- c(display$amostra,
+                         list(list(variavel = "filiacao_std", rotulo = "Filiação partidária")))
+  }
 
   conferir_resumo(display$amostra, cfg$calibracao$margens)
 
@@ -705,7 +732,7 @@ montar_json <- function(fit, qst, display, cfg) {
     answers <- ordenar_respostas(est_total, q, q$niveis,
                                  paste("questao", q$variavel))
 
-    crosstabs[[paste0(q$variavel, "|")]] <- montar_cruzamento(
+    crosstabs[[paste0(q$chave, "|")]] <- montar_cruzamento(
       q, NULL, design_q, nivel, answers, wave_id, statement)
 
     for (recorte in display$recortes) {
@@ -715,12 +742,15 @@ montar_json <- function(fit, qst, display, cfg) {
         stop("combinacao declarada sem cruzamento -> ", q$variavel, " x ",
              recorte$variavel, call. = FALSE)
       }
-      crosstabs[[paste0(q$variavel, "|", recorte$variavel)]] <- cruzamento
+      crosstabs[[paste0(q$chave, "|", recorte$variavel)]] <- cruzamento
     }
 
-    entrada <- list(key = q$variavel, label = q$rotulo, statement = statement,
+    entrada <- list(key = q$chave, label = q$rotulo, statement = statement,
                     section = q$secao)
     if (!is.null(q$nota)) entrada$note <- q$nota
+    # texto aberto codificado (tipo tabulada) e espontanea; o resto, estimulada
+    entrada$tipo <- if (identical(qst$questoes[[q$variavel]]$tipo, "tabulada"))
+      "espontanea" else "estimulada"
     questions[[length(questions) + 1]] <- entrada
   }
 
@@ -787,8 +817,8 @@ conferir_cores <- function(cores, crosstabs) {
 conferir_json <- function(estrutura, display, tolerancia = 1e-9) {
 
   esperadas <- purrr::map(display$questoes, function(q) {
-    c(paste0(q$variavel, "|"),
-      paste0(q$variavel, "|", purrr::map_chr(display$recortes, "variavel")))
+    c(paste0(q$chave, "|"),
+      paste0(q$chave, "|", purrr::map_chr(display$recortes, "variavel")))
   })
 
   faltando <- setdiff(unlist(esperadas), names(estrutura$crosstabs))
@@ -1059,6 +1089,7 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       "margens:",
       sprintf("  %s", cfg$margens$pnadc),
       sprintf("  %s", cfg$margens$tse %||% "(sem margem de voto)"),
+      if (isTRUE(cfg$filiacao$ativo)) sprintf("  %s (filiacao)", cfg$margens$filiacao),
       "",
       "propensao (peso inicial):",
       if (is.null(fit$propensao)) "  nao aplicada (peso uniforme)" else c(

@@ -102,14 +102,16 @@ As chaves:
 | `amostra` | topo | as variáveis do resumo que abre a divulgação; sai como `sample` |
 | `cores` | topo | rótulo → hex; sai como `colors` |
 | `rotulo` | questão, recorte | o nome curto na tela |
+| `chave` | questão | nome da questão no JSON (`key` e prefixo de `pergunta\|recorte`) quando a variável não serve — ex.: `lula_renan` para um cenário cuja numeração muda de onda para onda; default é a variável |
 | `harmonizar` | questão, recorte | agrupa níveis antes de estimar (`mapa`, e `resto` opcional) |
 | `ordenar` | questão | `decrescente` ordena por pontuação; `declarado` é o default |
 | `fixar_no_fim` | questão | respostas que saem da ordenação e vão para o fim |
 | `respostas` | questão | ordem explícita; não convive com `ordenar` |
 | `grupos` | recorte | ordem explícita das categorias |
 | `base` | questão | restringe a quem respondeu certo valor noutra variável |
-| `mesclar` | questão | leva para a questão quem outra variável diz não ter resposta própria (`variavel`, `mapa`); não convive com `base` |
+| `mesclar` | questão, recorte | leva para a questão (ou para o grupo do recorte) quem outra variável diz não ter resposta própria (`variavel`, `mapa`); não convive com `base` |
 | `nota` | questão | texto livre que sai como `note` na entrada da questão no JSON |
+| — | — | toda questão sai com `tipo` em `questions[]`: `espontanea` se a origem é texto aberto codificado (`tipo: tabulada` no questionário), `estimulada` nas demais; nada a declarar |
 | `excluir` | recorte | tira grupos da tela e da base |
 
 O enunciado não se repete no `display.yaml` — vem do `questionario.yaml`, do
@@ -226,6 +228,25 @@ Todo respondente é casado ao crosswalk `insumos/municipios_brasil.yaml` por
 município e UF; município desconhecido interrompe a onda. Daí saem `codigo_ibge`,
 `codigo_tse`, `populacao_ibge` e o tipo de município (Capital / RM / Interior),
 nos microdados e em `localidades.xlsx`.
+
+## Filiação partidária
+
+Onda que pergunta filiação pode calibrar também por ela:
+
+```yaml
+margens:
+  filiacao: "margens/tse-filiacao-2026-08.yaml"
+filiacao:
+  ativo: true
+```
+
+Com `ativo: true` o motor acrescenta a margem `filiacao_std` (Não filiado, PL, PT,
+Missão, Outros filiados) ao raking e ao resumo da amostra; o questionário precisa
+da derivada `filiacao_std`. Bloco ausente ou `ativo: false`: nada muda. A margem
+vem de `scripts/gerar-margens-filiacao.R`, que lê o perfil de filiação do TSE
+(`insumos/tse/perfil_filiacao_partidaria.csv`, 3,5 GB, fora do git; origem:
+<https://cdn.tse.jus.br/estatistica/sead/odsele/filiacao_partidaria/perfil_filiacao_partidaria.zip>)
+e põe os não filiados como população da PNADc menos filiados.
 
 ## Estrutura
 

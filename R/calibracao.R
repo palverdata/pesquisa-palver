@@ -253,7 +253,8 @@ aplicar_derivada <- function(base, nome, spec) {
     voto <- as.character(base[[spec$origem_voto]])
     idx <- match(voto, names(spec$mapa))
 
-    novo <- rep(NA_character_, nrow(base))
+    # `resto`: valor observado fora do mapa (ex.: partido sem nivel proprio)
+    novo <- rep(spec$resto %||% NA_character_, nrow(base))
     novo[!is.na(idx)] <- unlist(spec$mapa)[idx[!is.na(idx)]]
     novo[is.na(voto)] <- spec$vazio_para
     novo[as.character(base[[spec$filtro_comparecimento$variavel]]) ==
@@ -269,6 +270,18 @@ aplicar_derivada <- function(base, nome, spec) {
     for (regra in rev(spec$ordem_avaliacao)) {
       novo[as.character(base[[regra$variavel]]) %in% unlist(spec$limiar)] <-
         regra$valor
+    }
+
+  } else if (identical(spec$tipo, "faixas")) {
+
+    exige(spec$origem)
+    valor <- suppressWarnings(as.numeric(as.character(base[[spec$origem]])))
+    novo <- rep(NA_character_, nrow(base))
+
+    # da ultima faixa para a primeira: a menor faixa em que o valor cabe vence
+    for (faixa in rev(spec$faixas)) {
+      cabe <- !is.na(valor) & valor <= (faixa$ate %||% Inf)
+      novo[cabe] <- faixa$rotulo
     }
 
   } else {
@@ -325,7 +338,15 @@ correcoes_municipio <- tibble::tribble(
   "MT", "POXORÉO",                    "POXORÉU",
   "PE", "ITAMARACÁ",                  "ILHA DE ITAMARACÁ",
   "PA", "SANTA ISABEL DO PARÁ",       "SANTA IZABEL DO PARÁ",
-  "GO", "SÃO LUÍZ DO NORTE",          "SÃO LUIZ DO NORTE"
+  "GO", "SÃO LUÍZ DO NORTE",          "SÃO LUIZ DO NORTE",
+  "ES", "MARATAIZES",                 "MARATAÍZES",
+  "SP", "IPAUÇU",                     "IPAUSSU",
+  "CE", "JIJOCA DE JERICOAROARA",     "JIJOCA DE JERICOACOARA",
+  "PA", "SÃO CAETANO DE ODIVELA",     "SÃO CAETANO DE ODIVELAS",
+  "RS", "RESTINGA SECA",              "RESTINGA SÊCA",
+  "RS", "CHIAPETA",                   "CHIAPETTA",
+  "RS", "MAÇAMBARA",                  "MAÇAMBARÁ",
+  "ES", "ATILIO VIVACQUA",            "ATÍLIO VIVÁCQUA"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.
