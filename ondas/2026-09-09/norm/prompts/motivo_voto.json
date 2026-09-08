@@ -1,0 +1,212 @@
+{
+  "instrucao": "Você codifica respostas de uma pergunta aberta. A pergunta foi: \"Em poucas palavras, explique por que você votaria na opção que você acabou de escolher?\", feita logo depois de o respondente escolher um candidato (ou branco, nulo, indeciso) em um cenário de eleição presidencial. Cada entrada começa, entre colchetes, com a opção que o respondente escolheu no cenário, seguida do texto que ele digitou, de uma palavra a um parágrafo. Devolva a categoria que descreve o motivo principal do voto. As categorias são: Propostas e preparo; Honestidade e combate à corrupção; Mudança e renovação; Avaliação positiva do governo Lula; Legado de Bolsonaro; Rejeição a Lula e ao PT; Rejeição a Bolsonaro e à direita; Rejeição aos dois candidatos; Voto útil e chance de vitória; Causas sociais e defesa do povo; Economia, emprego e custo de vida; Segurança pública; Valores, religião e família; Democracia, liberdade e soberania; Confiança e identificação com o candidato; Identificação ideológica; Melhor opção, sem razão específica; Outro; Indeciso / Não Respondeu. Responda só com a categoria, escrita exatamente como acima, numa linha.",
+  "regras": [
+    "Codifique o motivo, não a palavra.",
+    "Quando o texto traz mais de um motivo, escolha o que aparece primeiro e com mais peso.",
+    "Elogio genérico sem dizer por quê (\"é o melhor\", \"melhor opção\", \"melhor para o Brasil\", \"melhor candidato\") vai para melhor opção sem razão específica.",
+    "Propostas, plano de governo, competência, experiência, preparo e inteligência vão para propostas e preparo.",
+    "Não ser corrupto, ficha limpa, honestidade, não ter rabo preso e \"chega de corrupção\" vão para honestidade e combate à corrupção.",
+    "Mudança, renovação, alguém novo ou de fora da política, acabar com a polarização e \"salvar o Brasil\" vão para mudança e renovação.",
+    "Gestão, feitos e continuidade do governo Lula (fez pelo povo, pelo Nordeste, sem fome, bom governo) vão para avaliação positiva do governo Lula.",
+    "Bolsonaro pai ter feito um bom governo, continuar o trabalho do Bolsonaro e apoio à família Bolsonaro vão para legado de Bolsonaro. \"Continuar o trabalho\" de quem escolheu Lula é avaliação positiva do governo Lula; de quem escolheu Flávio é legado de Bolsonaro.",
+    "A opção entre colchetes serve só para saber a quem o texto se refere. Ataque ao adversário (\"o outro\", \"ladrão\", \"bandido\", \"não presta\", \"tirar do poder\") de quem escolheu Lula é rejeição a Bolsonaro e à direita; de quem escolheu Flávio Bolsonaro ou outro candidato de direita é rejeição a Lula e ao PT. Tirar o PT, Lula ladrão e a esquerda acabando com o país vão para rejeição a Lula e ao PT; ataque a Bolsonaro, à família Bolsonaro, à extrema direita ou a golpista vai para rejeição a Bolsonaro e à direita.",
+    "Não use a opção entre colchetes para adivinhar o motivo: texto que só elogia sem dizer por quê continua melhor opção sem razão específica, e texto sem motivo continua não-resposta, seja qual for a opção.",
+    "Os dois são corruptos, nenhum me representa, todos iguais e menos pior vão para rejeição aos dois candidatos.",
+    "Único com chance de ganhar, de ir ao segundo turno ou de derrotar o adversário vai para voto útil e chance de vitória.",
+    "Defesa dos pobres, dos trabalhadores, das minorias, governo popular e causas sociais vão para causas sociais e defesa do povo.",
+    "Confio nele, gosto dele, me representa, é meu candidato, coragem, liderança e carisma vão para confiança e identificação com o candidato.",
+    "\"Sou de direita\", \"sou de esquerda\", \"sou conservador\", \"sou progressista\" e qualquer posicionamento ideológico do próprio respondente vão para identificação ideológica. Rejeição à direita só quando o texto ataca a direita.",
+    "Motivo real que nenhuma categoria cobre vai para \"Outro\".",
+    "Vazio, ilegível, só o nome ou o número do candidato (\"Lula\", \"22\"), \"porque\", \"não sei\", \"ainda não escolhi\", \"não são minhas escolhas\" e texto que só remete à resposta anterior (\"mesmo motivo\", \"idem\") vão para não-resposta."
+  ],
+  "exemplos": [
+    {
+      "entrada": "[Renan Santos (Missão)] Melhores propostas",
+      "saida": "Propostas e preparo"
+    },
+    {
+      "entrada": "[Renan Santos (Missão)] Único que tem propostas concretas e plano de implementação. Não tem rabo preso com ninguém.",
+      "saida": "Propostas e preparo"
+    },
+    {
+      "entrada": "[Renan Santos (Missão)] Por que é o mais preparado",
+      "saida": "Propostas e preparo"
+    },
+    {
+      "entrada": "[Renan Santos (Missão)] Pq e ficha limpa! E temos q mudar os políticos para q o Brasil mude para melhor",
+      "saida": "Honestidade e combate à corrupção"
+    },
+    {
+      "entrada": "[Escritor Augusto Cury (Avante)] Quero mudança",
+      "saida": "Mudança e renovação"
+    },
+    {
+      "entrada": "[Escritor Augusto Cury (Avante)] Terminar a polaridade",
+      "saida": "Mudança e renovação"
+    },
+    {
+      "entrada": "[Lula (PT)] Gostei da gestão, foi um bom governo até então, taxas mais baixas entre outros pontos",
+      "saida": "Avaliação positiva do governo Lula"
+    },
+    {
+      "entrada": "[Lula (PT)] Por várias coisas que ele fez pelo o nordeste",
+      "saida": "Avaliação positiva do governo Lula"
+    },
+    {
+      "entrada": "[Lula (PT)] Porque Bolsonaro fez um bom mandato sendo presidente espero que o filho seja também",
+      "saida": "Legado de Bolsonaro"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Quero limpar o lixo do Brasil (PT)",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Jamais votaria no lula ladrao",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Lula (PT)] Flávio Bolsonaro deveria inclusive estar preso, junto com toda a família doentia dele.",
+      "saida": "Rejeição a Bolsonaro e à direita"
+    },
+    {
+      "entrada": "[Votaria em branco/nulo] Os dois são péssimos e corruptos",
+      "saida": "Rejeição aos dois candidatos"
+    },
+    {
+      "entrada": "[Lula (PT)] Porque é o único que tem chance de ir pra segundo turno com lula",
+      "saida": "Voto útil e chance de vitória"
+    },
+    {
+      "entrada": "[Lula (PT)] É único que tem um olhar pelos menos favorecidos",
+      "saida": "Causas sociais e defesa do povo"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Não dá mais, o país está quebrado, desemprego e tudo caro",
+      "saida": "Economia, emprego e custo de vida"
+    },
+    {
+      "entrada": "[Lula (PT)] Pela garantia da Soberania, e continuidade do crescimento do País.",
+      "saida": "Democracia, liberdade e soberania"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Voto pela liberdade, pela manutenção da constituição e sou totalmente contra o PT e a esquerda.",
+      "saida": "Democracia, liberdade e soberania"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Confiança",
+      "saida": "Confiança e identificação com o candidato"
+    },
+    {
+      "entrada": "[Lula (PT)] Melhor opção",
+      "saida": "Melhor opção, sem razão específica"
+    },
+    {
+      "entrada": "[Lula (PT)] Por que é o melhor para o Brasil",
+      "saida": "Melhor opção, sem razão específica"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Deus, pátria e família",
+      "saida": "Valores, religião e família"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Sou de direita",
+      "saida": "Identificação ideológica"
+    },
+    {
+      "entrada": "[Lula (PT)] Sou de esquerda",
+      "saida": "Identificação ideológica"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Sou conservador",
+      "saida": "Identificação ideológica"
+    },
+    {
+      "entrada": "[Lula (PT)] Derrotar a extrema direita",
+      "saida": "Rejeição a Bolsonaro e à direita"
+    },
+    {
+      "entrada": "[Escritor Augusto Cury (Avante)] Salvar o Brasil",
+      "saida": "Mudança e renovação"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Me representa",
+      "saida": "Confiança e identificação com o candidato"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Flávio Bolsonaro se mostrou muito preparado, não correu dos debates, tem um caráter maravilhoso",
+      "saida": "Propostas e preparo"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Meu voto no candidato Flávio Bolsonaro é para que o Brasil volte a ter Ordem e Progresso, principalmente tirar essa quadrilha do poder",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Flávio e a salvação do nosso país. O Brasil não resistirá a mais 4 anos de corrupção.",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Lula (PT)] Para evitar que a família bolsonaro volte ao poder.",
+      "saida": "Rejeição a Bolsonaro e à direita"
+    },
+    {
+      "entrada": "[Lula (PT)] Lula é o presidente que realmente conseguiu melhorar a vida do povo",
+      "saida": "Avaliação positiva do governo Lula"
+    },
+    {
+      "entrada": "[Lula (PT)] Menos bandido que o outro",
+      "saida": "Rejeição a Bolsonaro e à direita"
+    },
+    {
+      "entrada": "[Lula (PT)] Lula é disparado melhor que o ladrão do Flávio rachadinha",
+      "saida": "Rejeição a Bolsonaro e à direita"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Não voto em ladrão",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Pq o outro não presta",
+      "saida": "Rejeição a Lula e ao PT"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Por ser o candidato da direita",
+      "saida": "Identificação ideológica"
+    },
+    {
+      "entrada": "[Lula (PT)] Continuar o trabalho",
+      "saida": "Avaliação positiva do governo Lula"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Para dar continuidade",
+      "saida": "Legado de Bolsonaro"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Melhor opção",
+      "saida": "Melhor opção, sem razão específica"
+    },
+    {
+      "entrada": "[Votaria em branco/nulo] Os dois são candidatos ladrões",
+      "saida": "Rejeição aos dois candidatos"
+    },
+    {
+      "entrada": "[Lula (PT)] Porque",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "[Votaria em branco/nulo] Pq esse não são minhas escolhas",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] Pelas mesmas razões pontuadas na primeira resposta.",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "[Lula (PT)] Lula",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "[Flávio Bolsonaro (PL)] 22",
+      "saida": "Indeciso / Não Respondeu"
+    }
+  ]
+}

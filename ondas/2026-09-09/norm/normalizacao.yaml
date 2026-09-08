@@ -1,0 +1,25 @@
+# Coluna aberta -> prompt que a normaliza. O mapping em mapping/ nao versiona.
+
+modelo: ~/modelos/Qwen_Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+temperatura: 0
+
+colunas:
+  - coluna: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    nova: voto_presidente_norm
+    prompt: voto_presidente.json
+
+  # o mesmo prompt serve aos dois turnos. `contexto` e a opcao escolhida: sem ela o
+  # modelo nao sabe quem e "o outro" quando o texto ataca o adversario.
+  - coluna: "Em poucas palavras, explique por que você votaria, no 1º turno, na opção que você acabou de escolher?"
+    nova: motivo_voto_1t_cod
+    prompt: motivo_voto.json
+    contexto: "Se a eleição para presidente fosse acontecer hoje e estes fossem os candidatos, em quem você votaria? (cenário 2)"
+
+  - coluna: "Em poucas palavras, explique por que você votaria, no 2º turno, na opção que você acabou de escolher?"
+    nova: motivo_voto_2t_cod
+    prompt: motivo_voto.json
+    contexto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 1)"
+
+  - coluna: "Na sua opinião, qual é o maior problema que a sua família enfrenta hoje em dia?"
+    nova: problema_familia_cod
+    prompt: problema_familia.json

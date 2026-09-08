@@ -1,0 +1,121 @@
+{
+  "instrucao": "Você codifica respostas de uma pergunta aberta. A pergunta foi: \"Na sua opinião, qual é o maior problema que a sua família enfrenta hoje em dia?\" Cada entrada é o texto que um respondente digitou, de uma palavra a um parágrafo. Devolva a categoria que descreve o tema principal do que a pessoa escreveu. As categorias são: Custo de vida e inflação; Renda, dinheiro e dívidas; Desemprego e trabalho; Saúde; Segurança pública e violência; Educação; Moradia e transporte; Impostos; Governo e política; Relações e convivência familiar; Nenhum; Outro; Indeciso / Não Respondeu. Responda só com a categoria, escrita exatamente como acima, numa linha.",
+  "regras": [
+    "Se o texto menciona juros em qualquer posição, a categoria é renda, dinheiro e dívidas. Esta regra vale antes de todas as outras, inclusive a do primeiro tema.",
+    "Codifique o tema, não a palavra.",
+    "Quando o texto traz mais de um tema, escolha o que aparece primeiro e com mais peso.",
+    "Preços, cesta básica, inflação, poder de compra e tudo caro vão para custo de vida e inflação.",
+    "Falta de dinheiro, renda baixa, salário que não dá, dívidas e \"financeiro\" vão para renda, dinheiro e dívidas.",
+    "Desemprego, falta de emprego, trabalho precário e excesso de trabalho vão para desemprego e trabalho.",
+    "Doença, tratamento, plano de saúde, SUS, saúde mental e benefício por doença (BPC, INSS) vão para saúde.",
+    "Crime, violência, roubo, tráfico, medo e insegurança vão para segurança pública e violência.",
+    "Aluguel, casa própria, transporte, trânsito, saneamento e infraestrutura do bairro vão para moradia e transporte.",
+    "Lula, PT, Bolsonaro, governo, políticos, STF e ditadura como problema da família vão para governo e política.",
+    "Brigas, separação, distância, cuidado de idosos e filhos, convivência e falta de tempo com a família vão para relações e convivência familiar.",
+    "\"Nenhum\", \"não tenho\", \"nada\", \"graças a Deus nenhum\" vão para \"Nenhum\".",
+    "Tema real que nenhuma categoria cobre vai para \"Outro\".",
+    "Vazio, ilegível e resposta que não nomeia tema vão para não-resposta. \"Tudo\" não é um tema."
+  ],
+  "exemplos": [
+    {
+      "entrada": "Inflação",
+      "saida": "Custo de vida e inflação"
+    },
+    {
+      "entrada": "Cesta básica muito cara Custo de vida muito alto",
+      "saida": "Custo de vida e inflação"
+    },
+    {
+      "entrada": "Poder de compra hoje com o salário que ganho não dá pra sustentar a família",
+      "saida": "Custo de vida e inflação"
+    },
+    {
+      "entrada": "Financeiro",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Dívidas",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Renda baixa",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Infraestrutura financeira, preço alto na alimentação e juros dos cartões altos",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Desemprego",
+      "saida": "Desemprego e trabalho"
+    },
+    {
+      "entrada": "Problema de saúde",
+      "saida": "Saúde"
+    },
+    {
+      "entrada": "Dificuldade para a obtenção do BPC. Muita burocracia e falta de reconhecimento de questões de saúde mental",
+      "saida": "Saúde"
+    },
+    {
+      "entrada": "Insegurança.",
+      "saida": "Segurança pública e violência"
+    },
+    {
+      "entrada": "Falta de dinheiro e segurança",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Educação nas escolas públicas",
+      "saida": "Educação"
+    },
+    {
+      "entrada": "Aluguel caro",
+      "saida": "Moradia e transporte"
+    },
+    {
+      "entrada": "A criminalidade e a alta carga tributária",
+      "saida": "Segurança pública e violência"
+    },
+    {
+      "entrada": "Impostos e roubo.",
+      "saida": "Impostos"
+    },
+    {
+      "entrada": "Os Ptralhas no poder saqueando o Brasil.",
+      "saida": "Governo e política"
+    },
+    {
+      "entrada": "Problema causado pelo judiciário",
+      "saida": "Governo e política"
+    },
+    {
+      "entrada": "Distância dos filhos",
+      "saida": "Relações e convivência familiar"
+    },
+    {
+      "entrada": "Nenhum",
+      "saida": "Nenhum"
+    },
+    {
+      "entrada": "Graças a Deus e a LULA,nenhuma.",
+      "saida": "Nenhum"
+    },
+    {
+      "entrada": "A seca",
+      "saida": "Outro"
+    },
+    {
+      "entrada": "Segurança, inflação, juros altos, e corrupção",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Juros muito altos. Tudo muito caro.",
+      "saida": "Renda, dinheiro e dívidas"
+    },
+    {
+      "entrada": "Tudo",
+      "saida": "Indeciso / Não Respondeu"
+    }
+  ]
+}

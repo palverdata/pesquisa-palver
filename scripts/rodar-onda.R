@@ -1,6 +1,6 @@
 # Rodar uma onda.
 
-onda <- "2026-08-10"
+onda <- "2026-09-09"
 
 while (!file.exists("R/onda.R") && dirname(getwd()) != getwd()) setwd("..")
 if (!file.exists("R/onda.R")) {
