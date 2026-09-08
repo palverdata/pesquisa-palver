@@ -45,7 +45,8 @@ ancoras:
 
   fim_espontanea: &fim_espontanea
     - "Outros"
-    - "Branco/nulo, indecisos ou não votaria"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
 
   mesclar_escolheu: &mesclar_escolheu
     variavel: spontaneous_choice
@@ -56,7 +57,23 @@ ancoras:
       "Não sei": "Indeciso / Não Respondeu"
 
   fim_cenario: &fim_cenario
-    - "Branco/nulo, indecisos ou não votaria"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+
+# Barra propria para quem arredonda para 1% ou mais; o resto vira Outros.
+  cenario_1r: &cenario_1r
+    mapa:
+      "Lula (PT)": "Lula (PT)"
+      "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
+      "Renan Santos (Missão)": "Renan Santos (Missão)"
+      "Ronaldo Caiado (PSD)": "Ronaldo Caiado (PSD)"
+      "Romeu Zema (Novo)": "Zema (Novo)"  # nomes de urna, como na onda 2
+      "Samara Martins (UP)": "Samara (UP)"
+      "Branco/nulo ou não votaria": "Branco/nulo ou não votaria"
+      "Indecisos": "Indecisos"
+    resto: "Outros"
+
+  nota_cenario_1r: &nota_cenario_1r "Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
 
 # O motor confere esta lista contra calibracao.margens.
 amostra:
@@ -82,22 +99,19 @@ cores:
   "Reeleição de Lula": "#FA5252"
   "13": "#FA5252"
   "Flávio Bolsonaro (PL)": "#4C6EF5"
-  "Flávio Bolsonaro": "#4C6EF5"
   "Jair Bolsonaro": "#4C6EF5"
   "Eleição de Flávio Bolsonaro": "#4C6EF5"
   "22": "#4C6EF5"
   "Renan Santos (Missão)": "#FAB005"
-  "Renan Santos": "#FAB005"
   "14": "#FAB005"
-  "Romeu Zema (Novo)": "#FD7E14"
-  "Romeu Zema": "#FD7E14"
+  "Zema (Novo)": "#FD7E14"
   "30": "#FD7E14"
   "Ronaldo Caiado (PSD)": "#12B886"
-  "Ronaldo Caiado": "#12B886"
   "55": "#12B886"
-  "Samara Martins (UP)": "#E64980"
-  "Augusto Cury (Avante)": "#15AABF"
-  "Cabo Daciolo (Mobiliza)": "#7950F2"
+  "Samara (UP)": "#E64980"
+  "Outros": "#7950F2"
+  "Outro": "#7950F2"
+  "Outros candidatos": "#7950F2"
 
 # Avaliacao e expectativa.
   "Aprova": "#2E9E5B"
@@ -136,7 +150,10 @@ cores:
   "Nem um pouco (1-2)": "#DA77F2"
 
 # Residuais: um cinza so para tudo que nao e resposta substantiva.
-  "Branco/nulo, indecisos ou não votaria": "#8F9498"
+  "Branco/nulo ou não votaria": "#8F9498"
+  "Indecisos, brancos e nulos": "#8F9498"
+  "Indecisos": "#ADB5BD"
+  "Não respondeu": "#ADB5BD"
   "Indeciso / Não Respondeu": "#8F9498"
   "Não sei": "#8F9498"
   "Não conhece ou não sabe": "#8F9498"
@@ -150,27 +167,28 @@ secoes:
 
       - variavel: spontaneous_vote_norm
         rotulo: "Voto espontâneo"
-        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido, votar em branco ou não votar entra como não-voto."
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
         mesclar: *mesclar_escolheu
         harmonizar:
           mapa:
-            "Lula": "Lula"
-            "Flávio Bolsonaro": "Flávio Bolsonaro"
-            "Renan Santos": "Renan Santos"
-            "Romeu Zema": "Romeu Zema"
-            "Ronaldo Caiado": "Ronaldo Caiado"
-            "Branco/Nulo": "Branco/nulo, indecisos ou não votaria"
-            "Ninguém": "Branco/nulo, indecisos ou não votaria"
-            "Não irei votar": "Branco/nulo, indecisos ou não votaria"
-            "Indefinido": "Branco/nulo, indecisos ou não votaria"
-            "Indeciso / Não Respondeu": "Branco/nulo, indecisos ou não votaria"
+            "Lula": "Lula (PT)"
+            "Flávio Bolsonaro": "Flávio Bolsonaro (PL)"
+            "Renan Santos": "Renan Santos (Missão)"
+            "Ronaldo Caiado": "Ronaldo Caiado (PSD)"
+            "Romeu Zema": "Zema (Novo)"
+            "Samara Martins": "Samara (UP)"
+            "Branco/Nulo": "Branco/nulo ou não votaria"
+            "Ninguém": "Branco/nulo ou não votaria"
+            "Não irei votar": "Branco/nulo ou não votaria"
+            "Indefinido": "Indecisos"
+            "Indeciso / Não Respondeu": "Indecisos"
           resto: "Outros"
         ordenar: decrescente
         fixar_no_fim: *fim_espontanea
 
       - variavel: spontaneous_number_norm
         rotulo: "Número do candidato"
-        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e número do candidato digitado em caixa de texto. Quem disse não ter escolhido, votar em branco ou não votar entra como não-voto."
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e número do candidato digitado em caixa de texto. Quem disse não ter escolhido, ou deixou o número em branco, entra como não respondeu; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Números que não pontuaram foram agrupados em Outros."
         mesclar: *mesclar_escolheu
         harmonizar:
           mapa:
@@ -179,41 +197,55 @@ secoes:
             "14": "14"
             "30": "30"
             "55": "55"
-            "Branco/Nulo": "Branco/nulo, indecisos ou não votaria"
-            "Não irei votar": "Branco/nulo, indecisos ou não votaria"
-            "Indeciso / Não Respondeu": "Branco/nulo, indecisos ou não votaria"
+            "Branco/Nulo": "Branco/nulo ou não votaria"
+            "Não irei votar": "Branco/nulo ou não votaria"
+            "Indeciso / Não Respondeu": "Não respondeu"  # aqui o branco e nao saber o numero, nao indecisao
           resto: "Outros"
         ordenar: decrescente
-        fixar_no_fim: *fim_espontanea
+        fixar_no_fim: ["Outros", "Branco/nulo ou não votaria", "Não respondeu"]
 
   - titulo: "1º turno estimulada"
     questoes:
 
       - variavel: stimulated_1r_vote_1_h
         rotulo: "Cenário 1"
+        nota: *nota_cenario_1r
+        harmonizar: *cenario_1r
         ordenar: decrescente
-        fixar_no_fim: *fim_cenario
+        fixar_no_fim: *fim_espontanea
 
+      # so os cinco na cedula: ninguem sobra para Outros
       - variavel: stimulated_1r_vote_2_h
         rotulo: "Cenário 2"
+        harmonizar:
+          mapa:
+            "Romeu Zema (Novo)": "Zema (Novo)"
         ordenar: decrescente
         fixar_no_fim: *fim_cenario
 
   - titulo: "2º turno estimulada"
     questoes:
+      # `chave` nomeia o cenario pelos candidatos: a numeracao muda de onda para onda
       - variavel: stimulated_2r_vote_1_h
+        chave: lula_flavio
         rotulo: "Lula x Flávio Bolsonaro"
         ordenar: decrescente
         fixar_no_fim: *fim_cenario
       - variavel: stimulated_2r_vote_2_h
+        chave: lula_renan
         rotulo: "Lula x Renan Santos"
         ordenar: decrescente
         fixar_no_fim: *fim_cenario
       - variavel: stimulated_2r_vote_3_h
+        chave: lula_zema
         rotulo: "Lula x Romeu Zema"
+        harmonizar:
+          mapa:
+            "Romeu Zema (Novo)": "Zema (Novo)"
         ordenar: decrescente
         fixar_no_fim: *fim_cenario
       - variavel: stimulated_2r_vote_4_h
+        chave: lula_caiado
         rotulo: "Lula x Ronaldo Caiado"
         ordenar: decrescente
         fixar_no_fim: *fim_cenario
@@ -278,6 +310,7 @@ secoes:
 # Os seis maiores codigos; o resto vira Outro.
       - variavel: issue_perception
         rotulo: "Maior problema do Brasil"
+        nota: "Pergunta espontânea: resposta digitada em caixa de texto e codificada em categorias."
         harmonizar:
           mapa:
             "Corrupção": "Corrupção"
@@ -367,17 +400,17 @@ secoes:
         harmonizar: *escala_dias
         respostas: *ordem_dias
 
-  - titulo: "Identificação Política e Ideológica"
+  - titulo: "Espectro Ideológico e Identificação Política"
     questoes:
 
       - variavel: ideology
-        rotulo: "Posicionamento ideológico"
+        rotulo: "Espectro Ideológico"
         harmonizar:
           mapa:
             "Não me identifico com um posicionamento definido": "Sem posicionamento definido"
 
       - variavel: identification_h
-        rotulo: "Identidade política"
+        rotulo: "Identificação Política"
 
       - variavel: neg_identification_antipetista_h
         rotulo: "Antipetismo"
@@ -435,6 +468,28 @@ recortes:
       mapa:
         "Branco/Nulo": "Branco/Nulo ou Não votei"
 
+  # Transferencia de voto: os 4 primeiros do cenario 2; o resto em Outros candidatos.
+  - variavel: stimulated_1r_vote_2_h
+    rotulo: "Eleitor no 1º turno (cenário 2)"
+    harmonizar:
+      mapa:
+        "Lula (PT)": "Lula (PT)"
+        "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
+        "Renan Santos (Missão)": "Renan Santos (Missão)"
+        "Ronaldo Caiado (PSD)": "Ronaldo Caiado (PSD)"
+        "Branco/nulo ou não votaria": "Indecisos, brancos e nulos"
+        "Indecisos": "Indecisos, brancos e nulos"
+      resto: "Outros candidatos"
+    grupos: ["Lula (PT)", "Flávio Bolsonaro (PL)", "Renan Santos (Missão)", "Ronaldo Caiado (PSD)", "Outros candidatos", "Indecisos, brancos e nulos"]
+
+  - variavel: stimulated_2r_vote_1_h
+    rotulo: "Voto no 2º turno Lula x Flávio"
+    harmonizar:
+      mapa:
+        "Branco/nulo ou não votaria": "Indecisos, brancos e nulos"
+        "Indecisos": "Indecisos, brancos e nulos"
+    grupos: ["Lula (PT)", "Flávio Bolsonaro (PL)", "Indecisos, brancos e nulos"]
+
   - variavel: relig_std
     rotulo: "Religião"
     harmonizar:
@@ -442,14 +497,14 @@ recortes:
         "Sem Religião/Ateu/Agnóstico": "Sem religião"
 
   - variavel: ideol_std
-    rotulo: "Ideologia"
+    rotulo: "Espectro Ideológico"
     harmonizar:
       mapa:
         "Centro": "Centro ou sem posicionamento"
         "Sem posicionamento": "Centro ou sem posicionamento"
 
   - variavel: identification_h
-    rotulo: "Identidade política"
+    rotulo: "Identificação Política"
     harmonizar:
       mapa:
         "Sem interesse em política": "Sem interesse ou não sabe"

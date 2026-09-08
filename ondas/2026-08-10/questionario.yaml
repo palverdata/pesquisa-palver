@@ -1010,9 +1010,9 @@ harmonizacao:
       - stimulated_2r_vote_3
       - stimulated_2r_vote_4
     mapa:
-      "Votaria em branco/nulo": "Branco/nulo, indecisos ou não votaria"
-      "Não iria votar": "Branco/nulo, indecisos ou não votaria"
-      "Não sei": "Branco/nulo, indecisos ou não votaria"
+      "Votaria em branco/nulo": "Branco/nulo ou não votaria"
+      "Não iria votar": "Branco/nulo ou não votaria"
+      "Não sei": "Indecisos"
 
   avaliacao_governo:
     aplicar_a:
