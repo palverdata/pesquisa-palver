@@ -34,6 +34,10 @@ Cada prompt é um JSON em `prompts/` com `instrucao`, `regras` e `exemplos`
 (`entrada` → `saida`). Fora dos rótulos fixos que a `instrucao` lista, a saída é
 livre: nome de quem não disputa a eleição é resposta válida.
 
+`contexto: "<coluna fechada>"` põe a resposta fechada entre colchetes na frente do
+texto — `[Lula (PT)] Menos bandido que o outro` — para o modelo saber a quem o
+texto se refere. A deduplicação passa a ser por par (contexto, texto).
+
 Célula vazia continua vazia — vazio quer dizer que a pergunta não foi feita. A
 exceção é `vazio: "<rótulo>"` na coluna, para o instrumento que define o branco
 como resposta.

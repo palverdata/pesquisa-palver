@@ -70,10 +70,24 @@ def normalizar(
     df = df.copy()
     for c in colunas:
         coluna, nova, prompt, vazio = c["coluna"], c["nova"], c["prompt"], c.get("vazio")
-        if coluna not in df.columns:
-            raise KeyError(f"coluna ausente na planilha: {coluna!r}")
+        contexto = c.get("contexto")
+        for col in filter(None, (coluna, contexto)):
+            if col not in df.columns:
+                raise KeyError(f"coluna ausente na planilha: {col!r}")
 
-        freq = Counter(v.strip() for v in df[coluna] if isinstance(v, str) and v.strip())
+        # `contexto`: a resposta fechada entra entre colchetes, para o modelo saber a
+        # quem "o outro" se refere; cada par (contexto, texto) distinto e uma chamada.
+        def entrada(i: int, v) -> str | None:
+            if not (isinstance(v, str) and v.strip()):
+                return None
+            if not contexto:
+                return v.strip()
+            ctx = df[contexto].iloc[i]
+            ctx = ctx.strip() if isinstance(ctx, str) and ctx.strip() else "sem resposta"
+            return f"[{ctx}] {v.strip()}"
+
+        entradas = [entrada(i, v) for i, v in enumerate(df[coluna])]
+        freq = Counter(e for e in entradas if e)
 
         mapa: dict[str, str] = {}
         for texto in freq:
@@ -83,7 +97,7 @@ def normalizar(
             mapa[texto] = rotulo
 
         escrever_mapping(mapa, freq, pasta_mapping / f"{nova}.csv")
-        df[coluna] = [mapa[v.strip()] if isinstance(v, str) and v.strip() else vazio for v in df[coluna]]
+        df[coluna] = [mapa[e] if e else vazio for e in entradas]
         df = df.rename(columns={coluna: nova})
         print(f"{nova}: {len(freq)} grafias -> {len(set(mapa.values()))} rotulos")
     return df
@@ -102,6 +116,7 @@ def main(argv: list[str]) -> int:
     cfg = yaml.safe_load((pasta / "normalizacao.yaml").read_text(encoding="utf-8"))
     colunas = [
         {"coluna": c["coluna"], "nova": c["nova"], "vazio": c.get("vazio"),
+         "contexto": c.get("contexto"),
          "prompt": carregar_prompt(pasta / "prompts" / c["prompt"])}
         for c in cfg["colunas"]
     ]

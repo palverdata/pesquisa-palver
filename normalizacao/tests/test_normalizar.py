@@ -65,3 +65,17 @@ def test_os_prompts_reais_carregam_e_montam():
         m = montar_prompt(p, "texto de teste")
         assert p["exemplos"]
         assert m.endswith("Entrada: texto de teste\nSaída:")
+
+
+def test_contexto_entra_entre_colchetes_e_dedup_e_por_par(tmp_path):
+    chamadas = []
+
+    def eco(prompt, texto):
+        chamadas.append(texto)
+        return texto
+
+    df = pd.DataFrame({"voto": ["A", "B", "A"], "motivo": ["o outro", "o outro", "o outro"]})
+    cols = [{"coluna": "motivo", "nova": "motivo_cod", "prompt": {}, "contexto": "voto"}]
+    fora = normalizar(df, cols, eco, tmp_path)
+    assert sorted(chamadas) == ["[A] o outro", "[B] o outro"]
+    assert list(fora["motivo_cod"]) == ["[A] o outro", "[B] o outro", "[A] o outro"]
