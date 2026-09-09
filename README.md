@@ -12,11 +12,12 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 
 | onda | divulgação | registro | campo | relatório | press release |
 | ---- | ---------- | -------- | ----- | --------- | ------------- |
-| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF, 93 páginas](https://www.palver.com.br/api/surveys/voting-intention-2026-august/report) | [PDF, 2 páginas](https://www.palver.com.br/api/surveys/voting-intention-2026-august/press-release) |
+| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/press-release) |
+| 2 | 09/09/2026 | BR-05420/2026 | 04 a 07/09/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/press-release) |
 
-Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10) —
-que congela o motor, as margens e a configuração usados para produzir aqueles
-números.
+Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10),
+[`v2026-09-09`](../../releases/tag/v2026-09-09) — que congela o motor, as margens e a
+configuração usados para produzir aqueles números.
 
 ## Passo a passo: rodar uma onda
 
