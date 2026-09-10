@@ -44,6 +44,10 @@ como resposta.
 
 O YAML e os prompts versionam. `mapping/` não: é resposta individual.
 
+O mapping da rodada anterior é reaproveitado: texto já rotulado não volta ao
+modelo, só o texto novo. Para recodificar uma coluna com prompt alterado, apague
+`ondas/<onda>/norm/mapping/<nova>.csv` antes de rodar.
+
 ## Rodar
 
 Tudo a partir da raiz do clone:

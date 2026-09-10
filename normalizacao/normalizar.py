@@ -52,6 +52,13 @@ def classificar_com(modelo: Path, temperatura: float) -> Callable[[dict, str], s
     return classificar
 
 
+def ler_mapping(caminho: Path) -> dict[str, str]:
+    if not caminho.exists():
+        return {}
+    with caminho.open(encoding="utf-8", newline="") as f:
+        return {linha["bruto"]: linha["rotulo"] for linha in csv.DictReader(f)}
+
+
 def escrever_mapping(mapa: dict[str, str], freq: Counter, caminho: Path) -> None:
     caminho.parent.mkdir(parents=True, exist_ok=True)
     with caminho.open("w", encoding="utf-8", newline="") as f:
@@ -89,17 +96,22 @@ def normalizar(
         entradas = [entrada(i, v) for i, v in enumerate(df[coluna])]
         freq = Counter(e for e in entradas if e)
 
-        mapa: dict[str, str] = {}
-        for texto in freq:
+        # o mapping da rodada anterior vale para texto ja visto; so o novo vai ao modelo.
+        # Prompt alterado exige apagar o csv, senao o rotulo antigo fica.
+        caminho = pasta_mapping / f"{nova}.csv"
+        mapa = {t: r for t, r in ler_mapping(caminho).items() if t in freq}
+        novos = [t for t in freq if t not in mapa]
+        for texto in novos:
             rotulo = classificar(prompt, texto)
             if not rotulo:
                 raise RuntimeError(f"{nova}: o modelo nao devolveu rotulo para {texto!r}")
             mapa[texto] = rotulo
 
-        escrever_mapping(mapa, freq, pasta_mapping / f"{nova}.csv")
+        escrever_mapping(mapa, freq, caminho)
         df[coluna] = [mapa[e] if e else vazio for e in entradas]
         df = df.rename(columns={coluna: nova})
-        print(f"{nova}: {len(freq)} grafias -> {len(set(mapa.values()))} rotulos")
+        print(f"{nova}: {len(freq)} grafias ({len(novos)} novas) -> "
+              f"{len(set(mapa.values()))} rotulos")
     return df
 
 

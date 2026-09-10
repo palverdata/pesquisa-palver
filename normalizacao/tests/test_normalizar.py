@@ -51,6 +51,18 @@ def test_rotulo_vazio_para_a_rodada(tmp_path):
         normalizar(pd.DataFrame({"voto": ["Zebra"]}), COLUNAS, fixo, tmp_path)
 
 
+def test_mapping_existente_poupa_o_modelo_e_so_o_texto_novo_e_consultado(tmp_path):
+    (tmp_path / "voto_norm.csv").write_text(
+        "bruto,freq,rotulo\nLula,9,Lula\nLULA,1,Lula\nSumido,1,Lula\n", encoding="utf-8"
+    )
+    chamadas = []
+    fora = normalizar(pd.DataFrame({"voto": LINHAS}), COLUNAS, gravado(chamadas), tmp_path)
+    assert sorted(chamadas) == ["22", "Lula 13"]
+    assert list(fora["voto_norm"][:5]) == ["Lula"] * 4 + ["Indeciso / Não Respondeu"]
+    csv = (tmp_path / "voto_norm.csv").read_text(encoding="utf-8")
+    assert "Sumido" not in csv and "Lula,2,Lula" in csv
+
+
 def test_mapping_csv_ordenado_por_frequencia(tmp_path):
     normalizar(pd.DataFrame({"voto": LINHAS}), COLUNAS, fixo, tmp_path)
     linhas = (tmp_path / "voto_norm.csv").read_text(encoding="utf-8").splitlines()
