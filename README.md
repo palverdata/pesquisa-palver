@@ -192,6 +192,20 @@ Origem: [dadosabertos.tse.jus.br](https://dadosabertos.tse.jus.br/dataset/result
 (Resultados, 2022). Depois rode
 [scripts/gerar-margens-tse.R](scripts/gerar-margens-tse.R).
 
+Também em `insumos/tse/`, fora do git, ficam os perfis do eleitorado que servem às
+análises e às margens opcionais:
+
+- [perfil_filiacao_partidaria.zip](https://cdn.tse.jus.br/estatistica/sead/odsele/filiacao_partidaria/perfil_filiacao_partidaria.zip)
+  → `perfil_filiacao_partidaria.csv` (3,5 GB), lido por
+  [scripts/gerar-margens-filiacao.R](scripts/gerar-margens-filiacao.R) — ver
+  [Filiação partidária](#filiação-partidária).
+- Comparecimento e abstenção de 2022, do grupo
+  [comparecimento-e-abstencao](https://dadosabertos.tse.jus.br/group/comparecimento-e-abstencao)
+  → `perfil_comparecimento_abstencao_2022.csv`. Ainda não alimenta margem; é o
+  insumo para estudar abstenção e eleitores novos por perfil.
+
+O portal do TSE recusa download fora do navegador; baixe pelo browser.
+
 A conjunta da PNADc é gravada no nível fino — idade em 5 faixas, renda em 5, tipo
 de município — com as faixas grossas ao lado. O raking soma as grossas; a
 propensão, abaixo, lê as finas.
