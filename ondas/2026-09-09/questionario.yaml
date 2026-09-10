@@ -693,6 +693,14 @@ questoes_nao_exportadas:
     motivo: "denominacao evangelica; usada apenas em recortes especificos"
     exportar: false
 
+  # texto de quem marcou "Outra" acima, codificado de volta para a lista fechada
+  denominacao_norm:
+    tipo: "tabulada"
+    texto: "denominacao_norm"
+    titulo: "Se outra, qual é a sua denominação?"
+    motivo: "complementa relig_evang; so nos microdados, para desenhar a lista fechada"
+    exportar: false
+
 derivadas:
 
   sex_std:

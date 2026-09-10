@@ -23,3 +23,8 @@ colunas:
   - coluna: "Na sua opinião, qual é o maior problema que a sua família enfrenta hoje em dia?"
     nova: problema_familia_cod
     prompt: problema_familia.json
+
+  # so quem marcou "Outra" na denominacao fechada digita aqui; branco continua branco
+  - coluna: "Se outra, qual é a sua denominação?"
+    nova: denominacao_norm
+    prompt: denominacao.json
