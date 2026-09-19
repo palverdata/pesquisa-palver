@@ -346,7 +346,14 @@ correcoes_municipio <- tibble::tribble(
   "RS", "RESTINGA SECA",              "RESTINGA SÊCA",
   "RS", "CHIAPETA",                   "CHIAPETTA",
   "RS", "MAÇAMBARA",                  "MAÇAMBARÁ",
-  "ES", "ATILIO VIVACQUA",            "ATÍLIO VIVÁCQUA"
+  "ES", "ATILIO VIVACQUA",            "ATÍLIO VIVÁCQUA",
+  "MS", "BATAIPORÃ",                  "BATAYPORÃ",
+  "MG", "SÃO THOMÉ DAS LETRAS",       "SÃO TOMÉ DAS LETRAS",
+  "SE", "AMPARO DE SÃO FRANCISCO",    "AMPARO DO SÃO FRANCISCO",
+  "SP", "SÃO LUÍS DO PARAITINGA",     "SÃO LUIZ DO PARAITINGA",
+  "PA", "ELDORADO DOS CARAJÁS",       "ELDORADO DO CARAJÁS",
+  # Serido (PB) passou a se chamar Sao Vicente do Serido em 2013
+  "PB", "SERIDÓ",                     "SÃO VICENTE DO SERIDÓ"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.
