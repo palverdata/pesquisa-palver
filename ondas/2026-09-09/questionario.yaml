@@ -693,7 +693,7 @@ questoes_nao_exportadas:
     motivo: "denominacao evangelica; usada apenas em recortes especificos"
     exportar: false
 
-  # texto de quem marcou "Outra" acima, codificado de volta para a lista fechada
+  # texto de quem marcou "Outra" acima, codificado num rótulo por denominação
   denominacao_norm:
     tipo: "tabulada"
     texto: "denominacao_norm"
