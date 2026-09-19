@@ -272,6 +272,32 @@ aplicar_derivada <- function(base, nome, spec) {
         regra$valor
     }
 
+  } else if (identical(spec$tipo, "cruzamento")) {
+
+    origem <- unlist(spec$origem)
+    exige(origem)
+
+    # a chave do quadrante e "sim"/"nao" por origem, na ordem declarada
+    lados <- purrr::map(origem, ~ ifelse(
+      as.character(base[[.x]]) %in% unlist(spec$limiar), "sim", "nao"))
+    chave <- do.call(paste, c(lados, list(sep = ",")))
+
+    idx <- match(chave, names(spec$quadrantes))
+    if (anyNA(idx)) {
+      stop("derivada ", nome, ": quadrante nao declarado -> ",
+           paste(unique(chave[is.na(idx)]), collapse = ", "))
+    }
+    novo <- unname(unlist(spec$quadrantes)[idx])
+
+    if (!is.null(spec$sem_quadrante)) {
+      novo[purrr::reduce(purrr::map(origem, ~ as.character(base[[.x]]) %in%
+                                      unlist(spec$sem_quadrante$valores)),
+                         `|`)] <- spec$sem_quadrante$destino
+    }
+
+    # origem ausente nao e "abaixo do limiar": fica NA e sai da base da questao
+    novo[purrr::reduce(purrr::map(origem, ~ is.na(base[[.x]])), `|`)] <- NA
+
   } else if (identical(spec$tipo, "faixas")) {
 
     exige(spec$origem)

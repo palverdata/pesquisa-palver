@@ -644,7 +644,7 @@ montar_json <- function(fit, qst, display, cfg) {
   # `titulo` antes de `texto`: em coluna normalizada o cabecalho e um nome
   # interno, e sem esta ordem ele vaza para a tela.
   enunciado_de <- function(variavel) {
-    spec <- qst$questoes[[variavel]]
+    spec <- qst$questoes[[variavel]] %||% qst$derivadas[[variavel]]
     enunciado <- spec$titulo %||% spec$texto
     if (is.null(enunciado) || !nzchar(trimws(enunciado))) {
       stop("questao sem `titulo` nem `texto` no questionario.yaml -> ",
