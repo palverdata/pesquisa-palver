@@ -14,9 +14,17 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 | ---- | ---------- | -------- | ----- | --------- | ------------- |
 | 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/press-release) |
 | 2 | 09/09/2026 | BR-05420/2026 | 04 a 07/09/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/press-release) |
+| 2 (reanálise) | 21/09/2026 | BR-06100/2026 | 04 a 07/09/2026 | — | — |
+
+A reanálise é o mesmo campo da onda 2, recalibrado com a margem de filiação
+partidária (ver [Filiação partidária](#filiação-partidária)) e registrado de novo
+no TSE. Ela vive em `ondas/2026-09-21/`, lê o mesmo `.xlsx` normalizado da onda 2
+(prompts em `ondas/2026-09-09/norm/`) e é a versão que serve de base para
+comparar a onda 2 com as seguintes.
 
 Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10),
-[`v2026-09-09`](../../releases/tag/v2026-09-09) — que congela o motor, as margens e a
+[`v2026-09-09`](../../releases/tag/v2026-09-09),
+[`v2026-09-21`](../../releases/tag/v2026-09-21) — que congela o motor, as margens e a
 configuração usados para produzir aqueles números.
 
 ## Passo a passo: rodar uma onda
