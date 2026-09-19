@@ -1,6 +1,6 @@
 
 meta:
-  onda: "2026-09-21"
+  onda: "2026-09-09-onda-2"
 
 colunas:
   survey_id: survey_id
@@ -913,30 +913,6 @@ derivadas:
       - "Antipetista"
       - "Não alinhado"
       - "Antibolsonarista"
-
-  # Cruzamento das duas escalas. Nao confundir com anti_std, que as resolve por
-  # precedencia: la o "Antipetista" tambem leva quem rejeita os dois.
-  anti_cruzado:
-    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antipetista / — Antibolsonarista"
-    origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
-    tipo: cruzamento
-    limiar: ["4", "5 - Totalmente"]
-    # a chave e "acima do limiar?" em cada origem, na ordem de `origem`
-    quadrantes:
-      "sim,sim": "Antipetista e antibolsonarista"
-      "sim,nao": "Só antipetista"
-      "nao,sim": "Só antibolsonarista"
-      "nao,nao": "Nenhum dos dois"
-    # situar quem respondeu so uma das duas inventaria a outra metade
-    sem_quadrante:
-      valores: ["Não sei"]
-      destino: "Não sei"
-    niveis:
-      - "Antipetista e antibolsonarista"
-      - "Só antipetista"
-      - "Só antibolsonarista"
-      - "Nenhum dos dois"
-      - "Não sei"
 
 harmonizacao:
 

@@ -18,13 +18,13 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 
 A reanálise é o mesmo campo da onda 2, recalibrado com a margem de filiação
 partidária (ver [Filiação partidária](#filiação-partidária)) e registrado de novo
-no TSE. Ela vive em `ondas/2026-09-21/`, lê o mesmo `.xlsx` normalizado da onda 2
-(prompts em `ondas/2026-09-09/norm/`) e é a versão que serve de base para
+no TSE. Ela vive em `ondas/2026-09-21-onda-2-v2/`, lê o mesmo `.xlsx` normalizado da onda 2
+(prompts em `ondas/2026-09-09-onda-2/norm/`) e é a versão que serve de base para
 comparar a onda 2 com as seguintes.
 
 Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10),
 [`v2026-09-09`](../../releases/tag/v2026-09-09),
-[`v2026-09-21`](../../releases/tag/v2026-09-21) — que congela o motor, as margens e a
+[`v2026-09-21-onda-2-v2`](../../releases/tag/v2026-09-21-onda-2-v2) — que congela o motor, as margens e a
 configuração usados para produzir aqueles números.
 
 ## Passo a passo: rodar uma onda
@@ -100,7 +100,7 @@ buscam por chave (`pergunta|recorte`, com recorte vazio para o total) e desenham
 `share`, `low` e `high` vêm do **mesmo desenho calibrado** que produz o resto da
 onda; plataforma e relatório mostram o mesmo número.
 
-O que entra na tela é declarado em [display.yaml](ondas/2026-08-10/display.yaml).
+O que entra na tela é declarado em [display.yaml](ondas/2026-08-10-onda-1/display.yaml).
 As chaves:
 
 | chave | onde | o que faz |
@@ -152,18 +152,19 @@ Copie o arquivo para o repositório da plataforma somente depois da divulgação
 
 ## Passo a passo: criar uma onda nova
 
-1. Crie a pasta com o nome sendo a **data de divulgação** (`AAAA-MM-DD`), e
-   copie os YAML e os prompts da onda anterior como ponto de partida:
+1. Crie a pasta com o nome sendo a **data de divulgação** seguida da onda
+   (`AAAA-MM-DD-onda-N`; uma reanálise leva `-v2`), e copie os YAML e os prompts
+   da onda anterior como ponto de partida:
 
    ```r
-   dir.create("ondas/2026-09-14/dados", recursive = TRUE)
-   dir.create("ondas/2026-09-14/norm/prompts", recursive = TRUE)
-   file.copy(c("ondas/2026-08-10/config.yaml",
-               "ondas/2026-08-10/questionario.yaml",
-               "ondas/2026-08-10/display.yaml"), "ondas/2026-09-14/")
-   file.copy("ondas/2026-08-10/norm/normalizacao.yaml", "ondas/2026-09-14/norm/")
-   file.copy(list.files("ondas/2026-08-10/norm/prompts", full.names = TRUE),
-             "ondas/2026-09-14/norm/prompts/")
+   dir.create("ondas/2026-09-14-onda-3/dados", recursive = TRUE)
+   dir.create("ondas/2026-09-14-onda-3/norm/prompts", recursive = TRUE)
+   file.copy(c("ondas/2026-08-10-onda-1/config.yaml",
+               "ondas/2026-08-10-onda-1/questionario.yaml",
+               "ondas/2026-08-10-onda-1/display.yaml"), "ondas/2026-09-14-onda-3/")
+   file.copy("ondas/2026-08-10-onda-1/norm/normalizacao.yaml", "ondas/2026-09-14-onda-3/norm/")
+   file.copy(list.files("ondas/2026-08-10-onda-1/norm/prompts", full.names = TRUE),
+             "ondas/2026-09-14-onda-3/norm/prompts/")
    ```
 2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `sequencia`,
    `data_divulgacao`), `campo` e `outputs.prefixo`. `registro`,
@@ -298,7 +299,7 @@ pesquisa-palver/
 ├── insumos/
 │   ├── municipios_brasil.yaml  #   crosswalk de municípios, versionado
 │   └── tse/                    #   microdados do TSE (fora do git)
-└── ondas/2026-08-10/           # pasta = data de divulgação
+└── ondas/2026-08-10-onda-1/    # pasta = data de divulgação + onda
     ├── config.yaml             #   margens, calibração, aparo, saída
     ├── questionario.yaml       #   enunciados, níveis, derivadas
     ├── display.yaml            #   seções, rótulos e ordens da divulgação

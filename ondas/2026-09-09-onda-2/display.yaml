@@ -1,7 +1,7 @@
 # Chaves: README, secao "O JSON da onda".
 
 meta:
-  onda: "2026-09-21"
+  onda: "2026-09-09-onda-2"
 
 # Nada aqui vai para o JSON.
 ancoras:
@@ -131,13 +131,6 @@ cores:
   "Totalmente (4-5)": "#862E9C"
   "Intermediário (3)": "#BE4BDB"
   "Nem um pouco (1-2)": "#DA77F2"
-
-# No cruzamento das duas escalas a cor diz quem o eleitor rejeita; o roxo e a
-# soma das outras duas.
-  "Antipetista e antibolsonarista": "#862E9C"
-  "Só antipetista": "#4C6EF5"
-  "Só antibolsonarista": "#FA5252"
-  "Nenhum dos dois": "#F59F00"
 
 # Residuais: um cinza so para tudo que nao e resposta substantiva.
   "Branco/nulo ou não votaria": "#8F9498"
@@ -401,12 +394,6 @@ secoes:
       - variavel: neg_identification_antibolsonarista_h
         rotulo: "Antibolsonarismo"
         respostas: *ordem_escala_15
-
-      - variavel: anti_cruzado
-        rotulo: "Antipetismo × antibolsonarismo"
-        nota: "Variável derivada do cruzamento das escalas de antipetismo e antibolsonarismo: conta como antipetista, ou antibolsonarista, quem se declarou 4 ou 5. Quem respondeu “Não sei” em uma das duas escalas não é situado num quadrante."
-        ordenar: decrescente
-        fixar_no_fim: ["Não sei"]
 
       - variavel: party_affiliation
         rotulo: "Filiação partidária"

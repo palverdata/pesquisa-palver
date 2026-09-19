@@ -62,8 +62,8 @@ mkdir -p ~/modelos
 curl -L -C - -o ~/modelos/Qwen_Qwen3-4B-Instruct-2507-Q4_K_M.gguf \
   https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_K_M.gguf
 
-uv run --project normalizacao python normalizacao/normalizar.py 2026-08-10 \
-  "/mnt/c/Users/<usuário>/Downloads/<export>.xlsx" ondas/2026-08-10/dados/onda_1.xlsx
+uv run --project normalizacao python normalizacao/normalizar.py 2026-08-10-onda-1 \
+  "/mnt/c/Users/<usuário>/Downloads/<export>.xlsx" ondas/2026-08-10-onda-1/dados/onda_1.xlsx
 ```
 
 A entrada é o export bruto, onde foi baixado. No WSL a pasta Downloads do Windows

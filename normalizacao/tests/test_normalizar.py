@@ -71,7 +71,7 @@ def test_mapping_csv_ordenado_por_frequencia(tmp_path):
 
 
 def test_os_prompts_reais_carregam_e_montam():
-    pasta = Path(__file__).resolve().parents[2] / "ondas" / "2026-08-10" / "norm" / "prompts"
+    pasta = Path(__file__).resolve().parents[2] / "ondas" / "2026-08-10-onda-1" / "norm" / "prompts"
     for nome in ("voto_presidente", "numero_voto", "problema_brasil"):
         p = carregar_prompt(pasta / f"{nome}.json")
         m = montar_prompt(p, "texto de teste")

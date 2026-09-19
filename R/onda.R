@@ -43,8 +43,10 @@ carregar_config <- function(onda) {
          paste(faltando, collapse = " e "), ".")
   }
 
-  if (!identical(cfg$onda$data_divulgacao, onda)) {
-    stop("a pasta da onda deve ser a data de divulgacao (AAAA-MM-DD).\n",
+  # duas divulgacoes no mesmo dia precisam de pastas distintas: data + onda
+  if (!startsWith(onda, cfg$onda$data_divulgacao)) {
+    stop("a pasta da onda deve comecar pela data de divulgacao ",
+         "(AAAA-MM-DD-onda-N).\n",
          "  pasta           : ", onda, "\n",
          "  data_divulgacao : ", cfg$onda$data_divulgacao)
   }
