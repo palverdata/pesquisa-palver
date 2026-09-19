@@ -201,8 +201,12 @@ análises e às margens opcionais:
   [Filiação partidária](#filiação-partidária).
 - Comparecimento e abstenção de 2022, do grupo
   [comparecimento-e-abstencao](https://dadosabertos.tse.jus.br/group/comparecimento-e-abstencao)
-  → `perfil_comparecimento_abstencao_2022.csv`. Ainda não alimenta margem; é o
-  insumo para estudar abstenção e eleitores novos por perfil.
+  → `perfil_comparecimento_abstencao_2022_BRASIL.csv`. Ainda não alimenta margem;
+  é o insumo para estudar abstenção e eleitores novos por perfil.
+- Perfil do eleitorado de 2026, do conjunto
+  [eleitorado-2026](https://dadosabertos.tse.jus.br/dataset/eleitorado-2026)
+  → `perfil_eleitorado_2026_BRASIL.csv`. Também sem margem; é o eleitorado
+  corrente, para comparar com os alvos de 2022.
 
 O portal do TSE recusa download fora do navegador; baixe pelo browser.
 
