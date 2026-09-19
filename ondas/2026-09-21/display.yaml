@@ -1,0 +1,504 @@
+# Chaves: README, secao "O JSON da onda".
+
+meta:
+  onda: "2026-09-21"
+
+# Nada aqui vai para o JSON.
+ancoras:
+
+  ordem_escala_15: &ordem_escala_15
+    - "Totalmente (4-5)"
+    - "Intermediário (3)"
+    - "Nem um pouco (1-2)"
+    - "Não sei"
+
+  escala_recall: &escala_recall
+    mapa:
+      "Conheço e não votaria de jeito nenhum": "Não votaria de jeito nenhum"
+      "Conheço e provavelmente não votaria": "Provavelmente não votaria"
+      "Conheço e poderia votar": "Poderia votar"
+      "Conheço e com certeza votaria": "Com certeza votaria"
+      "Não conheço ou não sei": "Não conhece ou não sabe"
+
+  ordem_recall: &ordem_recall
+    - "Com certeza votaria"
+    - "Poderia votar"
+    - "Provavelmente não votaria"
+    - "Não votaria de jeito nenhum"
+    - "Não conhece ou não sabe"
+
+  escala_retro: &escala_retro
+    mapa:
+      "Ficou praticamente igual": "Igual"
+
+  fim_espontanea: &fim_espontanea
+    - "Outros"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+
+  mesclar_escolheu: &mesclar_escolheu
+    variavel: spontaneous_choice
+    mapa:
+      "Não, ainda não escolhi": "Indeciso / Não Respondeu"
+      "Votarei em branco/nulo": "Branco/Nulo"
+      "Não pretendo votar": "Não irei votar"
+      "Não sei": "Indeciso / Não Respondeu"
+
+  fim_cenario: &fim_cenario
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+
+# Barra propria para quem arredonda para 1% ou mais; o resto vira Outros.
+  cenario_1r: &cenario_1r
+    mapa:
+      "Lula (PT)": "Lula (PT)"
+      "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
+      "Renan Santos (Missão)": "Renan Santos (Missão)"
+      "Escritor Augusto Cury (Avante)": "Escritor Augusto Cury (Avante)"
+      "Ronaldo Caiado (PSD)": "Ronaldo Caiado (PSD)"
+      "Zema (Novo)": "Zema (Novo)"
+      "Branco/nulo ou não votaria": "Branco/nulo ou não votaria"
+      "Indecisos": "Indecisos"
+    resto: "Outros"
+
+  nota_cenario_1r: &nota_cenario_1r "Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
+
+# O motor confere esta lista contra calibracao.margens.
+amostra:
+  - variavel: sex_std
+    rotulo: "Gênero"
+  - variavel: age_std
+    rotulo: "Faixa etária"
+  - variavel: reg_std
+    rotulo: "Região"
+  - variavel: edu_std
+    rotulo: "Escolaridade"
+  - variavel: inc_std
+    rotulo: "Renda familiar"
+  - variavel: vote_std
+    rotulo: "Voto no 2º turno de 2022"
+
+# Cor por rotulo. A chave e o rotulo pos-harmonizacao.
+cores:
+
+# Candidatos. O mesmo hex em toda grafia do mesmo ator.
+  "Lula (PT)": "#FA5252"
+  "Lula": "#FA5252"
+  "Flávio Bolsonaro (PL)": "#4C6EF5"
+  "Renan Santos (Missão)": "#FAB005"
+  "Zema (Novo)": "#FD7E14"
+  "Ronaldo Caiado (PSD)": "#12B886"
+  "Escritor Augusto Cury (Avante)": "#15AABF"
+  "Pablo Marçal (PRTB)": "#82C91E"
+  "Outros": "#7950F2"
+  "Outro": "#7950F2"
+  "Outros candidatos": "#7950F2"
+
+# Avaliacao e expectativa.
+  "Aprova": "#2E9E5B"
+  "Desaprova": "#DE4B3B"
+  "Apoio": "#2E9E5B"
+  "Sou contra": "#DE4B3B"
+  "Ótimo/Bom": "#2E9E5B"
+  "Regular": "#EFAF3C"
+  "Ruim/Péssimo": "#DE4B3B"
+  "Melhorou": "#2E9E5B"
+  "Igual": "#EFAF3C"
+  "Piorou": "#DE4B3B"
+  "Vai melhorar": "#2E9E5B"
+  "Vai piorar": "#DE4B3B"
+
+# Espectro politico: a mesma escala vale para ideologia e para identidade.
+  "Esquerda": "#FA5252"
+  "Lulista": "#FA5252"
+  "Centro-esquerda": "#E64980"
+  "Simpatiza com a esquerda": "#E64980"
+  "Direita": "#4C6EF5"
+  "Bolsonarista": "#4C6EF5"
+  "Centro-direita": "#15AABF"
+  "Simpatiza com a direita": "#15AABF"
+  "Centro": "#F59F00"
+  "Independente": "#F59F00"
+  "Sem posicionamento definido": "#8F9498"
+
+# Reconhecimento e rejeicao.
+  "Com certeza votaria": "#2E9E5B"
+  "Poderia votar": "#8CBF44"
+  "Provavelmente não votaria": "#E87E35"
+  "Não votaria de jeito nenhum": "#DE4B3B"
+
+# Antipetismo e antibolsonarismo: uma matiz, escurecendo com a intensidade.
+  "Totalmente (4-5)": "#862E9C"
+  "Intermediário (3)": "#BE4BDB"
+  "Nem um pouco (1-2)": "#DA77F2"
+
+# No cruzamento das duas escalas a cor diz quem o eleitor rejeita; o roxo e a
+# soma das outras duas.
+  "Antipetista e antibolsonarista": "#862E9C"
+  "Só antipetista": "#4C6EF5"
+  "Só antibolsonarista": "#FA5252"
+  "Nenhum dos dois": "#F59F00"
+
+# Residuais: um cinza so para tudo que nao e resposta substantiva.
+  "Branco/nulo ou não votaria": "#8F9498"
+  "Indecisos, brancos e nulos": "#8F9498"
+  "Indecisos": "#ADB5BD"
+  "Indeciso / Não Respondeu": "#8F9498"
+  "Não sei": "#8F9498"
+  "Não conhece ou não sabe": "#8F9498"
+  "Outra": "#8F9498"
+
+secoes:
+
+  - titulo: "1º turno espontânea"
+    questoes:
+
+      - variavel: spontaneous_vote_norm
+        rotulo: "Voto espontâneo"
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
+        mesclar: *mesclar_escolheu
+        harmonizar:
+          mapa:
+            "Lula": "Lula (PT)"
+            "Flávio Bolsonaro": "Flávio Bolsonaro (PL)"
+            "Renan Santos": "Renan Santos (Missão)"
+            "Augusto Cury": "Escritor Augusto Cury (Avante)"
+            "Romeu Zema": "Zema (Novo)"
+            "Ronaldo Caiado": "Ronaldo Caiado (PSD)"
+            "Branco/Nulo": "Branco/nulo ou não votaria"
+            "Ninguém": "Branco/nulo ou não votaria"
+            "Não irei votar": "Branco/nulo ou não votaria"
+            "Indefinido": "Indecisos"
+            "Indeciso / Não Respondeu": "Indecisos"
+          resto: "Outros"
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+  - titulo: "1º turno estimulada"
+    questoes:
+
+      # Marçal so consta neste cenario; a ancora do cenario 2 nao serve
+      - variavel: stimulated_1r_vote_1_h
+        rotulo: "Cenário 1"
+        nota: *nota_cenario_1r
+        harmonizar:
+          mapa:
+            "Lula (PT)": "Lula (PT)"
+            "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
+            "Renan Santos (Missão)": "Renan Santos (Missão)"
+            "Escritor Augusto Cury (Avante)": "Escritor Augusto Cury (Avante)"
+            "Ronaldo Caiado (PSD)": "Ronaldo Caiado (PSD)"
+            "Zema (Novo)": "Zema (Novo)"
+            "Pablo Marçal (PRTB)": "Pablo Marçal (PRTB)"
+            "Branco/nulo ou não votaria": "Branco/nulo ou não votaria"
+            "Indecisos": "Indecisos"
+          resto: "Outros"
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+      - variavel: stimulated_1r_vote_2_h
+        rotulo: "Cenário 2"
+        nota: *nota_cenario_1r
+        harmonizar: *cenario_1r
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+      # Os 19 codigos ficam nos microdados; aqui viram familias, e abaixo de 3% vai para Outro
+      - variavel: motivo_voto_1t_cod
+        chave: motivo_1t
+        rotulo: "1º turno (cenário 2)"
+        nota: "Pergunta espontânea: resposta digitada em caixa de texto e codificada em categorias, agrupadas em famílias temáticas. Feita logo após o cenário 2 do 1º turno."
+        harmonizar:
+          mapa:
+            "Propostas e preparo": "Propostas e preparo"
+            "Melhor opção, sem razão específica": "Melhor opção, sem razão específica"
+            "Avaliação positiva do governo Lula": "Avaliação positiva do governo Lula"
+            "Causas sociais e defesa do povo": "Causas sociais e defesa do povo"
+            "Rejeição a Lula e ao PT": "Rejeição a Lula e ao PT"
+            "Identificação ideológica": "Ideologia, valores e liberdade"
+            "Valores, religião e família": "Ideologia, valores e liberdade"
+            "Democracia, liberdade e soberania": "Ideologia, valores e liberdade"
+            "Mudança e renovação": "Mudança e renovação"
+            "Honestidade e combate à corrupção": "Honestidade e combate à corrupção"
+            "Confiança e identificação com o candidato": "Confiança no candidato e voto útil"
+            "Voto útil e chance de vitória": "Confiança no candidato e voto útil"
+            "Indeciso / Não Respondeu": "Indeciso / Não Respondeu"
+          resto: "Outro"
+        ordenar: decrescente
+        fixar_no_fim: ["Outro", "Indeciso / Não Respondeu"]
+
+  - titulo: "2º turno estimulada"
+    questoes:
+      # `chave` nomeia o cenario pelos candidatos: a numeracao muda de onda para onda
+      - variavel: stimulated_2r_vote_1_h
+        chave: lula_flavio
+        rotulo: "Lula x Flávio Bolsonaro"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      # no 2o turno as duas rejeicoes passam de 3%
+      - variavel: motivo_voto_2t_cod
+        chave: motivo_lula_flavio
+        rotulo: "2º turno Lula x Flávio Bolsonaro"
+        nota: "Pergunta espontânea: resposta digitada em caixa de texto e codificada em categorias, agrupadas em famílias temáticas. Feita logo após o cenário Lula x Flávio Bolsonaro."
+        harmonizar:
+          mapa:
+            "Propostas e preparo": "Propostas e preparo"
+            "Melhor opção, sem razão específica": "Melhor opção, sem razão específica"
+            "Avaliação positiva do governo Lula": "Avaliação positiva do governo Lula"
+            "Causas sociais e defesa do povo": "Causas sociais e defesa do povo"
+            "Rejeição a Lula e ao PT": "Rejeição a Lula e ao PT"
+            "Identificação ideológica": "Ideologia, valores e liberdade"
+            "Valores, religião e família": "Ideologia, valores e liberdade"
+            "Democracia, liberdade e soberania": "Ideologia, valores e liberdade"
+            "Mudança e renovação": "Mudança e renovação"
+            "Honestidade e combate à corrupção": "Honestidade e combate à corrupção"
+            "Confiança e identificação com o candidato": "Confiança no candidato e voto útil"
+            "Voto útil e chance de vitória": "Confiança no candidato e voto útil"
+            "Rejeição aos dois candidatos": "Rejeição aos dois candidatos"
+            "Rejeição a Bolsonaro e à direita": "Rejeição a Bolsonaro e à direita"
+            "Indeciso / Não Respondeu": "Indeciso / Não Respondeu"
+          resto: "Outro"
+        ordenar: decrescente
+        fixar_no_fim: ["Outro", "Indeciso / Não Respondeu"]
+
+      - variavel: stimulated_2r_vote_2_h
+        chave: lula_cury
+        rotulo: "Lula x Augusto Cury"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      - variavel: stimulated_2r_vote_3_h
+        chave: lula_renan
+        rotulo: "Lula x Renan Santos"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      - variavel: stimulated_2r_vote_4_h
+        chave: lula_caiado
+        rotulo: "Lula x Ronaldo Caiado"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+      - variavel: stimulated_2r_vote_5_h
+        chave: lula_zema
+        rotulo: "Lula x Romeu Zema"
+        ordenar: decrescente
+        fixar_no_fim: *fim_cenario
+
+  - titulo: "Reconhecimento e Rejeição"
+    questoes:
+      - variavel: recall_rejection_flavio_bolsonaro_h
+        rotulo: "Flávio Bolsonaro"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_lula_h
+        rotulo: "Lula"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_renan_santos_h
+        rotulo: "Renan Santos"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_romeu_zema_h
+        rotulo: "Romeu Zema"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_ronaldo_caiado_h
+        rotulo: "Ronaldo Caiado"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+      - variavel: recall_rejection_augusto_cury_h
+        rotulo: "Augusto Cury"
+        harmonizar: *escala_recall
+        respostas: *ordem_recall
+
+  - titulo: "Aprovação e Avaliação do Governo"
+    questoes:
+      - variavel: president_approval
+        rotulo: "Aprovação de Lula"
+      - variavel: government_evaluation_h
+        rotulo: "Avaliação do governo"
+
+  - titulo: "Problemas do Brasil e Expectativas Econômicas"
+    questoes:
+      - variavel: main_problem_country
+        rotulo: "Maior problema do Brasil"
+        nota: "Pergunta estimulada: o respondente escolheu entre as opções apresentadas."
+        ordenar: decrescente
+        fixar_no_fim: ["Outro", "Não sei"]
+      - variavel: problema_familia_cod
+        chave: problema_familia
+        rotulo: "Maior problema da família"
+        nota: "Pergunta espontânea: resposta digitada em caixa de texto e codificada em categorias."
+        harmonizar:
+          mapa:
+            "Custo de vida e inflação": "Custo de vida e inflação"
+            "Renda, dinheiro e dívidas": "Renda, dinheiro e dívidas"
+            "Segurança pública e violência": "Segurança pública e violência"
+            "Governo e política": "Governo e política"
+            "Saúde": "Saúde"
+            "Nenhum": "Nenhum"
+            "Indeciso / Não Respondeu": "Indeciso / Não Respondeu"
+          resto: "Outro"
+        ordenar: decrescente
+        fixar_no_fim: ["Outro", "Indeciso / Não Respondeu"]
+      - variavel: economic_macro_retro
+        rotulo: "País, últimos 12 meses"
+        harmonizar: *escala_retro
+      - variavel: economic_pocket_retro
+        rotulo: "Família, últimos 12 meses"
+        harmonizar: *escala_retro
+      - variavel: economic_macro_prosp
+        rotulo: "País, próximos 12 meses"
+        harmonizar:
+          mapa:
+            "Vai ficar do mesmo jeito": "Igual"
+      - variavel: economic_pocket_prosp
+        rotulo: "Família, próximos 12 meses"
+        harmonizar:
+          mapa:
+            "Vai ficar do mesmo jeito": "Igual"
+
+  - titulo: "Políticas Públicas"
+    questoes:
+      - variavel: public_policy_support_maioridade_penal
+        rotulo: "Maioridade penal aos 16"
+      - variavel: public_policy_support_porte_de_armas
+        rotulo: "Porte de armas"
+      - variavel: public_policy_support_casamento_homoafetivo
+        rotulo: "Casamento homoafetivo"
+      - variavel: public_policy_support_proibir_aborto
+        rotulo: "Proibir o aborto"
+      - variavel: public_policy_support_terras_indigenas
+        rotulo: "Demarcação de terras indígenas"
+      - variavel: public_policy_support_cotas
+        rotulo: "Cotas em universidades e concursos"
+      - variavel: public_policy_support_privatizar_correios
+        rotulo: "Privatizar os Correios"
+      - variavel: public_policy_support_desvincular_previdencia
+        rotulo: "Desvincular a previdência do mínimo"
+      - variavel: public_policy_support_pisos_saude_educacao
+        rotulo: "Retirar pisos de saúde e educação"
+      - variavel: public_policy_support_alinhar_eua
+        rotulo: "Alinhar política externa aos EUA"
+
+  - titulo: "Espectro Ideológico e Identificação Política"
+    questoes:
+
+      - variavel: ideology
+        rotulo: "Espectro Ideológico"
+        harmonizar:
+          mapa:
+            "Não me identifico com um posicionamento definido": "Sem posicionamento definido"
+
+      - variavel: identification_h
+        rotulo: "Identificação Política"
+
+      - variavel: neg_identification_antipetista_h
+        rotulo: "Antipetismo"
+        respostas: *ordem_escala_15
+      - variavel: neg_identification_antibolsonarista_h
+        rotulo: "Antibolsonarismo"
+        respostas: *ordem_escala_15
+
+      - variavel: anti_cruzado
+        rotulo: "Antipetismo × antibolsonarismo"
+        nota: "Variável derivada do cruzamento das escalas de antipetismo e antibolsonarismo: conta como antipetista, ou antibolsonarista, quem se declarou 4 ou 5. Quem respondeu “Não sei” em uma das duas escalas não é situado num quadrante."
+        ordenar: decrescente
+        fixar_no_fim: ["Não sei"]
+
+      - variavel: party_affiliation
+        rotulo: "Filiação partidária"
+      - variavel: party_affiliated
+        rotulo: "Partido de filiação"
+        nota: "Base: apenas respondentes que declararam ter filiação formal a algum partido político."
+        ordenar: decrescente
+
+  - titulo: "Participação eleitoral"
+    questoes:
+      - variavel: registered_voter_last_election
+        rotulo: "Tinha título regular em 2022"
+
+# O rotulo de recorte nao passa pelo i18n.
+recortes:
+
+  - variavel: sex_std
+    rotulo: "Sexo"
+
+  - variavel: age_std
+    rotulo: "Idade"
+
+  - variavel: race_std
+    rotulo: "Cor ou raça"
+
+  - variavel: edu_std
+    rotulo: "Escolaridade"
+
+  - variavel: inc_std
+    rotulo: "Renda familiar"
+    harmonizar:
+      mapa:
+        "0-2 SM": "Até 2 salários mínimos"
+        "2-5 SM": "2 a 5 salários mínimos"
+        "5+ SM": "Mais de 5 salários mínimos"
+
+  - variavel: reg_std
+    rotulo: "Região"
+    harmonizar:
+      mapa:
+        "N": "Norte"
+        "NE": "Nordeste"
+        "CO": "Centro-Oeste"
+        "SE": "Sudeste"
+        "S": "Sul"
+
+  - variavel: vote_std
+    rotulo: "Voto no 2º turno de 2022"
+    harmonizar:
+      mapa:
+        "Branco/Nulo": "Branco/Nulo ou Não votei"
+
+  # Transferencia de voto: os 4 primeiros do cenario 2; o resto em Outros candidatos.
+  - variavel: stimulated_1r_vote_2_h
+    rotulo: "Eleitor no 1º turno (cenário 2)"
+    harmonizar:
+      mapa:
+        "Lula (PT)": "Lula (PT)"
+        "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
+        "Renan Santos (Missão)": "Renan Santos (Missão)"
+        "Escritor Augusto Cury (Avante)": "Escritor Augusto Cury (Avante)"
+        "Branco/nulo ou não votaria": "Indecisos, brancos e nulos"
+        "Indecisos": "Indecisos, brancos e nulos"
+      resto: "Outros candidatos"
+    grupos: ["Lula (PT)", "Flávio Bolsonaro (PL)", "Renan Santos (Missão)", "Escritor Augusto Cury (Avante)", "Outros candidatos", "Indecisos, brancos e nulos"]
+
+  - variavel: stimulated_2r_vote_1_h
+    rotulo: "Voto no 2º turno Lula x Flávio"
+    harmonizar:
+      mapa:
+        "Branco/nulo ou não votaria": "Indecisos, brancos e nulos"
+        "Indecisos": "Indecisos, brancos e nulos"
+    grupos: ["Lula (PT)", "Flávio Bolsonaro (PL)", "Indecisos, brancos e nulos"]
+
+  - variavel: relig_std
+    rotulo: "Religião"
+    harmonizar:
+      mapa:
+        "Sem Religião/Ateu/Agnóstico": "Sem religião"
+
+  - variavel: ideol_std
+    rotulo: "Espectro Ideológico"
+    harmonizar:
+      mapa:
+        "Centro": "Centro ou sem posicionamento"
+        "Sem posicionamento": "Centro ou sem posicionamento"
+
+  - variavel: identification_h
+    rotulo: "Identificação Política"
+    harmonizar:
+      mapa:
+        "Sem interesse em política": "Sem interesse ou não sabe"
+        "Não sei": "Sem interesse ou não sabe"
+    excluir:
+      - "Sem interesse ou não sabe"

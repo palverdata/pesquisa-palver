@@ -1,0 +1,57 @@
+onda:
+  nome: "21-09-2026 BR-06100/2026"
+  sequencia: 2
+  registro: "BR-06100/2026"
+  data_divulgacao: "2026-09-21"
+  descricao: "Reanalise da onda 2 (BR-05420/2026) com a margem de filiacao partidaria, setembro de 2026"
+
+campo:
+  data_inicio: "2026-09-04"
+  data_fim: "2026-09-07"
+
+amostra:
+  registrada: 5000
+  ordenar_por: end_timestamp
+
+margens:
+  pnadc: "margens/pnadc-2024-visita5.yaml"
+  tse: "margens/tse-2022-turno2.yaml"
+  filiacao: "margens/tse-filiacao-2026-08.yaml"
+
+# Margem de filiacao partidaria no raking (exige a derivada filiacao_std).
+filiacao:
+  ativo: true
+
+propensao:
+  ativo: false
+  variaveis: [sex_std, age, edu_std, inc_std_2, reg_std, tipo_mun_std]
+  semente: 1234
+  arvores: 1000
+  no_minimo: 20
+  peso_fallback: 1
+
+calibracao:
+  margens:
+    - [sex_std]
+    - [age_std]
+    - [edu_std]
+    - [inc_std]
+    - [inc_std, sex_std, age_std, reg_std]
+    - [reg_std, vote_std]
+  tolerancia: 1.0e-7
+  max_iteracoes: 200
+
+trimming:
+  teto: null
+  piso: null
+  strict: true
+
+diagnosticos:
+  tolerancia_pp: 3.0
+  nivel_confianca: 0.95
+  moe_maxima_pp: 4.0
+
+outputs:
+  prefixo: "02_results_eleicoes_2026_09_21"
+  # microdados ponderados em output/ (fora do git, nunca publicados)
+  microdados: true
