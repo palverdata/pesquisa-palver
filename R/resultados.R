@@ -90,6 +90,48 @@ estimate_svyby <- function(questao, recorte, desenho, nivel_confianca = 0.95) {
   })
 }
 
+# Multipla escolha: share e a proporcao que citou o item, um item por vez. Os
+# shares nao somam 1; conferir_json sabe disso pelo `multiple` do cruzamento.
+estimate_multipla <- function(questao, recorte, desenho, itens,
+                              nivel_confianca = 0.95) {
+
+  valores <- desenho$variables[[questao]]
+  validas <- resposta_valida(valores)
+  if (!is.null(recorte)) {
+    validas <- validas & resposta_valida(desenho$variables[[recorte]])
+  }
+  if (!any(validas)) return(NULL)
+
+  sub <- desenho[validas, ]
+  marcados <- strsplit(as.character(sub$variables[[questao]]), "|",
+                       fixed = TRUE)
+  if (!is.null(recorte)) {
+    sub$variables$.estrato <- factor(as.character(sub$variables[[recorte]]))
+  }
+
+  purrr::map_dfr(itens, function(item) {
+    sub$variables$.marcou <- as.numeric(
+      vapply(marcados, function(x) item %in% x, logical(1)))
+
+    if (is.null(recorte)) {
+      est <- survey::svymean(~.marcou, design = sub)
+      ic <- stats::confint(est, level = nivel_confianca)
+      return(tibble::tibble(
+        question = questao, response = item, group = "__total__",
+        mean = as.numeric(stats::coef(est)),
+        conf_low = as.numeric(ic[, 1]), conf_high = as.numeric(ic[, 2])))
+    }
+
+    r <- survey::svyby(~.marcou, ~.estrato, design = sub, FUN = survey::svymean,
+                       vartype = c("se", "ci"), level = nivel_confianca,
+                       keep.names = FALSE, drop.empty.groups = TRUE)
+    tibble::tibble(
+      question = questao, response = item, group = as.character(r$.estrato),
+      mean = as.numeric(r$.marcou),
+      conf_low = as.numeric(r$ci_l), conf_high = as.numeric(r$ci_u))
+  })
+}
+
 niveis_declarados <- function(qst) {
 
   nomes <- unique(c(names(qst$derivadas), names(qst$questoes)))
@@ -288,6 +330,12 @@ carregar_display <- function(caminho, onda) {
 
   if (length(questoes) == 0) stop("display.yaml: nenhuma questao", call. = FALSE)
 
+  # `evolucao`: a plataforma pode ligar a serie historica nesta onda
+  evolucao <- disp$evolucao %||% FALSE
+  if (!is.logical(evolucao) || length(evolucao) != 1 || is.na(evolucao)) {
+    stop("display.yaml: `evolucao` tem de ser true ou false", call. = FALSE)
+  }
+
   for (campo in list(list(questoes, "questao"), list(recortes, "recorte"))) {
     vars <- purrr::map_chr(campo[[1]], "variavel")
     if (anyDuplicated(vars)) {
@@ -298,7 +346,7 @@ carregar_display <- function(caminho, onda) {
   }
 
   list(questoes = questoes, recortes = recortes, amostra = amostra,
-       cores = cores)
+       cores = cores, evolucao = evolucao)
 }
 
 kish <- function(pesos) sum(pesos)^2 / sum(pesos^2)
@@ -458,7 +506,10 @@ montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
 
   if (!any(ok)) return(NULL)
 
-  est <- if (is.null(recorte)) {
+  est <- if (isTRUE(q$multipla)) {
+    estimate_multipla(q$coluna, if (is.null(recorte)) NULL else recorte$coluna,
+                      design, answers, nivel)
+  } else if (is.null(recorte)) {
     estimate_question(q$coluna, design, nivel) %>%
       dplyr::mutate(group = "__total__")
   } else {
@@ -491,11 +542,17 @@ montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
   }
 
   resposta <- as.character(dados[[q$coluna]])
-  contagem <- table(grupo[ok], resposta[ok])
 
-  n_de <- function(g, a) {
-    if (!g %in% rownames(contagem) || !a %in% colnames(contagem)) return(0L)
-    as.integer(contagem[g, a])
+  n_de <- if (isTRUE(q$multipla)) {
+    marcados <- strsplit(resposta, "|", fixed = TRUE)
+    function(g, a) sum(ok & grupo == g &
+                         vapply(marcados, function(x) a %in% x, logical(1)))
+  } else {
+    contagem <- table(grupo[ok], resposta[ok])
+    function(g, a) {
+      if (!g %in% rownames(contagem) || !a %in% colnames(contagem)) return(0L)
+      as.integer(contagem[g, a])
+    }
   }
 
   cells <- list()
@@ -534,6 +591,8 @@ montar_cruzamento <- function(q, recorte, design, nivel, answers, wave_id,
     base = sum(ok),
     weighted = TRUE
   )
+
+  if (isTRUE(q$multipla)) fora$multiple <- TRUE
 
   if (length(registro) > 0) {
     fora <- append(fora, list(excluded = I(registro)),
@@ -623,11 +682,10 @@ montar_json <- function(fit, qst, display, cfg) {
   }
   wave_id <- sprintf("%02d", as.integer(sequencia))
 
-  # a margem de filiacao entra pelo toggle, nao pelo display: o resumo a recebe aqui
-  if (isTRUE(cfg$filiacao$ativo) &&
-      !"filiacao_std" %in% purrr::map_chr(display$amostra, "variavel")) {
-    display$amostra <- c(display$amostra,
-                         list(list(variavel = "filiacao_std", rotulo = "Filiação partidária")))
+  campo <- cfg$campo
+  if (is.null(campo$data_inicio) || is.null(campo$data_fim)) {
+    stop("config.yaml: bloco `campo` sem `data_inicio` e `data_fim`. O JSON ",
+         "da plataforma leva o periodo de campo em wave.", call. = FALSE)
   }
 
   conferir_resumo(display$amostra, cfg$calibracao$margens)
@@ -659,6 +717,14 @@ montar_json <- function(fit, qst, display, cfg) {
     spec$coluna <- spec$variavel
     spec$niveis <- niveis[[spec$variavel]]
     valores <- dados[[spec$variavel]]
+    spec$multipla <- identical(qst$derivadas[[spec$variavel]]$tipo, "lista")
+
+    # a coluna de lista tem varios itens por celula; renomear item e `mapa` na
+    # derivada
+    if (spec$multipla && !is.null(spec$harmonizar)) {
+      stop(tipo, " ", spec$variavel, ": `harmonizar` nao se aplica a derivada ",
+           "lista; use `mapa` na derivada.", call. = FALSE)
+    }
 
     if (!is.null(spec$mesclar)) {
       if (!spec$mesclar$variavel %in% names(dados)) {
@@ -670,7 +736,8 @@ montar_json <- function(fit, qst, display, cfg) {
                                   niveis[[spec$mesclar$variavel]],
                                   paste(tipo, spec$variavel))
       spec$coluna <- paste0(prefixo, spec$variavel)
-      spec$valores <- factor(valores, levels = spec$niveis, ordered = TRUE)
+      spec$valores <- if (spec$multipla) valores else
+        factor(valores, levels = spec$niveis, ordered = TRUE)
     }
 
     if (!is.null(spec$harmonizar)) {
@@ -724,7 +791,11 @@ montar_json <- function(fit, qst, display, cfg) {
       q$base$n_fora <- filtrado$n_fora
     }
 
-    est_total <- estimate_question(q$coluna, design_q, nivel)
+    est_total <- if (isTRUE(q$multipla)) {
+      estimate_multipla(q$coluna, NULL, design_q, q$niveis, nivel)
+    } else {
+      estimate_question(q$coluna, design_q, nivel)
+    }
     if (is.null(est_total) || nrow(est_total) == 0) {
       stop("questao sem resposta valida na onda -> ", q$variavel, call. = FALSE)
     }
@@ -751,6 +822,7 @@ montar_json <- function(fit, qst, display, cfg) {
     # texto aberto codificado (tipo tabulada) e espontanea; o resto, estimulada
     entrada$tipo <- if (identical(qst$questoes[[q$variavel]]$tipo, "tabulada"))
       "espontanea" else "estimulada"
+    if (isTRUE(q$multipla)) entrada$multiple <- TRUE
     questions[[length(questions) + 1]] <- entrada
   }
 
@@ -775,8 +847,11 @@ montar_json <- function(fit, qst, display, cfg) {
     wave = list(
       id = wave_id,
       sequence = as.integer(sequencia),
-      date = paste0(cfg$onda$data_divulgacao, "T00:00:00.000Z")
+      date = paste0(cfg$onda$data_divulgacao, "T00:00:00.000Z"),
+      field_start = paste0(campo$data_inicio, "T00:00:00.000Z"),
+      field_end = paste0(campo$data_fim, "T00:00:00.000Z")
     ),
+    enable_trend_view = display$evolucao,
     questions = I(questions),
     breakdowns = I(breakdowns),
     sample = I(montar_resumo(design, display$amostra, nivel)),
@@ -843,6 +918,7 @@ conferir_json <- function(estrutura, display, tolerancia = 1e-9) {
     grupos <- purrr::map_chr(ct$cells, "group")
 
     for (g in unique(grupos)) {
+      if (isTRUE(ct$multiple)) next
       soma <- sum(shares[grupos == g])
       if (abs(soma - 1) > tolerancia) {
         stop(chave, ": o grupo '", g, "' soma ", format(soma, digits = 15),
@@ -1087,9 +1163,8 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
               vapply(pacotes, function(p) as.character(packageVersion(p)), "")),
       "",
       "margens:",
-      sprintf("  %s", cfg$margens$pnadc),
-      sprintf("  %s", cfg$margens$tse %||% "(sem margem de voto)"),
-      if (isTRUE(cfg$filiacao$ativo)) sprintf("  %s (filiacao)", cfg$margens$filiacao),
+      sprintf("  %-9s %s", paste0(names(cfg$margens), ":"),
+              unlist(cfg$margens)),
       "",
       "propensao (peso inicial):",
       if (is.null(fit$propensao)) "  nao aplicada (peso uniforme)" else c(

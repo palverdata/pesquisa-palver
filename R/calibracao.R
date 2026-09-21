@@ -298,6 +298,33 @@ aplicar_derivada <- function(base, nome, spec) {
     # origem ausente nao e "abaixo do limiar": fica NA e sai da base da questao
     novo[purrr::reduce(purrr::map(origem, ~ is.na(base[[.x]])), `|`)] <- NA
 
+  } else if (identical(spec$tipo, "lista")) {
+
+    exige(spec$origem)
+    origem <- as.character(base[[spec$origem]])
+    # a plataforma grava a multipla escolha como lista Python: ['A', 'B']
+    itens <- strsplit(gsub("^\\[|\\]$", "", origem), "',\\s*'")
+    itens <- lapply(itens, function(x) gsub("^'|'$", "", x))
+
+    fora <- setdiff(unlist(itens),
+                    c(unlist(spec$opcoes), spec$nao_perguntado, NA))
+    if (length(fora) > 0) {
+      stop("derivada ", nome, ": ", spec$origem,
+           " traz opcao fora das declaradas -> ",
+           paste(sprintf("'%s'", fora), collapse = ", "))
+    }
+
+    # os itens ficam na mesma celula, separados por "|"; `mapa` renomeia um item
+    novo <- vapply(itens, function(x) {
+      idx <- match(x, names(spec$mapa))
+      x[!is.na(idx)] <- unlist(spec$mapa)[idx[!is.na(idx)]]
+      paste(unique(x), collapse = "|")
+    }, character(1))
+    # quem nao viu a pergunta vem como [None]: fica NA e entra pelo mesclar
+    nao_viu <- vapply(itens, function(x) all(x %in% spec$nao_perguntado),
+                      logical(1))
+    novo[is.na(origem) | nao_viu] <- NA
+
   } else if (identical(spec$tipo, "faixas")) {
 
     exige(spec$origem)
@@ -314,7 +341,9 @@ aplicar_derivada <- function(base, nome, spec) {
     stop("tipo de derivada nao suportado: ", spec$tipo)
   }
 
-  base[[nome]] <- if (is.null(spec$niveis)) novo else {
+  # lista guarda varios itens por linha: fica texto, e os niveis valem por item
+  lista <- identical(spec$tipo, "lista")
+  base[[nome]] <- if (is.null(spec$niveis) || lista) novo else {
     factor(novo, levels = unlist(spec$niveis))
   }
 
@@ -379,7 +408,10 @@ correcoes_municipio <- tibble::tribble(
   "SP", "SÃO LUÍS DO PARAITINGA",     "SÃO LUIZ DO PARAITINGA",
   "PA", "ELDORADO DOS CARAJÁS",       "ELDORADO DO CARAJÁS",
   # Serido (PB) passou a se chamar Sao Vicente do Serido em 2013
-  "PB", "SERIDÓ",                     "SÃO VICENTE DO SERIDÓ"
+  "PB", "SERIDÓ",                     "SÃO VICENTE DO SERIDÓ",
+  "SP", "FLORÍNIA",                   "FLORÍNEA",
+  "MG", "PASSA-VINTE",                "PASSA VINTE",
+  "BA", "SANTA TERESINHA",            "SANTA TEREZINHA"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.

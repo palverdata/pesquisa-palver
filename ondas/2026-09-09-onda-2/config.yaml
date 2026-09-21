@@ -16,11 +16,6 @@ amostra:
 margens:
   pnadc: "margens/pnadc-2024-visita5.yaml"
   tse: "margens/tse-2022-turno2.yaml"
-  filiacao: "margens/tse-filiacao-2026-08.yaml"
-
-# Margem de filiacao partidaria no raking (exige a derivada filiacao_std).
-filiacao:
-  ativo: false
 
 propensao:
   ativo: false

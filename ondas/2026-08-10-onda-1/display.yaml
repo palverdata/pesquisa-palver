@@ -3,6 +3,9 @@
 meta:
   onda: "2026-08-10-onda-1"
 
+# a plataforma so mostra a serie historica a partir da reanalise da onda 2
+evolucao: false
+
 # Nada aqui vai para o JSON.
 ancoras:
 

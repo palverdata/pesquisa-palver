@@ -84,11 +84,8 @@ rodar_onda <- function(onda) {
   cat(sprintf("\nonda %s | registro %s | %d respondentes\n",
               cfg$onda$nome %||% onda, cfg$onda$registro, nrow(base)))
 
-  fontes <- purrr::compact(list(
-    pnadc = if (!is.null(cfg$margens$pnadc))
-      carregar_margens(cfg$margens$pnadc),
-    tse = if (!is.null(cfg$margens$tse)) carregar_margens(cfg$margens$tse)
-  ))
+  # toda fonte de `margens` fica disponivel; `calibracao.margens` diz qual entra
+  fontes <- purrr::map(cfg$margens, carregar_margens)
 
   propensao <- NULL
   if (isTRUE(cfg$propensao$ativo)) {
@@ -101,15 +98,6 @@ rodar_onda <- function(onda) {
                                   p$semente %||% 1234, p$arvores %||% 1000,
                                   p$no_minimo %||% 20, p$peso_fallback %||% 1)
     base <- propensao$base
-  }
-
-  # filiacao.ativo: a margem de filiacao partidaria entra no raking
-  if (isTRUE(cfg$filiacao$ativo)) {
-    if (is.null(cfg$margens$filiacao)) {
-      stop("filiacao.ativo exige margens.filiacao no config.yaml", call. = FALSE)
-    }
-    fontes$filiacao <- carregar_margens(cfg$margens$filiacao)
-    cfg$calibracao$margens <- c(cfg$calibracao$margens, list(list("filiacao_std")))
   }
 
   alvos <- montar_alvos(fontes, cfg$calibracao$margens)
