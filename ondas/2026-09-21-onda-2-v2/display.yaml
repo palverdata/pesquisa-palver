@@ -492,6 +492,17 @@ recortes:
       mapa:
         "Sem Religião/Ateu/Agnóstico": "Sem religião"
 
+  # Evangelicos abertos por vertente; quem nao e evangelico entra pela religiao declarada.
+  - variavel: relig_std_2
+    rotulo: "Religião (evangélicos por vertente)"
+    mesclar:
+      variavel: relig_std
+      mapa:
+        "Católica": "Católica"
+        "Sem Religião/Ateu/Agnóstico": "Sem religião"
+        "Outra": "Outra religião"
+    grupos: ["Católica", "Protestantes Históricas", "Pentecostais e Neopentecostais", "Outras", "Sem religião", "Outra religião"]
+
   - variavel: ideol_std
     rotulo: "Espectro Ideológico"
     harmonizar:

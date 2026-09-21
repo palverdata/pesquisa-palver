@@ -828,6 +828,34 @@ derivadas:
       - "Sem Religião/Ateu/Agnóstico"
       - "Outra"
 
+  # Vertente evangelica; so quem respondeu a denominacao. Os demais ficam NA e
+  # entram no recorte pelo `mesclar` com relig_std.
+  relig_std_2:
+    origem: relig_evang
+    tipo: mapa_com_resto
+    resto: "Outras"
+    mapa:
+      "Batista": "Protestantes Históricas"
+      "Presbiteriana": "Protestantes Históricas"
+      "Metodista": "Protestantes Históricas"
+      "Luterana": "Protestantes Históricas"
+      "Congregacional": "Protestantes Históricas"
+      "Episcopal Anglicana": "Protestantes Históricas"
+      "Adventista do Sétimo Dia": "Protestantes Históricas"
+      "Assembleia de Deus": "Pentecostais e Neopentecostais"
+      "Congregação Cristã do Brasil": "Pentecostais e Neopentecostais"
+      "Evangelho Quadrangular": "Pentecostais e Neopentecostais"
+      "Igreja Universal do Reino de Deus": "Pentecostais e Neopentecostais"
+      "Igreja Mundial do Poder de Deus": "Pentecostais e Neopentecostais"
+    # os tres ultimos niveis so existem via mesclar, no recorte
+    niveis:
+      - "Protestantes Históricas"
+      - "Pentecostais e Neopentecostais"
+      - "Outras"
+      - "Católica"
+      - "Sem religião"
+      - "Outra religião"
+
   ideol_std:
     origem: ideology
     tipo: mapa
@@ -1013,6 +1041,7 @@ estratificacao:
   - variavel: reg_std
   - variavel: vote_std
   - variavel: relig_std
+  - variavel: relig_std_2
   - variavel: ideol_std
   - variavel: identification
   - variavel: anti_std
