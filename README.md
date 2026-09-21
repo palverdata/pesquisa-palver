@@ -12,9 +12,10 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 
 | onda | divulgação | registro | campo | relatório | press release |
 | ---- | ---------- | -------- | ----- | --------- | ------------- |
-| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-august/press-release) |
-| 2 | 09/09/2026 | BR-05420/2026 | 04 a 07/09/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-september-w2-v2/press-release) |
-| 2 (reanálise) | 21/09/2026 | BR-06100/2026 | 04 a 07/09/2026 | — | — |
+| 1 | 10/08/2026 | BR-06596/2026 | 03 a 09/08/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-august/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-august/press-release) |
+| 2 | 09/09/2026 | BR-05420/2026 | 04 a 07/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w2-v1/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w2-v1/press-release) |
+| 2 (reanálise) | 21/09/2026 | BR-06100/2026 | 04 a 07/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w2-v2/report) | — |
+| 3 | 21/09/2026 | BR-00860/2026 | 15 a 20/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w3/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w3/press-release) |
 
 A reanálise é o mesmo campo da onda 2, recalibrado com a margem de filiação
 partidária (ver [Filiação partidária](#filiação-partidária)) e registrado de novo
@@ -22,9 +23,16 @@ no TSE. Ela vive em `ondas/2026-09-21-onda-2-v2/`, lê o mesmo `.xlsx` normaliza
 (prompts em `ondas/2026-09-09-onda-2/norm/`) e é a versão que serve de base para
 comparar a onda 2 com as seguintes.
 
+A onda 3 usa a mesma calibração da reanálise. A amostra são 5.000 entrevistas
+das versões 4 a 7 do questionário, dentro do campo registrado. Ficam de fora as
+entrevistas em que o respondente declarou filiação partidária mas o partido não
+foi coletado, por falha de duas versões do questionário: sem o partido, a
+derivada `filiacao_std` não tem como classificá-las.
+
 Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10),
 [`v2026-09-09`](../../releases/tag/v2026-09-09),
-[`v2026-09-21-onda-2-v2`](../../releases/tag/v2026-09-21-onda-2-v2) — que congela o motor, as margens e a
+[`v2026-09-21-onda-2-v2`](../../releases/tag/v2026-09-21-onda-2-v2),
+[`v2026-09-21-onda-3`](../../releases/tag/v2026-09-21-onda-3) — que congela o motor, as margens e a
 configuração usados para produzir aqueles números.
 
 ## Passo a passo: rodar uma onda
@@ -100,12 +108,17 @@ buscam por chave (`pergunta|recorte`, com recorte vazio para o total) e desenham
 `share`, `low` e `high` vêm do **mesmo desenho calibrado** que produz o resto da
 onda; plataforma e relatório mostram o mesmo número.
 
+O bloco `wave` identifica a onda: `id` e `sequence` vêm de `onda.sequencia`,
+`date` de `onda.data_divulgacao`, e `field_start`/`field_end` do bloco `campo`
+do `config.yaml` — o período registrado, não a data da última entrevista usada.
+
 O que entra na tela é declarado em [display.yaml](ondas/2026-08-10-onda-1/display.yaml).
 As chaves:
 
 | chave | onde | o que faz |
 | ----- | ---- | --------- |
 | `meta` | topo | `onda`, igual ao nome da pasta; obrigatório |
+| `evolucao` | topo | `true` libera a série histórica desta onda na plataforma; sai como `enable_trend_view`. Default `false` |
 | `secoes` | topo | as seções, e dentro de cada uma as questões, na ordem de exibição |
 | `recortes` | topo | os recortes que o menu de cruzamento oferece |
 | `amostra` | topo | as variáveis do resumo que abre a divulgação; sai como `sample` |
@@ -121,6 +134,7 @@ As chaves:
 | `mesclar` | questão, recorte | leva para a questão (ou para o grupo do recorte) quem outra variável diz não ter resposta própria (`variavel`, `mapa`); não convive com `base` |
 | `nota` | questão | texto livre que sai como `note` na entrada da questão no JSON |
 | — | — | toda questão sai com `tipo` em `questions[]`: `espontanea` se a origem é texto aberto codificado (`tipo: tabulada` no questionário), `estimulada` nas demais; nada a declarar |
+| — | — | questão de múltipla escolha (derivada `tipo: lista`) sai com `multiple: true` na questão e em cada cruzamento: `share` é a proporção que citou o item, e os `share` não somam 1 |
 | `excluir` | recorte | tira grupos da tela e da base |
 
 O enunciado não se repete no `display.yaml` — vem do `questionario.yaml`, do
@@ -168,8 +182,9 @@ Copie o arquivo para o repositório da plataforma somente depois da divulgação
    ```
 2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `sequencia`,
    `data_divulgacao`), `campo` e `outputs.prefixo`. `registro`,
-   `sequencia` e `data_divulgacao` são **obrigatórios**, e `data_divulgacao`
-   tem de ser igual ao nome da pasta. No `display.yaml`, `meta.onda` também.
+   `sequencia` e `data_divulgacao` são **obrigatórios**, e o nome da pasta tem
+   de começar por `data_divulgacao`. No `display.yaml` e no
+   `questionario.yaml`, `meta.onda` é o nome da pasta.
 3. Refaça o `questionario.yaml` a partir do arquivo desta onda:
 
    > Cada `texto` é o cabeçalho da coluna no `.xlsx`, caractere por caractere.
@@ -259,18 +274,21 @@ nos microdados e em `localidades.xlsx`.
 
 ## Filiação partidária
 
-Onda que pergunta filiação pode calibrar também por ela:
+Onda que pergunta filiação pode calibrar também por ela. A fonte entra em
+`margens` e a margem em `calibracao.margens`, como qualquer outra:
 
 ```yaml
 margens:
   filiacao: "margens/tse-filiacao-2026-08.yaml"
-filiacao:
-  ativo: true
+calibracao:
+  margens:
+    - [filiacao_std]
 ```
 
-Com `ativo: true` o motor acrescenta a margem `filiacao_std` (Não filiado, PL, PT,
-Missão, Outros filiados) ao raking e ao resumo da amostra; o questionário precisa
-da derivada `filiacao_std`. Bloco ausente ou `ativo: false`: nada muda. A margem
+A margem `filiacao_std` (Não filiado, PL, PT, Missão, Outros filiados) exige a
+derivada de mesmo nome no questionário e a variável no bloco `amostra` do
+`display.yaml`, que o motor confere contra `calibracao.margens`. Sem a linha em
+`calibracao.margens`, a fonte fica carregada e não entra. A margem
 vem de `scripts/gerar-margens-filiacao.R`, que lê o perfil de filiação do TSE
 (`insumos/tse/perfil_filiacao_partidaria.csv`, 3,5 GB, fora do git; origem:
 <https://cdn.tse.jus.br/estatistica/sead/odsele/filiacao_partidaria/perfil_filiacao_partidaria.zip>)
@@ -288,14 +306,16 @@ pesquisa-palver/
 ├── scripts/                    # abra no RStudio, preencha o topo e Source
 │   ├── rodar-onda.R
 │   ├── gerar-margens-pnadc.R
-│   └── gerar-margens-tse.R
+│   ├── gerar-margens-tse.R
+│   └── gerar-margens-filiacao.R
 ├── normalizacao/               # colunas abertas -> rotulos, com modelo local
 │   ├── normalizar.py
 │   ├── pyproject.toml          #   ambiente do uv
 │   └── tests/
 ├── margens/                    # alvos populacionais, compartilhados
 │   ├── pnadc-2024-visita5.yaml
-│   └── tse-2022-turno2.yaml
+│   ├── tse-2022-turno2.yaml
+│   └── tse-filiacao-2026-08.yaml
 ├── insumos/
 │   ├── municipios_brasil.yaml  #   crosswalk de municípios, versionado
 │   └── tse/                    #   microdados do TSE (fora do git)
