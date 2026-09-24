@@ -1,0 +1,209 @@
+{
+  "instrucao": "Você classifica respostas de uma pergunta ABERTA de intenção de voto para presidente do Brasil em 2026. A pergunta foi: \"Se a eleição para presidente fosse acontecer hoje, em quem você votaria?\" Cada entrada é o texto que um respondente digitou. Devolva o nome da pessoa citada, ou um dos rótulos fixos. Os rótulos fixos são: \"Bolsonaro (indefinido)\", \"Branco/Nulo\", \"Ninguém\", \"Não irei votar\", \"Indefinido\" e \"Indeciso / Não Respondeu\". Fora deles, escreva o nome da pessoa citada. Responda só com o nome ou o rótulo, numa linha.",
+  "regras": [
+    "A pergunta é espontânea: o respondente pode citar qualquer pessoa, inclusive quem não disputa a eleição. Escreva o nome dela. Não force a resposta numa lista de candidatos, e não devolva rótulo fixo só porque o nome é pouco conhecido — isso apagaria o que a pergunta mede.",
+    "Escreva o nome na forma mais completa que dê para reconhecer, e sempre a mesma forma para a mesma pessoa. \"Ciro\" e \"Ciro Gomes\" na mesma rodada seriam duas pessoas na tabulação.",
+    "Somente o nome de uma pessoa vira nome. Partido, movimento, organização, ideologia ou descrição da pessoa, sem nenhum nome citado, vai para \"Indefinido\" — mesmo quando só um candidato é associado a isso. Deduzir a pessoa a partir da sigla ou da descrição seria inventar dado: quem escreveu não declarou nome nenhum.",
+    "Apelido consagrado é nome: \"Lula\" e \"Zema\" nomeiam a pessoa. Perífrase não: \"o nordestino\", \"o mito\", \"o ex-juiz\" descrevem sem nomear.",
+    "Partido citado ao lado do nome não muda nada: a pessoa foi nomeada, e é ela que vale.",
+    "Se o texto traz o primeiro nome \"Flávio\", inclusive com erro de acento ou de digitação, escreva \"Flávio Bolsonaro\".",
+    "Se traz explicitamente \"Jair\", escreva \"Jair Bolsonaro\".",
+    "Se traz \"Bolsonaro\" sem primeiro nome, devolva \"Bolsonaro (indefinido)\". Não decida por número de partido: em 2026 Jair está preso e Flávio é o candidato, e supor qual dos dois seria inventar dado.",
+    "Número colado ao nome não muda nada: o nome citado vence.",
+    "Texto que é só um número, sem nome, vai para \"Indeciso / Não Respondeu\". Não converta número em candidato nesta coluna: existe uma coluna própria para o número.",
+    "Ao contar quantas pessoas foram citadas, conte apenas quem disputa a presidência. Quem cita o presidenciável e políticos de outros cargos declarou voto no presidenciável.",
+    "Dois presidenciáveis citados juntos não são intenção única: vão para \"Indeciso / Não Respondeu\".",
+    "Texto genérico ou ilegível, sem nenhuma pessoa e sem número, vai para \"Indefinido\".",
+    "Texto que diz não saber, ou que não nomeia nada, vai para \"Indeciso / Não Respondeu\"."
+  ],
+  "exemplos": [
+    {
+      "entrada": "Lula",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "LULA",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "Luiz Inácio Lula da Silva",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "Luiz Inácio",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "13 - Lula",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "Lula13",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "13    13.    13.  #Lulaate2030",
+      "saida": "Lula"
+    },
+    {
+      "entrada": "Flávio Bolsonaro",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Flavio Bolsonaro",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Flávio bolsonaro",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "22 Flávio Bolsonaro 🇧🇷",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "#FLAVIOBOLSONARO PRESIDENTE",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Flávio",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Flávia Bolsonaro",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Bolsonaro",
+      "saida": "Bolsonaro (indefinido)"
+    },
+    {
+      "entrada": "22 Bolsonaro",
+      "saida": "Bolsonaro (indefinido)",
+      "nota": "o numero nao decide qual Bolsonaro"
+    },
+    {
+      "entrada": "Jair Bolsonaro",
+      "saida": "Jair Bolsonaro"
+    },
+    {
+      "entrada": "Carlos Bolsonaro",
+      "saida": "Carlos Bolsonaro"
+    },
+    {
+      "entrada": "Renan Santos",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Renan santos",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Renan",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Renam santos",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "MBL",
+      "saida": "Indefinido",
+      "nota": "sigla, nenhuma pessoa"
+    },
+    {
+      "entrada": "renan Santos, mbl",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Renan Santos do partido Missão",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Partido Missão",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "PL 22",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "On nordestino gigante da América Latina",
+      "saida": "Indefinido",
+      "nota": "descreve sem nomear"
+    },
+    {
+      "entrada": "Zema",
+      "saida": "Romeu Zema"
+    },
+    {
+      "entrada": "Caiado",
+      "saida": "Ronaldo Caiado"
+    },
+    {
+      "entrada": "Samara Martins",
+      "saida": "Samara Martins"
+    },
+    {
+      "entrada": "Joaquim Barbosa",
+      "saida": "Joaquim Barbosa"
+    },
+    {
+      "entrada": "Augusto Cury",
+      "saida": "Augusto Cury"
+    },
+    {
+      "entrada": "Hertz Dias (PSTU)",
+      "saida": "Hertz Dias"
+    },
+    {
+      "entrada": "Rui Costa Pimenta",
+      "saida": "Rui Costa Pimenta",
+      "nota": "nome completo: Rui Costa e outra pessoa"
+    },
+    {
+      "entrada": "Ciro",
+      "saida": "Ciro Gomes"
+    },
+    {
+      "entrada": "Flávio Bolsonaro e Alfredo Gaspar",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Lula ou Flávio",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "22",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "14",
+      "saida": "Indeciso / Não Respondeu"
+    },
+    {
+      "entrada": "Direita",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": ".",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "branco",
+      "saida": "Branco/Nulo"
+    },
+    {
+      "entrada": "Nulo",
+      "saida": "Branco/Nulo"
+    },
+    {
+      "entrada": "ninguém",
+      "saida": "Ninguém"
+    },
+    {
+      "entrada": "Não sei ainda",
+      "saida": "Indeciso / Não Respondeu"
+    }
+  ]
+}

@@ -1,0 +1,1119 @@
+
+meta:
+  onda: "2026-09-24-onda-4"
+
+colunas:
+  survey_id: survey_id
+  submission_id: submission_id
+  respondent_id: respondent_id
+  start_timestamp: start_timestamp
+  end_timestamp: end_timestamp
+  time_taken: time_taken_seconds
+  dispositivo: dispositivo
+  estado: uf
+  municipio: municipio
+  bairro: bairro
+  tipo_municipio: tipo_municipio
+  regiao: regiao_arquivo
+
+matrizes:
+  recall_rejection:
+    n_itens: 6
+    texto_base: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele:"
+    itens:
+      - variavel: recall_rejection_flavio_bolsonaro
+        rotulo: "Flávio Bolsonaro"
+      - variavel: recall_rejection_lula
+        rotulo: "Lula"
+      - variavel: recall_rejection_renan_santos
+        rotulo: "Renan Santos"
+      - variavel: recall_rejection_romeu_zema
+        rotulo: "Romeu Zema"
+      - variavel: recall_rejection_ronaldo_caiado
+        rotulo: "Ronaldo Caiado"
+      - variavel: recall_rejection_augusto_cury
+        rotulo: "Augusto Cury"
+
+  neg_identification:
+    n_itens: 2
+    texto_base: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera:"
+    itens:
+      - variavel: neg_identification_antipetista
+        rotulo: "Antipetista"
+      - variavel: neg_identification_antibolsonarista
+        rotulo: "Antibolsonarista"
+
+  public_policy_support:
+    n_itens: 10
+    texto_base: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra:"
+    itens:
+      - variavel: public_policy_support_anistia_8_janeiro
+        rotulo: "Anistia aos atos de 8 de janeiro"
+      - variavel: public_policy_support_porte_de_armas
+        rotulo: "Porte de armas"
+      - variavel: public_policy_support_casamento_homoafetivo
+        rotulo: "Casamento homoafetivo"
+      - variavel: public_policy_support_proibir_aborto
+        rotulo: "Proibir o aborto"
+      - variavel: public_policy_support_terras_indigenas
+        rotulo: "Demarcação de terras indígenas"
+      - variavel: public_policy_support_cotas
+        rotulo: "Cotas em universidades e concursos"
+      - variavel: public_policy_support_privatizar_correios
+        rotulo: "Privatizar os Correios"
+      - variavel: public_policy_support_desvincular_previdencia
+        rotulo: "Desvincular a previdência do mínimo"
+      - variavel: public_policy_support_pisos_saude_educacao
+        rotulo: "Retirar pisos de saúde e educação"
+      - variavel: public_policy_support_alinhar_eua
+        rotulo: "Alinhar política externa aos EUA"
+
+questoes:
+  spontaneous_choice:
+    texto: "Neste ano de 2026 haverá eleição para presidente. Você já escolheu em quem vai votar para presidente em outubro?"
+    tipo: "radio"
+    niveis:
+      - "Sim, já escolhi"
+      - "Não, ainda não escolhi"
+      - "Votarei em branco/nulo"
+      - "Não pretendo votar"
+      - "Não sei"
+
+  # um so cenario nesta onda: o cabecalho vem sem "(cenário N)"
+  stimulated_1r_vote_1:
+    texto: "Se a eleição para presidente fosse acontecer hoje e estes fossem os candidatos, em quem você votaria?"
+    tipo: "radio"
+    niveis:
+      - "Clariana Barão (DC)"
+      - "Edmilson Costa (PCB)"
+      - "Escritor Augusto Cury (Avante)"
+      - "Flávio Bolsonaro (PL)"
+      - "Hertz Dias (PSTU)"
+      - "Lula (PT)"
+      - "Renan Santos (Missão)"
+      - "Ronaldo Caiado (PSD)"
+      - "Rui Costa Pimenta (PCO)"
+      - "Samara (UP)"
+      - "Veterinário Wilson Grassi (Democrata)"
+      - "Zema (Novo)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  reason_choice_1r:
+    texto: "Qual é o principal motivo pelo qual você votaria, no 1º turno, na opção que acabou de escolher?"
+    tipo: "radio"
+    niveis:
+      - "Combate à corrupção"
+      - "Defesa da democracia e soberania"
+      - "Identificação com o candidato ou partido"
+      - "Mudança e renovação"
+      - "Propostas e preparo"
+      - "Rejeição à família Bolsonaro e à direita"
+      - "Rejeição a Lula, PT e a esquerda"
+      - "Rejeição à polarização Lula-Bolsonaro"
+      - "Situação da economia"
+      - "Situação da educação"
+      - "Situação da segurança pública"
+      - "Situação da saúde"
+      - "Outra"
+      - "Não sei"
+
+  recall_rejection_flavio_bolsonaro:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Flávio Bolsonaro"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_lula:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Lula"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_renan_santos:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Renan Santos"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_romeu_zema:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Zema"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_ronaldo_caiado:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Ronaldo Caiado"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  recall_rejection_augusto_cury:
+    texto: "Dentre estes possíveis candidatos, gostaria que você me dissesse se você conhece esse candidato e qual a chance de você votar nele: — Escritor Augusto Cury"
+    tipo: "matrix"
+    matriz: recall_rejection
+    niveis:
+      - "Não conheço"
+      - "Conheço e não votaria de jeito nenhum"
+      - "Conheço e provavelmente não votaria"
+      - "Conheço e poderia votar"
+      - "Conheço e com certeza votaria"
+      - "Não sei"
+
+  stimulated_2r_vote_1:
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 1)"
+    tipo: "radio"
+    niveis:
+      - "Flávio Bolsonaro (PL)"
+      - "Lula (PT)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  reason_choice_2r:
+    texto: "Qual é o principal motivo pelo qual você votaria, no 2º turno, na opção que acabou de escolher?"
+    tipo: "radio"
+    niveis:
+      - "Combate à corrupção"
+      - "Defesa da democracia e soberania"
+      - "Identificação com o candidato ou partido"
+      - "Mudança e renovação"
+      - "Propostas e preparo"
+      - "Rejeição à família Bolsonaro e à direita"
+      - "Rejeição a Lula, PT e a esquerda"
+      - "Rejeição à polarização Lula-Bolsonaro"
+      - "Situação da economia"
+      - "Situação da educação"
+      - "Situação da segurança pública"
+      - "Situação da saúde"
+      - "Outra"
+      - "Não sei"
+
+  stimulated_2r_vote_2:
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 2)"
+    tipo: "radio"
+    niveis:
+      - "Escritor Augusto Cury (Avante)"
+      - "Lula (PT)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_3:
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 3)"
+    tipo: "radio"
+    niveis:
+      - "Lula (PT)"
+      - "Renan Santos (Missão)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_4:
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 4)"
+    tipo: "radio"
+    niveis:
+      - "Lula (PT)"
+      - "Ronaldo Caiado (PSD)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  stimulated_2r_vote_5:
+    texto: "Em um eventual 2º turno nas próximas eleições para Presidente, como você votaria se estes fossem os candidatos? (cenário 5)"
+    tipo: "radio"
+    niveis:
+      - "Lula (PT)"
+      - "Zema (Novo)"
+      - "Ainda não escolhi"
+      - "Votaria em branco/nulo"
+      - "Não iria votar"
+      - "Não sei"
+
+  president_approval:
+    texto: "Você aprova ou desaprova a maneira como Lula está lidando com seu trabalho como presidente?"
+    tipo: "radio"
+    niveis:
+      - "Aprova"
+      - "Desaprova"
+      - "Não sei"
+
+  government_evaluation:
+    texto: "Para você, o governo Lula está fazendo um trabalho ótimo, bom, regular, ruim ou péssimo?"
+    tipo: "radio"
+    niveis:
+      - "Ótimo"
+      - "Bom"
+      - "Regular"
+      - "Ruim"
+      - "Péssimo"
+      - "Não sei"
+
+  main_problem_country:
+    texto: "Na sua opinião, dentre as opções abaixo, qual é o maior problema do Brasil hoje em dia?"
+    tipo: "radio"
+    niveis:
+      - "Bolsonarismo e a extrema-direita"
+      - "Congresso nacional e classe política"
+      - "Corrupção"
+      - "Economia"
+      - "Educação"
+      - "Governo Lula e o PT"
+      - "Polarização política"
+      - "Saúde"
+      - "Segurança pública"
+      - "Soberania e interferência externa"
+      - "STF e judiciário"
+      - "Outro"
+      - "Não sei"
+
+  family_main_problem:
+    texto: "Na sua opinião, dentre as opções abaixo, qual é o maior problema que a sua família enfrenta hoje em dia?"
+    tipo: "radio"
+    niveis:
+      - "Custo de vida e preços altos"
+      - "Desemprego e falta de oportunidade"
+      - "Dívidas e juros altos"
+      - "Educação"
+      - "Impostos e taxas"
+      - "Nenhum"
+      - "Saúde"
+      - "Violência e criminalidade"
+      - "Outro"
+      - "Não sei"
+
+  public_policy_support_anistia_8_janeiro:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Anistiar todos os envolvidos nos atos de 8 de janeiro de 2023"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_porte_de_armas:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Permitir o porte de armas por cidadãos comuns"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_casamento_homoafetivo:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Permitir o casamento entre pessoas do mesmo sexo"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_proibir_aborto:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Proibir aborto em todas as situações, incluindo risco de vida e violência sexual"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_terras_indigenas:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Ampliar a demarcação de terras indígenas"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_cotas:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Reservar vagas para negros e indígenas em universidades e concursos públicos"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_privatizar_correios:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Privatizar os Correios"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_desvincular_previdencia:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Desvincular o reajuste dos benefícios previdenciários ao salário mínimo"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_pisos_saude_educacao:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Retirar os pisos mínimos de gastos com saúde e educação"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  public_policy_support_alinhar_eua:
+    texto: "Nos últimos anos, o governo e o congresso têm debatido diferentes propostas de políticas públicas. Para cada uma das propostas abaixo, indique se você apoia ou é contra: — Alinhar a política externa brasileira aos Estados Unidos"
+    tipo: "matrix"
+    matriz: public_policy_support
+    niveis:
+      - "Apoio"
+      - "Sou contra"
+      - "Não sei"
+
+  economic_macro_retro:
+    texto: "Pensando nos últimos 12 meses, você diria que a situação econômica do Brasil: melhorou, ficou praticamente igual ou piorou?"
+    tipo: "radio"
+    niveis:
+      - "Melhorou"
+      - "Ficou praticamente igual"
+      - "Piorou"
+      - "Não sei"
+
+  economic_pocket_retro:
+    texto: "Pensando nos últimos 12 meses, você diria que a situação econômica da sua família: melhorou, ficou praticamente igual ou piorou?"
+    tipo: "radio"
+    niveis:
+      - "Melhorou"
+      - "Ficou praticamente igual"
+      - "Piorou"
+      - "Não sei"
+
+  economic_macro_prosp:
+    texto: "Pensando nos próximos 12 meses, qual a sua expectativa em relação à situação econômica do Brasil? Você acredita que vai melhorar, ficar do mesmo jeito ou piorar?"
+    tipo: "radio"
+    niveis:
+      - "Vai melhorar"
+      - "Vai ficar do mesmo jeito"
+      - "Vai piorar"
+      - "Não sei"
+
+  economic_pocket_prosp:
+    texto: "Pensando nos próximos 12 meses, qual a sua expectativa em relação a a situação econômica da sua família? Você acredita que vai melhorar, ficar do mesmo jeito ou piorar?"
+    tipo: "radio"
+    niveis:
+      - "Vai melhorar"
+      - "Vai ficar do mesmo jeito"
+      - "Vai piorar"
+      - "Não sei"
+
+  knowledge_master:
+    texto: "Você sabe ou ouviu falar sobre os acontecimentos recentes envolvendo Daniel Vorcaro e o Banco Master?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+      - "Não sei"
+
+  knowledge_stf:
+    texto: "Você sabe ou ouviu falar sobre os acontecimentos recentes no Supremo Tribunal Federal (STF) envolvendo os ministros Alexandre de Moraes e André Mendonça?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+      - "Não sei"
+
+  vote_stf:
+    texto: "Os acontecimentos recentes no STF influenciam de alguma forma seu voto para presidente?"
+    tipo: "radio"
+    niveis:
+      - "Reforçam a escolha que já fiz"
+      - "Fazem com que eu considere mudar de voto"
+      - "Não têm influência sobre a minha escolha"
+      - "Não sei"
+      # so existe via mesclar: quem disse nao conhecer o caso nao viu a pergunta
+      - "Não conhece o caso ou não sabe"
+
+  # Bolsa Familia: a influencia e condicional a quem conhece o reajuste, como no STF
+  knowledge_pbf:
+    texto: "Você sabe ou ouviu falar sobre o recente reajuste do Bolsa Família proposto pelo presidente Lula?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+      - "Não sei"
+
+  vote_pbf:
+    texto: "O reajuste do Bolsa Família influencia de alguma forma seu voto para presidente?"
+    tipo: "radio"
+    niveis:
+      - "Reforçam a escolha que já fiz"
+      - "Fazem com que eu considere mudar de voto"
+      - "Não têm influência sobre a minha escolha"
+      - "Não sei"
+      # so existe via mesclar: quem disse nao conhecer o reajuste nao viu a pergunta
+      - "Não conhece o caso ou não sabe"
+
+  receive_pbf:
+    texto: "Você ou alguém na sua casa recebe dinheiro do Bolsa Família?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+      - "Não sei"
+
+  ideology:
+    texto: "Qual é seu posicionamento ideológico?"
+    tipo: "radio"
+    niveis:
+      - "Esquerda"
+      - "Centro-esquerda"
+      - "Centro"
+      - "Centro-direita"
+      - "Direita"
+      - "Não me identifico com um posicionamento definido"
+      - "Não sei"
+
+  identification:
+    texto: "Qual das seguintes identidades políticas melhor descrevem o seu posicionamento?"
+    tipo: "radio"
+    niveis:
+      - "Me considero Lulista"
+      - "Não me considero Lulista, mas gosto mais das ideias da esquerda"
+      - "Sou independente"
+      - "Não me considero Bolsonarista, mas gosto mais das ideias da direita"
+      - "Me considero Bolsonarista"
+      - "Não me interesso por política"
+      - "Não sei"
+
+  neg_identification_antipetista:
+    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antipetista"
+    tipo: "matrix"
+    matriz: neg_identification
+    niveis:
+      - "1 - Nem um pouco"
+      - "2 - Pouco"
+      - "3 - Moderadamente"
+      - "4 - Muito"
+      - "5 - Totalmente"
+      - "Não sei"
+
+  neg_identification_antibolsonarista:
+    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antibolsonarista"
+    tipo: "matrix"
+    matriz: neg_identification
+    niveis:
+      - "1 - Nem um pouco"
+      - "2 - Pouco"
+      - "3 - Moderadamente"
+      - "4 - Muito"
+      - "5 - Totalmente"
+      - "Não sei"
+
+  voted_2r_last_election:
+    texto: "No 1º turno e no 2º turno das eleições de 2022, cerca de 20% dos eleitores não compareceram às urnas. Você votou no 2º turno das eleições de 2022?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+
+  vote_2r_last_election:
+    texto: "Em quem você votou no 2º turno da eleição presidencial de 2022?"
+    tipo: "radio"
+    niveis:
+      - "Lula"
+      - "Jair Bolsonaro"
+      - "Branco/Nulo"
+
+  spontaneous_vote_norm:
+    tipo: "tabulada"
+    texto: "voto_presidente_norm"
+    titulo: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    niveis:
+      - "Flávio Bolsonaro"
+      - "Lula"
+      - "Renan Santos"
+      - "Augusto Cury"
+      - "Romeu Zema"
+      - "Ronaldo Caiado"
+      - "Samara Martins"
+      - "Eduardo Bolsonaro"
+      - "Pablo Marçal"
+      - "Hertz Dias"
+      - "Rui Costa Pimenta"
+      - "Wilson Grassi"
+      - "Eneias Carneiro"
+      - "Sandro Alex"
+      - "Jair Bolsonaro"
+      - "Bolsonaro (indefinido)"
+      - "Ninguém"
+      - "Branco/Nulo"
+      - "Não irei votar"
+      - "Indefinido"
+      - "Indeciso / Não Respondeu"
+
+  party_affiliation:
+    texto: "Atualmente, você possui filiação formal a algum partido político, registrada na Justiça Eleitoral?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+
+  party_affiliated:
+    texto: "A qual partido você é filiado?"
+    tipo: "radio"
+    niveis:
+      - "AVANTE (Avante)"
+      - "CIDADANIA (Cidadania)"
+      - "DC (Democracia Cristã)"
+      - "MDB (Movimento Democrático Brasileiro)"
+      - "MISSÃO (Partido Missão)"
+      - "NOVO (Partido Novo)"
+      - "PCdoB (Partido Comunista do Brasil)"
+      - "PDT (Partido Democrático Trabalhista)"
+      - "PL (Partido Liberal)"
+      - "PODE (Podemos)"
+      - "PP (Progressistas)"
+      - "PRD (Partido Renovação Democrática)"
+      - "PSB (Partido Socialista Brasileiro)"
+      - "PSD (Partido Social Democrático)"
+      - "PSDB (Partido da Social Democracia Brasileira)"
+      - "PSOL (Partido Socialismo e Liberdade)"
+      - "PT (Partido dos Trabalhadores)"
+      - "PV (Partido Verde)"
+      - "REPUBLICANOS (Republicanos)"
+      - "SOLIDARIEDADE (Solidariedade)"
+      - "UNIÃO (União Brasil)"
+      - "Outro"
+      - "Não sei"
+
+  registered_voter_last_election:
+    texto: "Você possuía título de eleitor regularizado e podia votar na eleição de 2022?"
+    tipo: "radio"
+    niveis:
+      - "Sim"
+      - "Não"
+
+questoes_nao_exportadas:
+  sex:
+    texto: "Qual é o seu gênero?"
+    motivo: "origem de sex_std; entra na calibracao pela derivada"
+
+  idade:
+    texto: "Qual é a sua idade?"
+    motivo: "idade em anos; origem das faixas age (propensao) e age_std (calibracao)"
+
+  race:
+    texto: "Qual é a sua cor ou raça?"
+    motivo: "origem de race_std; entra na calibracao pela derivada"
+
+  edu:
+    texto: "Qual é o seu nível de educação?"
+    motivo: "origem de edu_std; entra na calibracao pela derivada"
+
+  inc_fam:
+    texto: "Qual é a renda mensal da sua família?"
+    motivo: "origem de inc_std; entra na calibracao pela derivada"
+
+  relig:
+    texto: "Qual é a sua religião?"
+    motivo: "origem de relig_std; entra na calibracao pela derivada"
+
+  relig_evang:
+    tipo: "radio"
+    texto: "Qual é a sua denominação?"
+    motivo: "denominacao evangelica em lista fechada de 20; usada apenas em recortes especificos"
+
+  # Multipla escolha gravada como lista Python; a derivada `lista` a abre.
+  damage_master:
+    texto: "Na sua opinião, quais das seguintes instituições ou grupos políticos sofreram desgaste de imagem em razão do caso do Banco Master?"
+    motivo: "origem da derivada desgaste_master"
+
+  damage_stf:
+    texto: "Na sua opinião, quem sofreu desgaste de imagem em razão dos acontecimentos recentes no STF?"
+    motivo: "origem da derivada desgaste_stf"
+
+derivadas:
+
+  sex_std:
+    origem: sex
+    tipo: mapa
+    mapa:
+      "Homem": "Homem"
+      "Mulher": "Mulher"
+    niveis:
+      - "Homem"
+      - "Mulher"
+
+  age:
+    origem: idade
+    tipo: faixas
+    faixas:
+      - ate: 24
+        rotulo: "16 a 24 anos"
+      - ate: 34
+        rotulo: "25 a 34 anos"
+      - ate: 44
+        rotulo: "35 a 44 anos"
+      - ate: 59
+        rotulo: "45 a 59 anos"
+      - rotulo: "60 anos ou mais"
+    niveis:
+      - "16 a 24 anos"
+      - "25 a 34 anos"
+      - "35 a 44 anos"
+      - "45 a 59 anos"
+      - "60 anos ou mais"
+
+  age_std:
+    origem: idade
+    tipo: faixas
+    faixas:
+      - ate: 34
+        rotulo: "16 a 34 anos"
+      - ate: 59
+        rotulo: "35 a 59 anos"
+      - rotulo: "60 anos ou mais"
+    niveis:
+      - "16 a 34 anos"
+      - "35 a 59 anos"
+      - "60 anos ou mais"
+
+  race_std:
+    origem: race
+    tipo: mapa
+    mapa:
+      "Branca": "Branca"
+      "Preta": "Preta, Parda, Indígena ou Amarela"
+      "Parda": "Preta, Parda, Indígena ou Amarela"
+      "Amarela": "Preta, Parda, Indígena ou Amarela"
+      "Indígena": "Preta, Parda, Indígena ou Amarela"
+    niveis:
+      - "Branca"
+      - "Preta, Parda, Indígena ou Amarela"
+
+  edu_std:
+    origem: edu
+    tipo: mapa
+    mapa:
+      "Sem instrução": "Fundamental"
+      "Fundamental incompleto": "Fundamental"
+      "Fundamental completo": "Fundamental"
+      "Médio incompleto": "Fundamental"
+      "Médio completo": "Médio"
+      "Superior incompleto": "Médio"
+      "Superior completo": "Superior"
+      "Pós-graduação": "Superior"
+    niveis:
+      - "Fundamental"
+      - "Médio"
+      - "Superior"
+
+  inc_std:
+    origem: inc_fam
+    tipo: mapa
+    mapa:
+      "Até R$1.621 (Até 1 salário-mínimo)": "0-2 SM"
+      "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "0-2 SM"
+      "R$3.243-R$4.863 (Mais de 2 até 3 salários-mínimos)": "2-5 SM"
+      "R$4.864-R$8.105 (Mais de 3 até 5 salários-mínimos)": "2-5 SM"
+      "R$8.106-R$16.210 (Mais de 5 até 10 salários-mínimos)": "5+ SM"
+      "R$16.211-R$32.420 (Mais de 10 até 20 salários-mínimos)": "5+ SM"
+      "R$32.421 ou mais (Mais de 20 salários-mínimos)": "5+ SM"
+    niveis:
+      - "0-2 SM"
+      - "2-5 SM"
+      - "5+ SM"
+
+  # Faixas finas de renda, usadas apenas pelo modelo de propensao (R/propensao.R)
+  # -- inc_std, acima, e a granularidade usada nas margens e no raking.
+
+  inc_std_2:
+    origem: inc_fam
+    tipo: mapa
+    mapa:
+      "Até R$1.621 (Até 1 salário-mínimo)": "0-1 SM"
+      "R$1.622-R$3.242 (Mais de 1 até 2 salários-mínimos)": "1-2 SM"
+      "R$3.243-R$4.863 (Mais de 2 até 3 salários-mínimos)": "2-3 SM"
+      "R$4.864-R$8.105 (Mais de 3 até 5 salários-mínimos)": "3-5 SM"
+      "R$8.106-R$16.210 (Mais de 5 até 10 salários-mínimos)": "5+ SM"
+      "R$16.211-R$32.420 (Mais de 10 até 20 salários-mínimos)": "5+ SM"
+      "R$32.421 ou mais (Mais de 20 salários-mínimos)": "5+ SM"
+    niveis:
+      - "0-1 SM"
+      - "1-2 SM"
+      - "2-3 SM"
+      - "3-5 SM"
+      - "5+ SM"
+
+  relig_std:
+    origem: relig
+    tipo: mapa_com_resto
+    resto: "Outra"
+    mapa:
+      "Católica": "Católica"
+      "Evangélica/Protestante": "Evangélica/Protestante"
+      "Sem Religião/Ateu/Agnóstico": "Sem Religião/Ateu/Agnóstico"
+    niveis:
+      - "Católica"
+      - "Evangélica/Protestante"
+      - "Sem Religião/Ateu/Agnóstico"
+      - "Outra"
+
+  # Vertente evangelica; so quem respondeu a denominacao. Os demais ficam NA e
+  # entram no recorte pelo `mesclar` com relig_std.
+  relig_std_2:
+    origem: relig_evang
+    tipo: mapa_com_resto
+    resto: "Outras"
+    mapa:
+      "Batista": "Protestantes Históricas"
+      "Presbiteriana": "Protestantes Históricas"
+      "Metodista": "Protestantes Históricas"
+      "Luterana": "Protestantes Históricas"
+      "Congregacional": "Protestantes Históricas"
+      "Episcopal Anglicana": "Protestantes Históricas"
+      "Adventista do Sétimo Dia": "Protestantes Históricas"
+      "Assembleia de Deus (Ministério de Belém)": "Pentecostais e Neopentecostais"
+      "Assembleia de Deus (Ministério de Madureira)": "Pentecostais e Neopentecostais"
+      "Assembleia de Deus (Outra)": "Pentecostais e Neopentecostais"
+      "Congregação Cristã do Brasil": "Pentecostais e Neopentecostais"
+      "Evangelho Quadrangular": "Pentecostais e Neopentecostais"
+      "Igreja Pentecostal Deus é Amor": "Pentecostais e Neopentecostais"
+      "Igreja Universal do Reino de Deus": "Pentecostais e Neopentecostais"
+      "Igreja Internacional da Graça de Deus": "Pentecostais e Neopentecostais"
+      "Igreja Mundial do Poder de Deus": "Pentecostais e Neopentecostais"
+      "Igreja Batista da Lagoinha": "Pentecostais e Neopentecostais"
+    # os tres ultimos niveis so existem via mesclar, no recorte
+    niveis:
+      - "Protestantes Históricas"
+      - "Pentecostais e Neopentecostais"
+      - "Outras"
+      - "Católica"
+      - "Sem religião"
+      - "Outra religião"
+
+  ideol_std:
+    origem: ideology
+    tipo: mapa
+    mapa:
+      "Esquerda": "Esquerda"
+      "Centro-esquerda": "Esquerda"
+      "Centro": "Centro"
+      "Centro-direita": "Direita"
+      "Direita": "Direita"
+      "Não me identifico com um posicionamento definido": "Sem posicionamento"
+      "Não sei": "Sem posicionamento"
+    niveis:
+      - "Esquerda"
+      - "Centro"
+      - "Direita"
+      - "Sem posicionamento"
+
+  reg_std:
+    origem: uf
+    tipo: agrupamento
+    grupos:
+      "N": ["AC", "AP", "AM", "PA", "RO", "RR", "TO"]
+      "NE": ["AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE"]
+      "CO": ["DF", "GO", "MT", "MS"]
+      "SE": ["ES", "MG", "RJ", "SP"]
+      "S": ["PR", "RS", "SC"]
+    niveis:
+      - "N"
+      - "NE"
+      - "CO"
+      - "SE"
+      - "S"
+
+  # Filiacao: a pergunta-filtro manda os nao filiados; o partido so vale para quem disse Sim.
+  filiacao_std:
+    tipo: voto_pregresso
+    filtro_comparecimento:
+      variavel: party_affiliation
+      valor_nao_votou: "Não"
+      destino: "Não filiado"
+    origem_voto: party_affiliated
+    mapa:
+      "PL (Partido Liberal)": "PL"
+      "PT (Partido dos Trabalhadores)": "PT"
+      "MISSÃO (Partido Missão)": "Missão"
+    resto: "Outros filiados"
+    vazio_para: "Outros filiados"
+    niveis:
+      - "Não filiado"
+      - "PL"
+      - "PT"
+      - "Missão"
+      - "Outros filiados"
+
+  vote_std:
+    tipo: voto_pregresso
+    filtro_comparecimento:
+      variavel: voted_2r_last_election
+      valor_nao_votou: "Não"
+      destino: "Branco/Nulo"
+    origem_voto: vote_2r_last_election
+    mapa:
+      "Lula": "Lula"
+      "Jair Bolsonaro": "Jair Bolsonaro"
+      "Branco/Nulo": "Branco/Nulo"
+    vazio_para: "Branco/Nulo"
+    niveis:
+      - "Lula"
+      - "Jair Bolsonaro"
+      - "Branco/Nulo"
+
+  anti_std:
+    origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
+    tipo: limiar
+    limiar: ["4 - Muito", "5 - Totalmente"]
+    ordem_avaliacao:
+      - variavel: neg_identification_antipetista
+        valor: "Antipetista"
+      - variavel: neg_identification_antibolsonarista
+        valor: "Antibolsonarista"
+    resto: "Não alinhado"
+    niveis:
+      - "Antipetista"
+      - "Não alinhado"
+      - "Antibolsonarista"
+
+  # Cruzamento das duas escalas. Nao confundir com anti_std, que as resolve por
+  # precedencia: la o "Antipetista" tambem leva quem rejeita os dois.
+  anti_cruzado:
+    texto: "Em uma escala de 1 a 5, em que 1 significa “não me considero nem um pouco” e 5 significa “me considero totalmente”, o quanto você se considera: — Antipetista / — Antibolsonarista"
+    origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
+    tipo: cruzamento
+    limiar: ["4 - Muito", "5 - Totalmente"]
+    # a chave e "acima do limiar?" em cada origem, na ordem de `origem`
+    quadrantes:
+      "sim,sim": "Antipetista e antibolsonarista"
+      "sim,nao": "Só antipetista"
+      "nao,sim": "Só antibolsonarista"
+      "nao,nao": "Nenhum dos dois"
+    # situar quem respondeu so uma das duas inventaria a outra metade
+    sem_quadrante:
+      valores: ["Não sei"]
+      destino: "Não sei"
+    niveis:
+      - "Antipetista e antibolsonarista"
+      - "Só antipetista"
+      - "Só antibolsonarista"
+      - "Nenhum dos dois"
+      - "Não sei"
+
+  # Desgaste de imagem: multipla escolha, um item por resposta. "Nao sei" da
+  # lista vira o mesmo nivel de quem nao conhece o caso; quem nao viu a pergunta
+  # vem como [None], fica NA e entra pelo mesclar do display.
+  desgaste_master:
+    texto: "Na sua opinião, quais das seguintes instituições ou grupos políticos sofreram desgaste de imagem em razão do caso do Banco Master?"
+    tipo: lista
+    origem: damage_master
+    nao_perguntado: "None"
+    opcoes: ["Banco Central", "Câmara dos Deputados", "Família Bolsonaro", "Lula e o PT", "Senado", "Supremo Tribunal Federal (STF)", "Nenhum dos anteriores", "Não sei"]
+    mapa:
+      "Não sei": "Não conhece o caso ou não sabe"
+    niveis:
+      - "Supremo Tribunal Federal (STF)"
+      - "Lula e o PT"
+      - "Família Bolsonaro"
+      - "Senado"
+      - "Câmara dos Deputados"
+      - "Banco Central"
+      - "Nenhum dos anteriores"
+      - "Não conhece o caso ou não sabe"
+
+  desgaste_stf:
+    texto: "Na sua opinião, quem sofreu desgaste de imagem em razão dos acontecimentos recentes no STF?"
+    tipo: lista
+    origem: damage_stf
+    nao_perguntado: "None"
+    opcoes: ["Alexandre de Moraes", "André Mendonça", "Andrei Rodrigues", "Cármen Lúcia", "Cristiano Zanin", "Dias Toffoli", "Edson Fachin", "Flávio Bolsonaro", "Flávio Dino", "Gilmar Mendes", "Kassio Nunes Marques", "Luiz Fux", "Lula", "Paulo Gonet", "Nenhum dos anteriores", "Não sei"]
+    mapa:
+      "Não sei": "Não conhece o caso ou não sabe"
+    niveis:
+      - "Alexandre de Moraes"
+      - "André Mendonça"
+      - "Andrei Rodrigues"
+      - "Cármen Lúcia"
+      - "Cristiano Zanin"
+      - "Dias Toffoli"
+      - "Edson Fachin"
+      - "Flávio Bolsonaro"
+      - "Flávio Dino"
+      - "Gilmar Mendes"
+      - "Kassio Nunes Marques"
+      - "Luiz Fux"
+      - "Lula"
+      - "Paulo Gonet"
+      - "Nenhum dos anteriores"
+      - "Não conhece o caso ou não sabe"
+
+harmonizacao:
+
+  recall_conhecimento:
+    aplicar_a:
+      - recall_rejection_flavio_bolsonaro
+      - recall_rejection_lula
+      - recall_rejection_renan_santos
+      - recall_rejection_romeu_zema
+      - recall_rejection_ronaldo_caiado
+      - recall_rejection_augusto_cury
+    mapa:
+      "Não conheço": "Não conheço ou não sei"
+      "Não sei": "Não conheço ou não sei"
+
+  # O mapa so tras os residuais: a lista de candidatos varia por cenario.
+
+  cenario_eleitoral:
+    aplicar_a:
+      - stimulated_1r_vote_1
+      - stimulated_2r_vote_1
+      - stimulated_2r_vote_2
+      - stimulated_2r_vote_3
+      - stimulated_2r_vote_4
+      - stimulated_2r_vote_5
+    mapa:
+      "Ainda não escolhi": "Indecisos"
+      "Votaria em branco/nulo": "Branco/nulo ou não votaria"
+      "Não iria votar": "Branco/nulo ou não votaria"
+      "Não sei": "Indecisos"
+
+  avaliacao_governo:
+    aplicar_a:
+      - government_evaluation
+    mapa:
+      "Ótimo": "Ótimo/Bom"
+      "Bom": "Ótimo/Bom"
+      "Regular": "Regular"
+      "Ruim": "Ruim/Péssimo"
+      "Péssimo": "Ruim/Péssimo"
+      "Não sei": "Não sei"
+
+  escala_1_5:
+    aplicar_a:
+      - neg_identification_antipetista
+      - neg_identification_antibolsonarista
+    mapa:
+      "1 - Nem um pouco": "Nem um pouco (1-2)"
+      "2 - Pouco": "Nem um pouco (1-2)"
+      "3 - Moderadamente": "Intermediário (3)"
+      "4 - Muito": "Totalmente (4-5)"
+      "5 - Totalmente": "Totalmente (4-5)"
+      "Não sei": "Não sei"
+
+  identificacao:
+    aplicar_a:
+      - identification
+    mapa:
+      "Me considero Lulista": "Lulista"
+      "Não me considero Lulista, mas gosto mais das ideias da esquerda": "Simpatiza com a esquerda"
+      "Sou independente": "Independente"
+      "Não me considero Bolsonarista, mas gosto mais das ideias da direita": "Simpatiza com a direita"
+      "Me considero Bolsonarista": "Bolsonarista"
+      "Não me interesso por política": "Sem interesse em política"
+      "Não sei": "Não sei"
+
+estratificacao:
+  - variavel: sex_std
+  - variavel: age_std
+  - variavel: race_std
+  - variavel: edu_std
+  - variavel: inc_std
+  - variavel: reg_std
+  - variavel: vote_std
+  - variavel: relig_std
+  - variavel: relig_std_2
+  - variavel: ideol_std
+  - variavel: identification
+  - variavel: anti_std
+  - variavel: receive_pbf
+
+exportar_ordem:
+  - spontaneous_choice
+  - spontaneous_vote_norm
+  - stimulated_1r_vote_1
+  - reason_choice_1r
+  - recall_rejection_flavio_bolsonaro
+  - recall_rejection_lula
+  - recall_rejection_renan_santos
+  - recall_rejection_romeu_zema
+  - recall_rejection_ronaldo_caiado
+  - recall_rejection_augusto_cury
+  - stimulated_2r_vote_1
+  - reason_choice_2r
+  - stimulated_2r_vote_2
+  - stimulated_2r_vote_3
+  - stimulated_2r_vote_4
+  - stimulated_2r_vote_5
+  - president_approval
+  - government_evaluation
+  - main_problem_country
+  - family_main_problem
+  - public_policy_support_anistia_8_janeiro
+  - public_policy_support_porte_de_armas
+  - public_policy_support_casamento_homoafetivo
+  - public_policy_support_proibir_aborto
+  - public_policy_support_terras_indigenas
+  - public_policy_support_cotas
+  - public_policy_support_privatizar_correios
+  - public_policy_support_desvincular_previdencia
+  - public_policy_support_pisos_saude_educacao
+  - public_policy_support_alinhar_eua
+  - economic_macro_retro
+  - economic_pocket_retro
+  - economic_macro_prosp
+  - economic_pocket_prosp
+  - knowledge_master
+  - knowledge_stf
+  - vote_stf
+  - knowledge_pbf
+  - vote_pbf
+  - receive_pbf
+  - ideology
+  - identification
+  - neg_identification_antipetista
+  - neg_identification_antibolsonarista
+  - party_affiliation
+  - party_affiliated
+  - registered_voter_last_election
+  - voted_2r_last_election
+  - vote_2r_last_election

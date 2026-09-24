@@ -1,0 +1,10 @@
+# Coluna aberta -> prompt que a normaliza. O mapping em mapping/ nao versiona.
+
+modelo: ~/modelos/Qwen_Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+temperatura: 0
+
+colunas:
+  # unica aberta da onda 3: motivo do voto, problemas e denominacao vieram fechados
+  - coluna: "Se a eleição para presidente fosse acontecer hoje, em quem você votaria?"
+    nova: voto_presidente_norm
+    prompt: voto_presidente.json
