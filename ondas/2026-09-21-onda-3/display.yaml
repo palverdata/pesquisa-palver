@@ -51,20 +51,24 @@ ancoras:
     - "Branco/nulo ou não votaria"
     - "Indecisos"
 
-# Barra propria para quem arredonda para 1% ou mais; o resto vira Outros.
+# Quem tem barra propria no 1o turno: os seis candidatos testados nas demais
+# perguntas da onda, mais as duas caixas de nao-voto. Todo o resto vira Outros,
+# nas duas perguntas e nas duas versoes do grafico.
+  barras_1r: &barras_1r
+    - "Lula (PT)"
+    - "Flávio Bolsonaro (PL)"
+    - "Renan Santos (Missão)"
+    - "Escritor Augusto Cury (Avante)"
+    - "Ronaldo Caiado (PSD)"
+    - "Zema (Novo)"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+
   cenario_1r: &cenario_1r
-    mapa:
-      "Lula (PT)": "Lula (PT)"
-      "Flávio Bolsonaro (PL)": "Flávio Bolsonaro (PL)"
-      "Renan Santos (Missão)": "Renan Santos (Missão)"
-      "Escritor Augusto Cury (Avante)": "Escritor Augusto Cury (Avante)"
-      "Ronaldo Caiado (PSD)": "Ronaldo Caiado (PSD)"
-      "Zema (Novo)": "Zema (Novo)"
-      "Branco/nulo ou não votaria": "Branco/nulo ou não votaria"
-      "Indecisos": "Indecisos"
+    manter: *barras_1r
     resto: "Outros"
 
-  nota_cenario_1r: &nota_cenario_1r "Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
+  nota_agrupado: &nota_agrupado "Mesma pergunta do gráfico anterior, agrupando em Outros todo candidato com menos de 1% das intenções de voto. Indecisos e branco/nulo ficam à parte."
 
   nota_motivo: &nota_motivo "Pergunta estimulada: o respondente escolheu o principal motivo entre as opções apresentadas, logo após o cenário."
 
@@ -192,9 +196,9 @@ secoes:
 
       - variavel: spontaneous_vote_norm
         rotulo: "Voto espontâneo"
-        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Candidatos com menos de 1%, após arredondamento, foram agrupados em Outros."
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Candidatos citados por poucos respondentes foram agrupados em Outros."
         mesclar: *mesclar_escolheu
-        harmonizar:
+        harmonizar: &espontanea_1r
           mapa:
             "Lula": "Lula (PT)"
             "Flávio Bolsonaro": "Flávio Bolsonaro (PL)"
@@ -207,7 +211,18 @@ secoes:
             "Não irei votar": "Branco/nulo ou não votaria"
             "Indefinido": "Indecisos"
             "Indeciso / Não Respondeu": "Indecisos"
+          manter: *barras_1r
           resto: "Outros"
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+      - variavel: spontaneous_vote_norm
+        chave: spontaneous_vote_norm_agrupado
+        rotulo: "Voto espontâneo (agrupado)"
+        nota: *nota_agrupado
+        mesclar: *mesclar_escolheu
+        harmonizar: *espontanea_1r
+        agrupar_abaixo: 0.01
         ordenar: decrescente
         fixar_no_fim: *fim_espontanea
 
@@ -216,8 +231,16 @@ secoes:
 
       - variavel: stimulated_1r_vote_1_h
         rotulo: "Cenário estimulado"
-        nota: *nota_cenario_1r
         harmonizar: *cenario_1r
+        ordenar: decrescente
+        fixar_no_fim: *fim_espontanea
+
+      - variavel: stimulated_1r_vote_1_h
+        chave: stimulated_1r_vote_1_h_agrupado
+        rotulo: "Cenário estimulado (agrupado)"
+        nota: *nota_agrupado
+        harmonizar: *cenario_1r
+        agrupar_abaixo: 0.01
         ordenar: decrescente
         fixar_no_fim: *fim_espontanea
 
