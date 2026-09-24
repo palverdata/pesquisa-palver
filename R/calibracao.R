@@ -411,7 +411,10 @@ correcoes_municipio <- tibble::tribble(
   "PB", "SERIDÓ",                     "SÃO VICENTE DO SERIDÓ",
   "SP", "FLORÍNIA",                   "FLORÍNEA",
   "MG", "PASSA-VINTE",                "PASSA VINTE",
-  "BA", "SANTA TERESINHA",            "SANTA TEREZINHA"
+  "BA", "SANTA TERESINHA",            "SANTA TEREZINHA",
+  "SP", "BIRITIBA-MIRIM",             "BIRITIBA MIRIM",
+  "MA", "PINDARÉ MIRIM",              "PINDARÉ-MIRIM",
+  "SC", "GRÃO PARÁ",                  "GRÃO-PARÁ"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.
@@ -730,11 +733,16 @@ design_effect <- function(desenho) {
 
   pesos <- stats::weights(desenho)
   n_eff <- sum(pesos)^2 / sum(pesos^2)
+  media <- mean(pesos)
 
   list(
     n_eff = n_eff,
     deff = length(pesos) / n_eff,
-    razao_max = max(pesos) / mean(pesos),
+    razao_min = min(pesos) / media,
+    razao_mediana = stats::median(pesos) / media,
+    razao_max = max(pesos) / media,
+    # populacional, para casar com deff = 1 + cv^2 = n/n_eff
+    cv = sqrt(mean((pesos - media)^2)) / media,
     moe_pp = 100 * 1.96 * sqrt(0.25 / n_eff)
   )
 }

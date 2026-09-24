@@ -72,7 +72,7 @@ gerados a partir do que está versionado:
 | `<prefixo>_localidades.xlsx` | entrevistas por município, com códigos IBGE e TSE e tipo de município |
 | `<prefixo>_microdados.xlsx`  | uma linha por respondente, com o peso calibrado           |
 | `diagnostico-margens.csv`   | margem ponderada contra a cota, célula por célula        |
-| `ambiente.txt`              | versões, margens usadas e o veredito da onda              |
+| `ambiente.txt`              | ficha técnica, versões, margens usadas e o veredito da onda |
 
 O JSON é o único que carrega estimativa, com precisão cheia.
 
@@ -97,6 +97,15 @@ intervalos publicados: eles vêm de `survey::calibrate()`, que desconta a variâ
 explicada pelas margens. Para reproduzir, refaça a calibração com `margens/*.yaml`
 e `calibracao.margens`. A margem de erro do `ambiente.txt` é o pior caso
 (`p = 0,5`) sobre o *n* efetivo de Kish, para o registro da pesquisa.
+
+O bloco `resultado:` do `ambiente.txt` traz a ficha técnica inteira, nos mesmos
+termos em que a plataforma a publica: tamanho da amostra, *n* efetivo de Kish,
+peso mínimo, mediano e máximo como múltiplos da média, coeficiente de variação
+dos pesos, efeito dos pesos desiguais (*n*/Kish, igual a 1 + CV²), margem de
+erro com o coeficiente de confiança, taxa de desistência e aparo. A taxa de
+desistência é a única que o motor não calcula: quem abandonou não está no
+export, então ela vem de `campo.desistencia_pct` no `config.yaml`, em pontos
+percentuais, e sai como `(nao declarada)` quando a onda não a declara.
 
 ### O JSON da onda
 
@@ -125,10 +134,11 @@ As chaves:
 | `cores` | topo | rótulo → hex; sai como `colors` |
 | `rotulo` | questão, recorte | o nome curto na tela |
 | `chave` | questão | nome da questão no JSON (`key` e prefixo de `pergunta\|recorte`) quando a variável não serve — ex.: `lula_renan` para um cenário cuja numeração muda de onda para onda; default é a variável |
-| `harmonizar` | questão, recorte | agrupa níveis antes de estimar (`mapa`, e `resto` opcional) |
+| `harmonizar` | questão, recorte | agrupa níveis antes de estimar. `mapa` renomeia, `manter` lista quem fica com rótulo próprio e `resto` recolhe os demais; ao menos um entre `mapa` e `manter` |
 | `ordenar` | questão | `decrescente` ordena por pontuação; `declarado` é o default |
 | `fixar_no_fim` | questão | respostas que saem da ordenação e vão para o fim |
 | `respostas` | questão | ordem explícita; não convive com `ordenar` |
+| `agrupar_abaixo` | questão | fração (`0.01` = 1%): resposta cujo `share` no total fica abaixo dela cai no `harmonizar.resto` (ou em `Outros`). O que está em `fixar_no_fim` nunca cai. Não convive com `respostas` nem com derivada `lista` |
 | `grupos` | recorte | ordem explícita das categorias |
 | `base` | questão | restringe a quem respondeu certo valor noutra variável |
 | `mesclar` | questão, recorte | leva para a questão (ou para o grupo do recorte) quem outra variável diz não ter resposta própria (`variavel`, `mapa`); não convive com `base` |
@@ -147,17 +157,36 @@ Notas:
 não soma: o IC de uma categoria agrupada não é a soma dos ICs das partes. O motor
 recodifica a variável e refaz a estimativa.
 
-**Cada variável harmonizada recebe uma coluna de trabalho**, com prefixo distinto
-para questão e para recorte. A mesma variável pode entrar como as duas coisas,
-com harmonizações diferentes. A coluna original nunca é tocada, porque ela pode
-ser margem de calibração.
+**Cada variável harmonizada recebe uma coluna de trabalho**, nomeada pela `chave`
+e com prefixo distinto para questão e para recorte. A mesma variável pode entrar
+como as duas coisas, com harmonizações diferentes, e pode entrar duas vezes como
+questão desde que cada uma tenha sua `chave` — é assim que a mesma pergunta sai
+no JSON com e sem `agrupar_abaixo`. A coluna original nunca é tocada, porque ela
+pode ser margem de calibração.
+
+**`manter` é a regra de quem tem barra própria.** Ele é lido depois do `mapa`, ou
+seja, cita o rótulo final, e por isso a mesma lista serve para uma pergunta
+espontânea, cujos níveis são texto codificado, e para o cenário estimulado, cujos
+níveis já são os nomes de tela. Quem não está na lista cai no `resto`. Sem
+`manter`, vale a regra antiga: com `resto` declarado, sobrevive só o que o `mapa`
+nomeia — as duas formas dizem a mesma coisa, mas a lista diz de uma vez, em vez
+de espalhar a regra por um mapa de identidade.
+
+**`agrupar_abaixo` corta pelo total, nunca por grupo.** O conjunto de respostas
+que vira `Outros` sai da estimativa do total e vale igual em todo recorte; do
+contrário a mesma resposta teria barra em um recorte e sumiria no outro. Como em
+`harmonizar`, a recodificação é antes de re-estimar. O conjunto é recalculado a
+cada onda, então a série histórica de uma chave agrupada pode trocar de
+composição entre ondas.
 
 **O bloco `amostra` é conferido contra `calibracao.margens`.** O motor interrompe
 a onda se a lista declarada divergir do conjunto de margens, nos dois sentidos.
 Cada célula tem `share` e `n`, sem intervalo: margem de calibração tem intervalo
 de largura zero por construção.
 
-**O motor recusa** hex fora de `#RRGGBB`; `ordenar` junto de `respostas`;
+**O motor recusa** hex fora de `#RRGGBB`; `ordenar` ou `agrupar_abaixo` junto
+de `respostas`; `agrupar_abaixo` fora do intervalo aberto de 0 a 1;
+`harmonizar` sem `mapa` nem `manter`, e `manter` sem `resto`;
 ordem declarada que omita valor observado; `harmonizar` citando nível que a
 variável não tem; grupo ou resposta inexistente em `excluir` e `fixar_no_fim`.
 Cor sem rótulo correspondente só emite aviso.
@@ -181,7 +210,8 @@ Copie o arquivo para o repositório da plataforma somente depois da divulgação
              "ondas/2026-09-14-onda-3/norm/prompts/")
    ```
 2. No `config.yaml`, atualize `onda` (`nome`, `registro`, `sequencia`,
-   `data_divulgacao`), `campo` e `outputs.prefixo`. `registro`,
+   `data_divulgacao`), `campo` (com `desistencia_pct`, se a plataforma já
+   informou a taxa) e `outputs.prefixo`. `registro`,
    `sequencia` e `data_divulgacao` são **obrigatórios**, e o nome da pasta tem
    de começar por `data_divulgacao`. No `display.yaml` e no
    `questionario.yaml`, `meta.onda` é o nome da pasta.
@@ -365,6 +395,9 @@ do que está versionado — os YAML da onda, os prompts e as margens.
 ### Tag por onda
 
 Cada onda divulgada recebe uma tag, congelando motor, margens e config usados:
+a tag reproduz o que foi ao ar. Por isso o `display.yaml` de uma onda antiga
+pode ser atualizado no `main` quando a comparação longitudinal pede — foi assim
+que a chave agrupada do 1º turno passou a existir desde a reanálise da onda 2.
 
 ```sh
 git tag -a v2026-08-10 -m "BR-06596/2026 -- divulgacao 10/08/2026"

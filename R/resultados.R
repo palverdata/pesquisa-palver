@@ -164,6 +164,25 @@ contar_localidades <- function(desenho) {
 # O JSON DA ONDA
 # ==============================================================================
 
+# `manter` nomeia quem fica com barra propria; sem `resto` os demais nao teriam
+# para onde ir.
+conferir_harmonizar <- function(spec, variavel) {
+
+  if (is.null(spec)) return(invisible(NULL))
+
+  if (length(spec$mapa) == 0 && length(spec$manter) == 0) {
+    stop("display.yaml: harmonizar sem `mapa` nem `manter` -> ", variavel,
+         call. = FALSE)
+  }
+
+  if (length(spec$manter) > 0 && is.null(spec$resto)) {
+    stop("display.yaml: harmonizar.manter sem `resto` -> ", variavel,
+         ". Sem `resto` nao ha onde pousar quem ficou de fora.", call. = FALSE)
+  }
+
+  invisible(NULL)
+}
+
 carregar_display <- function(caminho, onda) {
 
   disp <- ler_yaml(caminho)
@@ -200,9 +219,7 @@ carregar_display <- function(caminho, onda) {
     for (q in secao$questoes) {
       variavel <- texto(q$variavel, paste0("questao sem variavel na secao '",
                                            titulo, "'"))
-      if (!is.null(q$harmonizar) && length(q$harmonizar$mapa) == 0) {
-        stop("display.yaml: harmonizar sem `mapa` -> ", variavel, call. = FALSE)
-      }
+      conferir_harmonizar(q$harmonizar, variavel)
 
       if (!is.null(q$base)) {
         faltando <- setdiff(c("variavel", "valores"), names(q$base))
@@ -244,6 +261,21 @@ carregar_display <- function(caminho, onda) {
              variavel, " tem '", q$ordenar, "'", call. = FALSE)
       }
 
+      limite <- NULL
+      if (!is.null(q$agrupar_abaixo)) {
+        limite <- suppressWarnings(as.numeric(q$agrupar_abaixo))
+        if (length(limite) != 1 || is.na(limite) || limite <= 0 || limite >= 1) {
+          stop("display.yaml: `agrupar_abaixo` e uma fracao entre 0 e 1 (0.01 ",
+               "= 1%) -> ", variavel, " tem '", q$agrupar_abaixo, "'",
+               call. = FALSE)
+        }
+        if (!is.null(q$respostas)) {
+          stop("display.yaml: `agrupar_abaixo` e `respostas` na mesma questao ",
+               "-> ", variavel, ". A ordem declarada cita resposta que o corte ",
+               "pode tirar.", call. = FALSE)
+        }
+      }
+
       questoes[[length(questoes) + 1]] <- list(
         variavel = variavel,
         # `chave` e o nome no JSON; a variavel continua sendo a coluna
@@ -261,7 +293,8 @@ carregar_display <- function(caminho, onda) {
         ordenar = q$ordenar,
         fixar_no_fim = if (length(q$fixar_no_fim) == 0) NULL else
           unlist(q$fixar_no_fim),
-        respostas = if (length(q$respostas) == 0) NULL else unlist(q$respostas)
+        respostas = if (length(q$respostas) == 0) NULL else unlist(q$respostas),
+        agrupar_abaixo = limite
       )
     }
   }
@@ -275,9 +308,7 @@ carregar_display <- function(caminho, onda) {
 
   recortes <- purrr::map(disp$recortes, function(r) {
     variavel <- texto(r$variavel, "recorte sem variavel")
-    if (!is.null(r$harmonizar) && length(r$harmonizar$mapa) == 0) {
-      stop("display.yaml: harmonizar sem `mapa` -> ", variavel, call. = FALSE)
-    }
+    conferir_harmonizar(r$harmonizar, variavel)
     if (!is.null(r$nota)) {
       stop("display.yaml: `nota` vale so em questao, nao em recorte -> ",
            variavel, call. = FALSE)
@@ -336,13 +367,12 @@ carregar_display <- function(caminho, onda) {
     stop("display.yaml: `evolucao` tem de ser true ou false", call. = FALSE)
   }
 
-  for (campo in list(list(questoes, "questao"), list(recortes, "recorte"))) {
-    vars <- purrr::map_chr(campo[[1]], "variavel")
-    if (anyDuplicated(vars)) {
-      stop("display.yaml: ", campo[[2]], " declarada duas vezes -> ",
-           paste(unique(vars[duplicated(vars)]), collapse = ", "),
-           call. = FALSE)
-    }
+  # A questao pode repetir a variavel em duas variacoes de corte; o que nao
+  # pode repetir e a `chave`, ja conferida acima.
+  vars <- purrr::map_chr(recortes, "variavel")
+  if (anyDuplicated(vars)) {
+    stop("display.yaml: recorte declarado duas vezes -> ",
+         paste(unique(vars[duplicated(vars)]), collapse = ", "), call. = FALSE)
   }
 
   list(questoes = questoes, recortes = recortes, amostra = amostra,
@@ -412,25 +442,34 @@ harmonizar_resposta <- function(valores, spec, declarados, contexto) {
          paste(sprintf("'%s'", fora), collapse = ", "), call. = FALSE)
   }
 
-  rotulos <- character(0)
-  for (nivel in declarados) {
-    if (nivel %in% names(mapa)) {
-      rotulos <- c(rotulos, unname(mapa[[nivel]]))
-    } else if (is.null(spec$resto)) {
-      rotulos <- c(rotulos, nivel)
+  # o que existiria sem `resto`: o mapa renomeia, o que ele nao cita fica
+  possiveis <- unique(vapply(declarados, function(nivel) {
+    if (nivel %in% names(mapa)) unname(mapa[[nivel]]) else nivel
+  }, ""))
+
+  rotulos <- if (!is.null(spec$manter)) {
+    manter <- unlist(spec$manter)
+    fora <- setdiff(manter, possiveis)
+    if (length(fora) > 0) {
+      stop(contexto, ": harmonizar.manter cita rotulo que a questao nao ",
+           "produz -> ", paste(sprintf("'%s'", fora), collapse = ", "),
+           call. = FALSE)
     }
+    unique(c(possiveis[possiveis %in% manter], spec$resto))
+  } else if (!is.null(spec$resto)) {
+    unique(c(possiveis[possiveis %in% unname(mapa)], spec$resto))
+  } else {
+    possiveis
   }
-  if (!is.null(spec$resto)) rotulos <- c(rotulos, spec$resto)
-  rotulos <- unique(rotulos)
 
-  originais <- as.character(valores)
-  idx <- match(originais, names(mapa))
-
-  novo <- rep(NA_character_, length(originais))
+  novo <- as.character(valores)
+  idx <- match(novo, names(mapa))
   novo[!is.na(idx)] <- unname(mapa[idx[!is.na(idx)]])
 
-  sobrou <- is.na(idx) & !is.na(originais)
-  novo[sobrou] <- if (is.null(spec$resto)) originais[sobrou] else spec$resto
+  # com `resto` declarado, rotulo que sobrou fora da lista cai nele
+  if (!is.null(spec$resto)) {
+    novo[!is.na(novo) & !novo %in% rotulos] <- spec$resto
+  }
 
   list(valores = factor(novo, levels = rotulos, ordered = TRUE),
        niveis = rotulos)
@@ -485,6 +524,42 @@ filtrar_base <- function(design, spec, contexto) {
   }
 
   list(design = design[dentro, ], n_fora = sum(!dentro))
+}
+
+# Recodifica ANTES de re-estimar, pela mesma razao de harmonizar_resposta: o
+# intervalo do Outros agrupado nao e a soma dos intervalos.
+agrupar_minoritarios <- function(design, q, est_total, nivel) {
+
+  if (isTRUE(q$multipla)) {
+    stop("questao ", q$chave, ": `agrupar_abaixo` nao se aplica a derivada ",
+         "lista, onde as respostas nao somam 100%.", call. = FALSE)
+  }
+
+  destino <- q$harmonizar$resto %||% "Outros"
+
+  # O corte olha so o total: por grupo, a mesma resposta teria barra em um
+  # recorte e sumiria no outro. E `fixar_no_fim` sao as caixas que nao sao
+  # candidato (indeciso, branco, o proprio Outros), que ficam mesmo abaixo dele.
+  pequenas <- setdiff(est_total$response[est_total$mean < q$agrupar_abaixo],
+                      c(q$fixar_no_fim, destino))
+
+  if (length(pequenas) == 0) {
+    return(list(design = design, q = q, est = est_total))
+  }
+
+  niveis <- c(setdiff(q$niveis, pequenas),
+              if (!destino %in% q$niveis) destino)
+
+  valores <- as.character(design$variables[[q$coluna]])
+  valores[valores %in% pequenas] <- destino
+
+  q$coluna <- paste0(".agrupado_", q$chave)
+  q$niveis <- niveis
+  design$variables[[q$coluna]] <- factor(valores, levels = niveis,
+                                         ordered = TRUE)
+
+  list(design = design, q = q,
+       est = estimate_question(q$coluna, design, nivel))
 }
 
 # recorte = NULL devolve o total, como um recorte de um grupo so.
@@ -714,6 +789,8 @@ montar_json <- function(fit, qst, display, cfg) {
   # A coluna original nunca e tocada: ela pode ser margem.
   preparar <- function(spec, prefixo, tipo) {
 
+    # o nome vem da chave: duas variacoes da mesma variavel colidiriam
+    derivada <- paste0(prefixo, spec$chave %||% spec$variavel)
     spec$coluna <- spec$variavel
     spec$niveis <- niveis[[spec$variavel]]
     valores <- dados[[spec$variavel]]
@@ -735,7 +812,7 @@ montar_json <- function(fit, qst, display, cfg) {
                                   spec$mesclar, spec$niveis,
                                   niveis[[spec$mesclar$variavel]],
                                   paste(tipo, spec$variavel))
-      spec$coluna <- paste0(prefixo, spec$variavel)
+      spec$coluna <- derivada
       spec$valores <- if (spec$multipla) valores else
         factor(valores, levels = spec$niveis, ordered = TRUE)
     }
@@ -743,7 +820,7 @@ montar_json <- function(fit, qst, display, cfg) {
     if (!is.null(spec$harmonizar)) {
       harmonizada <- harmonizar_resposta(valores, spec$harmonizar, spec$niveis,
                                         paste(tipo, spec$variavel))
-      spec$coluna <- paste0(prefixo, spec$variavel)
+      spec$coluna <- derivada
       spec$niveis <- harmonizada$niveis
       spec$valores <- harmonizada$valores
     }
@@ -798,6 +875,13 @@ montar_json <- function(fit, qst, display, cfg) {
     }
     if (is.null(est_total) || nrow(est_total) == 0) {
       stop("questao sem resposta valida na onda -> ", q$variavel, call. = FALSE)
+    }
+
+    if (!is.null(q$agrupar_abaixo)) {
+      agrupada <- agrupar_minoritarios(design_q, q, est_total, nivel)
+      design_q <- agrupada$design
+      q <- agrupada$q
+      est_total <- agrupada$est
     }
 
     answers <- ordenar_respostas(est_total, q, q$niveis,
@@ -1135,6 +1219,7 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
 
   ef <- design_effect(fit$design)
   desvio <- max(abs(diagnostico$desvio_pp))
+  nivel_confianca <- cfg$diagnosticos$nivel_confianca %||% 0.95
 
   dentro <- desvio <= cfg$diagnosticos$tolerancia_pp &&
     ef$moe_pp <= cfg$diagnosticos$moe_maxima_pp
@@ -1155,6 +1240,8 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       sprintf("onda: %s", cfg$onda$nome %||% cfg$onda$slug),
       sprintf("registro: %s", cfg$onda$registro),
       sprintf("data_divulgacao: %s", cfg$onda$data_divulgacao),
+      sprintf("campo: %s a %s", cfg$campo$data_inicio, cfg$campo$data_fim),
+      "realizador: Palver",
       sprintf("gerado_em: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
       sprintf("R: %s (%s)", getRversion(), R.version$platform),
       "",
@@ -1182,19 +1269,27 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       ),
       "",
       "resultado:",
-      sprintf("  amostra registrada : %s",
+      sprintf("  %-26s: %s", "amostra registrada",
               cfg$amostra$registrada %||% "(sem corte)"),
-      sprintf("  n                  : %d", fit$n_calibrado),
-      sprintf("  n efetivo (Kish)   : %.0f", ef$n_eff),
-      sprintf("  efeito de desenho  : %.2f", ef$deff),
-      sprintf("  peso maximo        : %.1fx a media", ef$razao_max),
-      sprintf("  margem de erro     : +/- %.2f pp", ef$moe_pp),
-      sprintf("  desvio max vs cota : %.4f pp", desvio),
-      sprintf("  aparo              : %s",
+      sprintf("  %-26s: %d", "n", fit$n_calibrado),
+      sprintf("  %-26s: %.0f", "n efetivo (Kish)", ef$n_eff),
+      sprintf("  %-26s: %.5fx a media", "peso minimo", ef$razao_min),
+      sprintf("  %-26s: %.3fx a media", "peso mediano", ef$razao_mediana),
+      sprintf("  %-26s: %.2fx a media", "peso maximo", ef$razao_max),
+      sprintf("  %-26s: %.3f", "coeficiente de variacao", ef$cv),
+      sprintf("  %-26s: %.2f", "efeito dos pesos desiguais", ef$deff),
+      sprintf("  %-26s: +/- %.2f pp", "margem de erro", ef$moe_pp),
+      sprintf("  %-26s: %s%%", "confianca da margem",
+              format(100 * nivel_confianca)),
+      sprintf("  %-26s: %s", "taxa de desistencia",
+              if (is.null(cfg$campo$desistencia_pct)) "(nao declarada)" else
+                sprintf("%.1f%%", as.numeric(cfg$campo$desistencia_pct))),
+      sprintf("  %-26s: %.4f pp", "desvio max vs cota", desvio),
+      sprintf("  %-26s: %s", "aparo",
               if (isTRUE(fit$trimming$aplicado))
                 sprintf("teto %sx, piso %sx a media", fit$trimming$teto %||% "-",
                         fit$trimming$piso %||% "-") else "nenhum"),
-      sprintf("  criterios          : %s", veredito)
+      sprintf("  %-26s: %s", "criterios", veredito)
     ),
     file.path(dir_saida, "ambiente.txt")
   )
