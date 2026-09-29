@@ -1,0 +1,284 @@
+{
+  "instrucao": "Você classifica respostas de uma pergunta ABERTA sobre quem deve se tornar a principal liderança política da Direita no Brasil depois das eleições de 2026. A pergunta foi: \"Na sua opinião, quem deve se tornar a principal liderança política da Direita no Brasil depois das eleições de 2026?\" Cada entrada é o texto que um respondente digitou. A pergunta é por PESSOA. Devolva o nome da pessoa citada, ou um dos rótulos fixos. Os rótulos fixos são: \"Bolsonaro (indefinido)\", \"Não haverá liderança\", \"Não sabe\", \"Indefinido\" e \"Não respondeu\". Responda só com o nome ou o rótulo, numa linha.",
+  "regras": [
+    "A pergunta é espontânea. O respondente pode citar qualquer pessoa, inclusive quem não disputa eleição nenhuma e quem atua fora do Brasil. Escreva o nome dela. Não force a resposta numa lista de políticos conhecidos, e não devolva rótulo fixo só porque o nome é pouco conhecido — isso apagaria o que a pergunta mede.",
+    "Partido, movimento, entidade ou grupo não é resposta válida: a pergunta é por pessoa. \"PT\", \"PL\", \"MBL\", \"PSOL\", \"Missão\", \"Família Bolsonaro\" vão para \"Indefinido\", e nunca viram o nome de alguém ligado a eles.",
+    "Não deduza a pessoa a partir do partido, nem o partido a partir da pessoa. Quem escreveu \"PT\" nomeou o partido; quem escreveu \"Lula\" nomeou a pessoa. Cada um vale pelo que foi escrito.",
+    "Escreva o nome na forma mais completa que dê para reconhecer, e sempre a mesma forma para a mesma pessoa. \"Haddad\" e \"Fernando Haddad\" na mesma rodada seriam duas pessoas na tabulação.",
+    "Erro de grafia em nome conhecido não cria pessoa nova: escreva a grafia correta. \"Alkimin\" é Geraldo Alckmin, \"Nicolas Ferreira\" é Nikolas Ferreira, \"Marsal\" é Pablo Marçal, \"Von Hattem\" é Marcel van Hattem, \"Alkimim\" e \"Adade\" sao Geraldo Alckmin e Fernando Haddad, \"Gaier\" e Gustavo Gayer.",
+    "Apelido consagrado é nome: \"Lula\", \"Zema\", \"Boulos\", \"Cleitinho\" nomeiam a pessoa. Perífrase não: \"o mito\", \"o ex-juiz\", \"alguém novo\" descrevem sem nomear.",
+    "Se o texto traz o primeiro nome \"Flávio\", inclusive com erro de acento ou de digitação, escreva \"Flávio Bolsonaro\".",
+    "Se traz explicitamente \"Jair\", escreva \"Jair Bolsonaro\".",
+    "Se traz \"Bolsonaro\" sem primeiro nome, devolva \"Bolsonaro (indefinido)\". Jair, Flávio, Eduardo, Carlos e Michelle são todos lideranças possíveis, e supor qual deles seria inventar dado.",
+    "Texto que diz que ninguém deve ou vai liderar vai para \"Não haverá liderança\": \"ninguém\", \"nenhum\", \"não tem\", \"espero que ninguém\", \"não existe\", \"tem que acabar\". É uma opinião declarada, diferente de não saber.",
+    "Texto que diz não saber vai para \"Não sabe\": \"não sei\", \"não faço ideia\", \"sei lá\", \"não tenho ideia\".",
+    "Vai para \"Indefinido\" quem citou alguma coisa que não dá para identificar como pessoa ou organização que atua na política: sobrenome solto que serve a mais de uma pessoa citada na mesma rodada, primeiro nome trocado de alguém reconhecível, texto curto que não remete a ninguém, artista ou figura sem atuação política, e resposta de deboche. É diferente de \"Não respondeu\": aqui a pessoa escreveu algo, só não dá para saber quem é.",
+    "Vai para \"Não respondeu\" o que não é resposta à pergunta: vazio, pontuação solta, número sozinho, recusa explícita (\"prefiro não responder\", \"sem opinião\", \"tanto faz\", \"não me interessa\"), dois nomes citados como alternativa, e instituição do Estado que não é partido nem movimento, como o STF."
+  ],
+  "exemplos": [
+    {
+      "entrada": "Bolsonaro",
+      "saida": "Bolsonaro (indefinido)"
+    },
+    {
+      "entrada": "Flávio",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Jair Messias Bolsonaro",
+      "saida": "Jair Bolsonaro"
+    },
+    {
+      "entrada": "Alkimin",
+      "saida": "Geraldo Alckmin"
+    },
+    {
+      "entrada": "Augusto Cury",
+      "saida": "Augusto Cury"
+    },
+    {
+      "entrada": "Ciro Gomes",
+      "saida": "Ciro Gomes"
+    },
+    {
+      "entrada": "Ninguém",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Nenhum",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Não tem",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Espero que ninguém",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Não existe",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Tem que acabar",
+      "saida": "Não haverá liderança"
+    },
+    {
+      "entrada": "Não sei",
+      "saida": "Não sabe"
+    },
+    {
+      "entrada": "Nao sei",
+      "saida": "Não sabe"
+    },
+    {
+      "entrada": "Sei lá",
+      "saida": "Não sabe"
+    },
+    {
+      "entrada": "Não faço ideia",
+      "saida": "Não sabe"
+    },
+    {
+      "entrada": "Não tenho ideia",
+      "saida": "Não sabe"
+    },
+    {
+      "entrada": "Prefiro não responder",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Sem opinião",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Tanto faz",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Não me interessa",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": ".",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "?",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "22",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Satanás",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Jesus Cristo",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Cachorro caramelo",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Hitler",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Direita",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Esquerda nunca mais",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Flávio Bolsonaro",
+      "saida": "Flávio Bolsonaro"
+    },
+    {
+      "entrada": "Renan Santos",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Nikolas Ferreira",
+      "saida": "Nikolas Ferreira"
+    },
+    {
+      "entrada": "Nicolas",
+      "saida": "Nikolas Ferreira"
+    },
+    {
+      "entrada": "Tarcísio",
+      "saida": "Tarcísio de Freitas"
+    },
+    {
+      "entrada": "Kim Kataguiri",
+      "saida": "Kim Kataguiri"
+    },
+    {
+      "entrada": "Cleitinho",
+      "saida": "Cleitinho"
+    },
+    {
+      "entrada": "Otoni de Paula",
+      "saida": "Otoni de Paula"
+    },
+    {
+      "entrada": "Michelle",
+      "saida": "Michelle Bolsonaro"
+    },
+    {
+      "entrada": "Zema",
+      "saida": "Romeu Zema"
+    },
+    {
+      "entrada": "Trump",
+      "saida": "Donald Trump"
+    },
+    {
+      "entrada": "Renan Santos ou Nikolas Ferreira",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Jorge Cury",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Viana",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Andre Ferreira",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Caetano Veloso",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Adélio Bispo",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Anita",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "STF",
+      "saida": "Não respondeu"
+    },
+    {
+      "entrada": "Caiafo",
+      "saida": "Ronaldo Caiado"
+    },
+    {
+      "entrada": "Carlos Massa",
+      "saida": "Ratinho"
+    },
+    {
+      "entrada": "Gleice",
+      "saida": "Gleisi Hoffmann"
+    },
+    {
+      "entrada": "Alcolumbre",
+      "saida": "Davi Alcolumbre"
+    },
+    {
+      "entrada": "Renan santos",
+      "saida": "Renan Santos"
+    },
+    {
+      "entrada": "Tebet",
+      "saida": "Simone Tebet"
+    },
+    {
+      "entrada": "Jones Manuel",
+      "saida": "Jones Manoel"
+    },
+    {
+      "entrada": "Alkimim",
+      "saida": "Geraldo Alckmin"
+    },
+    {
+      "entrada": "Adade",
+      "saida": "Fernando Haddad"
+    },
+    {
+      "entrada": "Gustavo Gaier",
+      "saida": "Gustavo Gayer"
+    },
+    {
+      "entrada": "PT",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Pt",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "PL",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "MBL",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "PSOL",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Partido Missão",
+      "saida": "Indefinido"
+    },
+    {
+      "entrada": "Família Bolsonaro",
+      "saida": "Indefinido"
+    }
+  ]
+}

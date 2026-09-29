@@ -414,7 +414,9 @@ correcoes_municipio <- tibble::tribble(
   "BA", "SANTA TERESINHA",            "SANTA TEREZINHA",
   "SP", "BIRITIBA-MIRIM",             "BIRITIBA MIRIM",
   "MA", "PINDARÉ MIRIM",              "PINDARÉ-MIRIM",
-  "SC", "GRÃO PARÁ",                  "GRÃO-PARÁ"
+  "SC", "GRÃO PARÁ",                  "GRÃO-PARÁ",
+  "PE", "LAGOA DO ITAENGA",           "LAGOA DE ITAENGA",
+  "MG", "BRASÓPOLIS",                 "BRAZÓPOLIS"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.
