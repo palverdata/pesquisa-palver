@@ -39,13 +39,21 @@ ancoras:
     - "Branco/nulo ou não votaria"
     - "Indecisos"
 
+  fim_voto_espontaneo: &fim_voto_espontaneo
+    - "Outros"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+    - "Não respondeu"
+
+  # indeciso e so quem disse nao ter escolhido; quem disse ja ter escolhido
+  # e nao citou nome entra em Nao respondeu
   mesclar_escolheu: &mesclar_escolheu
     variavel: spontaneous_choice
     mapa:
-      "Não, ainda não escolhi": "Indeciso / Não Respondeu"
+      "Não, ainda não escolhi": "Ainda não escolheu"
       "Votarei em branco/nulo": "Branco/Nulo"
       "Não pretendo votar": "Não irei votar"
-      "Não sei": "Indeciso / Não Respondeu"
+      "Não sei": "Ainda não escolheu"
 
   fim_cenario: &fim_cenario
     - "Branco/nulo ou não votaria"
@@ -63,6 +71,17 @@ ancoras:
     - "Zema (Novo)"
     - "Branco/nulo ou não votaria"
     - "Indecisos"
+
+  barras_espontanea: &barras_espontanea
+    - "Lula (PT)"
+    - "Flávio Bolsonaro (PL)"
+    - "Renan Santos (Missão)"
+    - "Escritor Augusto Cury (Avante)"
+    - "Ronaldo Caiado (PSD)"
+    - "Zema (Novo)"
+    - "Branco/nulo ou não votaria"
+    - "Indecisos"
+    - "Não respondeu"
 
   cenario_1r: &cenario_1r
     manter: *barras_1r
@@ -193,6 +212,7 @@ cores:
   "Branco/nulo ou não votaria": "#8F9498"
   "Indecisos, brancos e nulos": "#8F9498"
   "Indecisos": "#ADB5BD"
+  "Não respondeu": "#8F9498"
   "Não sei": "#8F9498"
   "Não conhece ou não sabe": "#8F9498"
   "Outra": "#8F9498"
@@ -204,7 +224,7 @@ secoes:
 
       - variavel: spontaneous_vote_norm
         rotulo: "Voto espontâneo"
-        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Candidatos citados por poucos respondentes foram agrupados em Outros."
+        nota: "Estimativas derivadas de perguntas em duas etapas: decisão de voto e voto espontâneo digitado em caixa de texto. Quem disse não ter escolhido entra como indeciso; quem disse votar em branco ou não votar, como branco/nulo ou não votaria. Quem disse já ter escolhido, mas deixou a resposta em branco ou digitou uma resposta inválida ou ininteligível, aparece em Não respondeu. Candidatos citados por poucos respondentes foram agrupados em Outros."
         mesclar: *mesclar_escolheu
         harmonizar: &espontanea_1r
           mapa:
@@ -217,12 +237,13 @@ secoes:
             "Branco/Nulo": "Branco/nulo ou não votaria"
             "Ninguém": "Branco/nulo ou não votaria"
             "Não irei votar": "Branco/nulo ou não votaria"
-            "Indefinido": "Indecisos"
-            "Indeciso / Não Respondeu": "Indecisos"
-          manter: *barras_1r
+            "Ainda não escolheu": "Indecisos"
+            "Indefinido": "Não respondeu"
+            "Indeciso / Não Respondeu": "Não respondeu"
+          manter: *barras_espontanea
           resto: "Outros"
         ordenar: decrescente
-        fixar_no_fim: *fim_espontanea
+        fixar_no_fim: *fim_voto_espontaneo
 
       - variavel: spontaneous_vote_norm
         chave: spontaneous_vote_norm_agrupado
@@ -232,7 +253,7 @@ secoes:
         harmonizar: *espontanea_1r
         agrupar_abaixo: 0.01
         ordenar: decrescente
-        fixar_no_fim: *fim_espontanea
+        fixar_no_fim: *fim_voto_espontaneo
 
   - titulo: "1º turno estimulada"
     questoes:

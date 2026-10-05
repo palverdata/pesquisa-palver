@@ -586,6 +586,8 @@ questoes:
       - "Ninguém"
       - "Branco/Nulo"
       - "Não irei votar"
+      # so existe via mesclar: quem disse nao ter escolhido nao viu a aberta
+      - "Ainda não escolheu"
       - "Indefinido"
       - "Indeciso / Não Respondeu"
 
