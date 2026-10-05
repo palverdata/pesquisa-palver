@@ -208,12 +208,19 @@ cortar_amostra <- function(base, spec) {
   # respondent_id desempata, para o corte nao depender da ordem do arquivo
   cronologica <- order(quando, base$respondent_id)
 
-  cat(sprintf("amostra registrada: %d dos %d respondentes do arquivo",
-              n, nrow(base)))
-  cat(sprintf(" (ultimo a entrar concluiu em %s)\n", quando[cronologica[n]]))
+  corte <- spec$corte %||% "primeiras"
+  if (!corte %in% c("primeiras", "ultimas")) {
+    stop("amostra.corte: use 'primeiras' ou 'ultimas' -> ", corte)
+  }
+  escolhidas <- if (corte == "ultimas") utils::tail(cronologica, n) else
+    cronologica[seq_len(n)]
+
+  cat(sprintf("amostra registrada: %d dos %d respondentes do arquivo, as %s",
+              n, nrow(base), corte))
+  cat(sprintf(" (de %s a %s)\n", quando[escolhidas[1]], quando[escolhidas[n]]))
 
   # devolve na ordem do arquivo, nao na do corte
-  base[sort(cronologica[seq_len(n)]), ]
+  base[sort(escolhidas), ]
 }
 
 aplicar_derivada <- function(base, nome, spec) {
@@ -416,7 +423,9 @@ correcoes_municipio <- tibble::tribble(
   "MA", "PINDARÉ MIRIM",              "PINDARÉ-MIRIM",
   "SC", "GRÃO PARÁ",                  "GRÃO-PARÁ",
   "PE", "LAGOA DO ITAENGA",           "LAGOA DE ITAENGA",
-  "MG", "BRASÓPOLIS",                 "BRAZÓPOLIS"
+  "MG", "BRASÓPOLIS",                 "BRAZÓPOLIS",
+  # Itabirinha de Mantena (MG) e o nome antigo de Itabirinha
+  "MG", "ITABIRINHA DE MANTENA",      "ITABIRINHA"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.

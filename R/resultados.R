@@ -1269,8 +1269,10 @@ escrever_ambiente <- function(fit, cfg, diagnostico, dir_saida) {
       ),
       "",
       "resultado:",
-      sprintf("  %-26s: %s", "amostra registrada",
-              cfg$amostra$registrada %||% "(sem corte)"),
+      sprintf("  %-26s: %s%s", "amostra registrada",
+              cfg$amostra$registrada %||% "(sem corte)",
+              if (is.null(cfg$amostra$corte)) "" else
+                paste0(" (as ", cfg$amostra$corte, ")")),
       sprintf("  %-26s: %d", "n", fit$n_calibrado),
       sprintf("  %-26s: %.0f", "n efetivo (Kish)", ef$n_eff),
       sprintf("  %-26s: %.5fx a media", "peso minimo", ef$razao_min),

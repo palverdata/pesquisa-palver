@@ -18,6 +18,7 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 | 3 | 21/09/2026 | BR-00860/2026 | 15 a 20/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w3/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w3/press-release) |
 | 4 | 24/09/2026 | BR-09587/2026 | 20 a 23/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w4/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w4/press-release) |
 | 5 | 29/09/2026 | BR-02990/2026 | 24 a 27/09/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w5/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-september-w5/press-release) |
+| 6 | 03/10/2026 | BR-00198/2026 | 30/09 a 03/10/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-october-w6/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-october-w6/press-release) |
 
 A reanálise é o mesmo campo da onda 2, recalibrado com a margem de filiação
 partidária (ver [Filiação partidária](#filiação-partidária)) e registrado de novo
@@ -30,6 +31,17 @@ das versões 4 a 7 do questionário, dentro do campo registrado. Ficam de fora a
 entrevistas em que o respondente declarou filiação partidária mas o partido não
 foi coletado, por falha de duas versões do questionário: sem o partido, a
 derivada `filiacao_std` não tem como classificá-las.
+
+A onda 6 usa as 5.000 conclusões mais recentes do campo, e não as primeiras
+(`amostra.corte: ultimas` no `config.yaml`).
+
+A partir da onda 6, a espontânea separa duas respostas que antes iam juntas para
+Indecisos. Indeciso é quem disse, na pergunta de decisão, que ainda não escolheu
+ou não sabe. Quem disse já ter escolhido, mas deixou a resposta em branco ou
+digitou algo inválido ou ininteligível, vai para Não respondeu. A regra foi
+aplicada também à reanálise da onda 2 e às ondas 3 a 5, para a série ficar
+comparável. Os candidatos não mudam, só a divisão entre as duas caixas. Os
+relatórios publicados dessas ondas e as tags delas guardam a regra anterior.
 
 Cada onda tem uma tag git — [`v2026-08-10`](../../releases/tag/v2026-08-10),
 [`v2026-09-09`](../../releases/tag/v2026-09-09),
