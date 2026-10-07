@@ -1114,6 +1114,80 @@ derivadas:
       - "Nenhum dos dois"
       - "Não sei"
 
+  # Eleitor persuadivel: a primeira regra atendida vence (nao informado >
+  # independente > pressao cruzada, aberta por campo). Quem nao cai em nenhuma
+  # fica NA e sai do recorte. A regra e a mesma em todas as ondas.
+  persuadivel:
+    tipo: persuadivel
+    origem:
+      - identification
+      - public_policy_support_anistia_8_janeiro
+      - public_policy_support_porte_de_armas
+      - public_policy_support_casamento_homoafetivo
+      - public_policy_support_proibir_aborto
+      - public_policy_support_terras_indigenas
+      - public_policy_support_cotas
+      - public_policy_support_privatizar_correios
+      - public_policy_support_desvincular_previdencia
+      - public_policy_support_pisos_saude_educacao
+      - public_policy_support_alinhar_eua
+    nao_informado:
+      rotulo: "Não informados"
+      # "Não sei" em pelo menos `minimo` dos 10 itens de políticas públicas
+      variaveis:
+        - public_policy_support_anistia_8_janeiro
+        - public_policy_support_porte_de_armas
+        - public_policy_support_casamento_homoafetivo
+        - public_policy_support_proibir_aborto
+        - public_policy_support_terras_indigenas
+        - public_policy_support_cotas
+        - public_policy_support_privatizar_correios
+        - public_policy_support_desvincular_previdencia
+        - public_policy_support_pisos_saude_educacao
+        - public_policy_support_alinhar_eua
+      valor: "Não sei"
+      minimo: 5
+    independente:
+      rotulo: "Independentes puros"
+      variavel: identification
+      valores: ["Sou independente", "Não me interesso por política"]
+    pressao_cruzada:
+      variavel: identification
+      minimo_discordancias: 3
+      # `discorda`: a resposta do campo oposto; "Não sei" nunca conta
+      campos:
+        - identidade: "Não me considero Lulista, mas gosto mais das ideias da esquerda"
+          rotulo: "Pressão cruzada: esquerda"
+          discorda:
+            public_policy_support_anistia_8_janeiro: "Apoio"
+            public_policy_support_porte_de_armas: "Apoio"
+            public_policy_support_casamento_homoafetivo: "Sou contra"
+            public_policy_support_proibir_aborto: "Apoio"
+            public_policy_support_terras_indigenas: "Sou contra"
+            public_policy_support_cotas: "Sou contra"
+            public_policy_support_privatizar_correios: "Apoio"
+            public_policy_support_desvincular_previdencia: "Apoio"
+            public_policy_support_pisos_saude_educacao: "Apoio"
+            public_policy_support_alinhar_eua: "Apoio"
+        - identidade: "Não me considero Bolsonarista, mas gosto mais das ideias da direita"
+          rotulo: "Pressão cruzada: direita"
+          discorda:
+            public_policy_support_anistia_8_janeiro: "Sou contra"
+            public_policy_support_porte_de_armas: "Sou contra"
+            public_policy_support_casamento_homoafetivo: "Apoio"
+            public_policy_support_proibir_aborto: "Sou contra"
+            public_policy_support_terras_indigenas: "Apoio"
+            public_policy_support_cotas: "Apoio"
+            public_policy_support_privatizar_correios: "Sou contra"
+            public_policy_support_desvincular_previdencia: "Sou contra"
+            public_policy_support_pisos_saude_educacao: "Sou contra"
+            public_policy_support_alinhar_eua: "Sou contra"
+    niveis:
+      - "Não informados"
+      - "Independentes puros"
+      - "Pressão cruzada: esquerda"
+      - "Pressão cruzada: direita"
+
   # Desgaste de imagem: multipla escolha, um item por resposta. "Nao sei" da
   # lista vira o mesmo nivel de quem nao conhece o caso; quem nao viu a pergunta
   # vem como [None], fica NA e entra pelo mesclar do display.

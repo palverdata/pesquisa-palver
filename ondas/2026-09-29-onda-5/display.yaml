@@ -589,3 +589,7 @@ recortes:
         "Não sei": "Sem interesse ou não sabe"
     excluir:
       - "Sem interesse ou não sabe"
+
+  # Nao informado > independente > pressao cruzada; os demais eleitores ficam fora.
+  - variavel: persuadivel
+    rotulo: "Eleitor persuadível"

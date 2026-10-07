@@ -325,6 +325,41 @@ aplicar_derivada <- function(base, nome, spec) {
                       logical(1))
     novo[is.na(origem) | nao_viu] <- NA
 
+  } else if (identical(spec$tipo, "persuadivel")) {
+
+    exige(unlist(spec$origem))
+    novo <- rep(NA_character_, nrow(base))
+    pc <- spec$pressao_cruzada
+    ni <- spec$nao_informado
+
+    # nivel fora do item contaria zero em silencio
+    confere <- function(item, nivel) {
+      if (!nivel %in% levels(base[[item]])) {
+        stop("derivada ", nome, ": ", item, " nao tem o nivel '", nivel, "'")
+      }
+    }
+    for (campo in pc$campos) {
+      purrr::iwalk(campo$discorda, ~ confere(.y, .x))
+    }
+    purrr::walk(unlist(ni$variaveis), ~ confere(.x, ni$valor))
+
+    # ordem inversa: nao informado > independente > pressao cruzada
+    for (campo in pc$campos) {
+      lado <- as.character(base[[pc$variavel]]) %in% campo$identidade
+      n <- purrr::reduce(purrr::imap(campo$discorda,
+                                     ~ as.character(base[[.y]]) %in% .x), `+`)
+      novo[lado & n >= pc$minimo_discordancias] <- campo$rotulo
+    }
+
+    novo[as.character(base[[spec$independente$variavel]]) %in%
+           unlist(spec$independente$valores)] <- spec$independente$rotulo
+
+    # quantas vezes `valor` aparece nos itens; NA nao conta
+    n_valor <- purrr::reduce(purrr::map(unlist(ni$variaveis),
+                                        ~ as.character(base[[.x]]) %in% ni$valor),
+                             `+`)
+    novo[n_valor >= ni$minimo] <- ni$rotulo
+
   } else if (identical(spec$tipo, "faixas")) {
 
     exige(spec$origem)
@@ -406,6 +441,8 @@ correcoes_municipio <- tibble::tribble(
   "MG", "SÃO THOMÉ DAS LETRAS",       "SÃO TOMÉ DAS LETRAS",
   "SE", "AMPARO DE SÃO FRANCISCO",    "AMPARO DO SÃO FRANCISCO",
   "SP", "SÃO LUÍS DO PARAITINGA",     "SÃO LUIZ DO PARAITINGA",
+  "PE", "LAGOA DO ITAENGA",           "LAGOA DE ITAENGA",
+  "MG", "BRASÓPOLIS",                 "BRAZÓPOLIS",
   "PA", "ELDORADO DOS CARAJÁS",       "ELDORADO DO CARAJÁS",
   # Serido (PB) passou a se chamar Sao Vicente do Serido em 2013
   "PB", "SERIDÓ",                     "SÃO VICENTE DO SERIDÓ",

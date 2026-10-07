@@ -14,6 +14,9 @@ ondas/*/dados/*
 ondas/*/output/*
 !ondas/*/output/.gitkeep
 
+# Apresentacoes: dados e .pptx saem do codigo versionado.
+apresentacoes/*/output/
+
 # O que se versiona e o derivado, em margens/.
 insumos/**
 !insumos/*/
