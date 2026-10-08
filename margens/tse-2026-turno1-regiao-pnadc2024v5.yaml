@@ -1,0 +1,218 @@
+meta:
+  fonte: TSE, divulgacao oficial do 1o turno de 2026 (resultados.tse.jus.br)
+  arquivos:
+  - insumos/tse/presidente_2026_t1/totais_por_uf.csv
+  - insumos/tse/presidente_2026_t1/votos_por_uf.csv
+  gerado_tse: 05/10/2026 12:51:47
+  totalizacao_final: s
+  cargo: Presidente
+  turno: 1
+  definicao: 'Candidatos com nivel proprio pelo numero na urna: Flávio Bolsonaro (22),
+    Lula (13), Augusto Cury (70), Renan Santos (14), Ronaldo Caiado (55); os demais
+    em Outros. Branco/Nulo: brancos + nulos. Abstencao nao entra: a margem e sobre
+    comparecimento. Exterior (ZZ) excluido, fora do universo da PNADc.'
+  derivado_de: margens/pnadc-2024-visita5.yaml
+  escala: contagem POPULACIONAL. O percentual de voto do TSE entre quem compareceu
+    e aplicado a populacao inteira do recorte, como em tse-2022-turno2.yaml. A populacao
+    por UF e a distribuicao da PNADc 2024 dentro de cada regiao, ajustada ao total
+    regional de margens/pnadc-2024-visita5.yaml. `votos` fica em cada celula para
+    auditoria.
+  variaveis:
+  - reg_std
+  - vote_t1_std
+  n_celulas: 35
+  n_pop: 166895914
+  n_votos: 124934069
+  gerado_por: scripts/gerar-margens-tse-2026.R
+  gerado_em: '2026-10-08'
+niveis:
+  reg_std:
+  - 'N'
+  - NE
+  - CO
+  - SE
+  - S
+  vote_t1_std:
+  - Flávio Bolsonaro
+  - Lula
+  - Augusto Cury
+  - Renan Santos
+  - Ronaldo Caiado
+  - Outros
+  - Branco/Nulo
+conjunta:
+- reg_std: 'N'
+  vote_t1_std: Flávio Bolsonaro
+  freq: 6475245
+  votos: 5009437
+  pct: 0.474604
+- reg_std: 'N'
+  vote_t1_std: Lula
+  freq: 5882150
+  votos: 4550602
+  pct: 0.431133
+- reg_std: 'N'
+  vote_t1_std: Augusto Cury
+  freq: 376894
+  votos: 291576
+  pct: 0.027624
+- reg_std: 'N'
+  vote_t1_std: Renan Santos
+  freq: 229685
+  votos: 177691
+  pct: 0.016835
+- reg_std: 'N'
+  vote_t1_std: Ronaldo Caiado
+  freq: 178323
+  votos: 137956
+  pct: 0.01307
+- reg_std: 'N'
+  vote_t1_std: Outros
+  freq: 31860
+  votos: 24648
+  pct: 0.002335
+- reg_std: 'N'
+  vote_t1_std: Branco/Nulo
+  freq: 469325
+  votos: 363083
+  pct: 0.034399
+- reg_std: NE
+  vote_t1_std: Flávio Bolsonaro
+  freq: 12864267
+  votos: 10398973
+  pct: 0.292856
+- reg_std: NE
+  vote_t1_std: Lula
+  freq: 26590324
+  votos: 21494584
+  pct: 0.60533
+- reg_std: NE
+  vote_t1_std: Augusto Cury
+  freq: 1013132
+  votos: 818977
+  pct: 0.023064
+- reg_std: NE
+  vote_t1_std: Renan Santos
+  freq: 654899
+  votos: 529395
+  pct: 0.014909
+- reg_std: NE
+  vote_t1_std: Ronaldo Caiado
+  freq: 482502
+  votos: 390036
+  pct: 0.010984
+- reg_std: NE
+  vote_t1_std: Outros
+  freq: 89919
+  votos: 72687
+  pct: 0.002047
+- reg_std: NE
+  vote_t1_std: Branco/Nulo
+  freq: 2231947
+  votos: 1804219
+  pct: 0.05081
+- reg_std: CO
+  vote_t1_std: Flávio Bolsonaro
+  freq: 7227481
+  votos: 5133436
+  pct: 0.546323
+- reg_std: CO
+  vote_t1_std: Lula
+  freq: 4171736
+  votos: 2963043
+  pct: 0.31534
+- reg_std: CO
+  vote_t1_std: Augusto Cury
+  freq: 252011
+  votos: 178995
+  pct: 0.019049
+- reg_std: CO
+  vote_t1_std: Renan Santos
+  freq: 233484
+  votos: 165836
+  pct: 0.017649
+- reg_std: CO
+  vote_t1_std: Ronaldo Caiado
+  freq: 863742
+  votos: 613487
+  pct: 0.06529
+- reg_std: CO
+  vote_t1_std: Outros
+  freq: 41393
+  votos: 29400
+  pct: 0.003129
+- reg_std: CO
+  vote_t1_std: Branco/Nulo
+  freq: 439468
+  votos: 312139
+  pct: 0.033219
+- reg_std: SE
+  vote_t1_std: Flávio Bolsonaro
+  freq: 34645252
+  votos: 24899609
+  pct: 0.485549
+- reg_std: SE
+  vote_t1_std: Lula
+  freq: 26766866
+  votos: 19237398
+  pct: 0.375134
+- reg_std: SE
+  vote_t1_std: Augusto Cury
+  freq: 2246582
+  votos: 1614623
+  pct: 0.031486
+- reg_std: SE
+  vote_t1_std: Renan Santos
+  freq: 1831911
+  votos: 1316598
+  pct: 0.025674
+- reg_std: SE
+  vote_t1_std: Ronaldo Caiado
+  freq: 1459486
+  votos: 1048935
+  pct: 0.020455
+- reg_std: SE
+  vote_t1_std: Outros
+  freq: 504796
+  votos: 362798
+  pct: 0.007075
+- reg_std: SE
+  vote_t1_std: Branco/Nulo
+  freq: 3897845
+  votos: 2801389
+  pct: 0.054628
+- reg_std: S
+  vote_t1_std: Flávio Bolsonaro
+  freq: 14306945
+  votos: 10519148
+  pct: 0.578213
+- reg_std: S
+  vote_t1_std: Lula
+  freq: 7448543
+  votos: 5476524
+  pct: 0.301032
+- reg_std: S
+  vote_t1_std: Augusto Cury
+  freq: 727189
+  votos: 534664
+  pct: 0.029389
+- reg_std: S
+  vote_t1_std: Renan Santos
+  freq: 649831
+  votos: 477787
+  pct: 0.026263
+- reg_std: S
+  vote_t1_std: Ronaldo Caiado
+  freq: 557671
+  votos: 410026
+  pct: 0.022538
+- reg_std: S
+  vote_t1_std: Outros
+  freq: 123818
+  votos: 91037
+  pct: 0.005004
+- reg_std: S
+  vote_t1_std: Branco/Nulo
+  freq: 929392
+  votos: 683333
+  pct: 0.037561

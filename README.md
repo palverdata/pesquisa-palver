@@ -260,6 +260,17 @@ Origem: [dadosabertos.tse.jus.br](https://dadosabertos.tse.jus.br/dataset/result
 (Resultados, 2022). Depois rode
 [scripts/gerar-margens-tse.R](scripts/gerar-margens-tse.R).
 
+**TSE 2026** — os dados abertos de 2026 só saem depois da totalização final, então
+o resultado de presidente vem da divulgação oficial em `resultados.tse.jus.br`.
+[scripts/baixar-resultado-tse.R](scripts/baixar-resultado-tse.R) acha o código da
+eleição no `ele-c.json`, baixa os arquivos do Brasil, das UFs e do exterior para
+`insumos/tse/presidente_2026_t1/` e confere se as UFs somam o Brasil. Depois
+[scripts/gerar-margens-tse-2026.R](scripts/gerar-margens-tse-2026.R) gera o voto no
+1º turno por UF e por região, com o mesmo desenho da margem de 2022, para cada base
+da PNADc listada no topo. A base vai no nome do arquivo
+(`tse-2026-turno1-regiao-pnadc2025v1.yaml`), porque margens de bases diferentes não
+podem entrar juntas no raking.
+
 Também em `insumos/tse/`, fora do git, ficam os perfis do eleitorado que servem às
 análises e às margens opcionais:
 

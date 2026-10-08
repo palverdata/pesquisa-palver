@@ -1,0 +1,1010 @@
+meta:
+  fonte: TSE, divulgacao oficial do 1o turno de 2026 (resultados.tse.jus.br)
+  arquivos:
+  - insumos/tse/presidente_2026_t1/totais_por_uf.csv
+  - insumos/tse/presidente_2026_t1/votos_por_uf.csv
+  gerado_tse: 05/10/2026 12:51:47
+  totalizacao_final: s
+  cargo: Presidente
+  turno: 1
+  definicao: 'Candidatos com nivel proprio pelo numero na urna: Flávio Bolsonaro (22),
+    Lula (13), Augusto Cury (70), Renan Santos (14), Ronaldo Caiado (55); os demais
+    em Outros. Branco/Nulo: brancos + nulos. Abstencao nao entra: a margem e sobre
+    comparecimento. Exterior (ZZ) excluido, fora do universo da PNADc.'
+  derivado_de: margens/pnadc-2024-visita5.yaml
+  escala: contagem POPULACIONAL. O percentual de voto do TSE entre quem compareceu
+    e aplicado a populacao inteira do recorte, como em tse-2022-turno2.yaml. A populacao
+    por UF e a distribuicao da PNADc 2024 dentro de cada regiao, ajustada ao total
+    regional de margens/pnadc-2024-visita5.yaml. `votos` fica em cada celula para
+    auditoria.
+  variaveis:
+  - uf
+  - vote_t1_std
+  n_celulas: 189
+  n_pop: 166895914
+  n_votos: 124934069
+  gerado_por: scripts/gerar-margens-tse-2026.R
+  gerado_em: '2026-10-08'
+niveis:
+  uf:
+  - AC
+  - AM
+  - AP
+  - PA
+  - RO
+  - RR
+  - TO
+  - AL
+  - BA
+  - CE
+  - MA
+  - PB
+  - PE
+  - PI
+  - RN
+  - SE
+  - DF
+  - GO
+  - MS
+  - MT
+  - ES
+  - MG
+  - RJ
+  - SP
+  - PR
+  - RS
+  - SC
+  vote_t1_std:
+  - Flávio Bolsonaro
+  - Lula
+  - Augusto Cury
+  - Renan Santos
+  - Ronaldo Caiado
+  - Outros
+  - Branco/Nulo
+conjunta:
+- uf: AC
+  vote_t1_std: Flávio Bolsonaro
+  freq: 388067
+  votos: 302807
+  pct: 0.620087
+- uf: AC
+  vote_t1_std: Lula
+  freq: 172717
+  votos: 134770
+  pct: 0.275981
+- uf: AC
+  vote_t1_std: Augusto Cury
+  freq: 17330
+  votos: 13523
+  pct: 0.027692
+- uf: AC
+  vote_t1_std: Renan Santos
+  freq: 10227
+  votos: 7980
+  pct: 0.016341
+- uf: AC
+  vote_t1_std: Ronaldo Caiado
+  freq: 11014
+  votos: 8594
+  pct: 0.017599
+- uf: AC
+  vote_t1_std: Outros
+  freq: 1784
+  votos: 1392
+  pct: 0.002851
+- uf: AC
+  vote_t1_std: Branco/Nulo
+  freq: 24688
+  votos: 19264
+  pct: 0.039449
+- uf: AM
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1315423
+  votos: 976764
+  pct: 0.437119
+- uf: AM
+  vote_t1_std: Lula
+  freq: 1410005
+  votos: 1046996
+  pct: 0.468549
+- uf: AM
+  vote_t1_std: Augusto Cury
+  freq: 104412
+  votos: 77531
+  pct: 0.034696
+- uf: AM
+  vote_t1_std: Renan Santos
+  freq: 47689
+  votos: 35411
+  pct: 0.015847
+- uf: AM
+  vote_t1_std: Ronaldo Caiado
+  freq: 38125
+  votos: 28310
+  pct: 0.012669
+- uf: AM
+  vote_t1_std: Outros
+  freq: 7745
+  votos: 5751
+  pct: 0.002574
+- uf: AM
+  vote_t1_std: Branco/Nulo
+  freq: 85902
+  votos: 63786
+  pct: 0.028545
+- uf: AP
+  vote_t1_std: Flávio Bolsonaro
+  freq: 271914
+  votos: 212278
+  pct: 0.445436
+- uf: AP
+  vote_t1_std: Lula
+  freq: 272202
+  votos: 212503
+  pct: 0.445908
+- uf: AP
+  vote_t1_std: Augusto Cury
+  freq: 24411
+  votos: 19057
+  pct: 0.039989
+- uf: AP
+  vote_t1_std: Renan Santos
+  freq: 14528
+  votos: 11342
+  pct: 0.0238
+- uf: AP
+  vote_t1_std: Ronaldo Caiado
+  freq: 10637
+  votos: 8304
+  pct: 0.017425
+- uf: AP
+  vote_t1_std: Outros
+  freq: 1760
+  votos: 1374
+  pct: 0.002883
+- uf: AP
+  vote_t1_std: Branco/Nulo
+  freq: 14992
+  votos: 11704
+  pct: 0.024559
+- uf: PA
+  vote_t1_std: Flávio Bolsonaro
+  freq: 2735349
+  votos: 2163957
+  pct: 0.42711
+- uf: PA
+  vote_t1_std: Lula
+  freq: 3068148
+  votos: 2427237
+  pct: 0.479075
+- uf: PA
+  vote_t1_std: Augusto Cury
+  freq: 158223
+  votos: 125172
+  pct: 0.024706
+- uf: PA
+  vote_t1_std: Renan Santos
+  freq: 106389
+  votos: 84165
+  pct: 0.016612
+- uf: PA
+  vote_t1_std: Ronaldo Caiado
+  freq: 65719
+  votos: 51991
+  pct: 0.010262
+- uf: PA
+  vote_t1_std: Outros
+  freq: 13462
+  votos: 10650
+  pct: 0.002102
+- uf: PA
+  vote_t1_std: Branco/Nulo
+  freq: 257022
+  votos: 203332
+  pct: 0.040133
+- uf: RO
+  vote_t1_std: Flávio Bolsonaro
+  freq: 902484
+  votos: 652988
+  pct: 0.658865
+- uf: RO
+  vote_t1_std: Lula
+  freq: 346443
+  votos: 250667
+  pct: 0.252923
+- uf: RO
+  vote_t1_std: Augusto Cury
+  freq: 34939
+  votos: 25280
+  pct: 0.025508
+- uf: RO
+  vote_t1_std: Renan Santos
+  freq: 26518
+  votos: 19187
+  pct: 0.01936
+- uf: RO
+  vote_t1_std: Ronaldo Caiado
+  freq: 23397
+  votos: 16929
+  pct: 0.017081
+- uf: RO
+  vote_t1_std: Outros
+  freq: 4157
+  votos: 3008
+  pct: 0.003035
+- uf: RO
+  vote_t1_std: Branco/Nulo
+  freq: 31817
+  votos: 23021
+  pct: 0.023228
+- uf: RR
+  vote_t1_std: Flávio Bolsonaro
+  freq: 312185
+  votos: 231322
+  pct: 0.695137
+- uf: RR
+  vote_t1_std: Lula
+  freq: 100435
+  votos: 74420
+  pct: 0.223637
+- uf: RR
+  vote_t1_std: Augusto Cury
+  freq: 11578
+  votos: 8579
+  pct: 0.02578
+- uf: RR
+  vote_t1_std: Renan Santos
+  freq: 8938
+  votos: 6623
+  pct: 0.019903
+- uf: RR
+  vote_t1_std: Ronaldo Caiado
+  freq: 4911
+  votos: 3639
+  pct: 0.010935
+- uf: RR
+  vote_t1_std: Outros
+  freq: 1298
+  votos: 962
+  pct: 0.002891
+- uf: RR
+  vote_t1_std: Branco/Nulo
+  freq: 9754
+  votos: 7227
+  pct: 0.021718
+- uf: TO
+  vote_t1_std: Flávio Bolsonaro
+  freq: 571212
+  votos: 469321
+  pct: 0.486244
+- uf: TO
+  vote_t1_std: Lula
+  freq: 491721
+  votos: 404009
+  pct: 0.418577
+- uf: TO
+  vote_t1_std: Augusto Cury
+  freq: 27305
+  votos: 22434
+  pct: 0.023243
+- uf: TO
+  vote_t1_std: Renan Santos
+  freq: 15802
+  votos: 12983
+  pct: 0.013451
+- uf: TO
+  vote_t1_std: Ronaldo Caiado
+  freq: 24572
+  votos: 20189
+  pct: 0.020917
+- uf: TO
+  vote_t1_std: Outros
+  freq: 1839
+  votos: 1511
+  pct: 0.001565
+- uf: TO
+  vote_t1_std: Branco/Nulo
+  freq: 42293
+  votos: 34749
+  pct: 0.036002
+- uf: AL
+  vote_t1_std: Flávio Bolsonaro
+  freq: 917336
+  votos: 735718
+  pct: 0.379544
+- uf: AL
+  vote_t1_std: Lula
+  freq: 1241196
+  votos: 995459
+  pct: 0.513539
+- uf: AL
+  vote_t1_std: Augusto Cury
+  freq: 52900
+  votos: 42427
+  pct: 0.021887
+- uf: AL
+  vote_t1_std: Renan Santos
+  freq: 33479
+  votos: 26851
+  pct: 0.013852
+- uf: AL
+  vote_t1_std: Ronaldo Caiado
+  freq: 17703
+  votos: 14198
+  pct: 0.007324
+- uf: AL
+  vote_t1_std: Outros
+  freq: 5241
+  votos: 4203
+  pct: 0.002168
+- uf: AL
+  vote_t1_std: Branco/Nulo
+  freq: 149089
+  votos: 119572
+  pct: 0.061685
+- uf: BA
+  vote_t1_std: Flávio Bolsonaro
+  freq: 3118122
+  votos: 2442585
+  pct: 0.269792
+- uf: BA
+  vote_t1_std: Lula
+  freq: 7231456
+  votos: 5664771
+  pct: 0.625693
+- uf: BA
+  vote_t1_std: Augusto Cury
+  freq: 249506
+  votos: 195451
+  pct: 0.021588
+- uf: BA
+  vote_t1_std: Renan Santos
+  freq: 150020
+  votos: 117518
+  pct: 0.01298
+- uf: BA
+  vote_t1_std: Ronaldo Caiado
+  freq: 156641
+  votos: 122705
+  pct: 0.013553
+- uf: BA
+  vote_t1_std: Outros
+  freq: 22035
+  votos: 17261
+  pct: 0.001907
+- uf: BA
+  vote_t1_std: Branco/Nulo
+  freq: 629743
+  votos: 493310
+  pct: 0.054488
+- uf: CE
+  vote_t1_std: Flávio Bolsonaro
+  freq: 2137016
+  votos: 1756850
+  pct: 0.297244
+- uf: CE
+  vote_t1_std: Lula
+  freq: 4324589
+  votos: 3555263
+  pct: 0.601519
+- uf: CE
+  vote_t1_std: Augusto Cury
+  freq: 170932
+  votos: 140524
+  pct: 0.023775
+- uf: CE
+  vote_t1_std: Renan Santos
+  freq: 130868
+  votos: 107587
+  pct: 0.018203
+- uf: CE
+  vote_t1_std: Ronaldo Caiado
+  freq: 55472
+  votos: 45604
+  pct: 0.007716
+- uf: CE
+  vote_t1_std: Outros
+  freq: 14580
+  votos: 11986
+  pct: 0.002028
+- uf: CE
+  vote_t1_std: Branco/Nulo
+  freq: 355985
+  votos: 292657
+  pct: 0.049515
+- uf: MA
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1553483
+  votos: 1239040
+  pct: 0.297822
+- uf: MA
+  vote_t1_std: Lula
+  freq: 3217575
+  votos: 2566301
+  pct: 0.616848
+- uf: MA
+  vote_t1_std: Augusto Cury
+  freq: 106358
+  votos: 84830
+  pct: 0.02039
+- uf: MA
+  vote_t1_std: Renan Santos
+  freq: 75712
+  votos: 60387
+  pct: 0.014515
+- uf: MA
+  vote_t1_std: Ronaldo Caiado
+  freq: 62883
+  votos: 50155
+  pct: 0.012055
+- uf: MA
+  vote_t1_std: Outros
+  freq: 12194
+  votos: 9726
+  pct: 0.002338
+- uf: MA
+  vote_t1_std: Branco/Nulo
+  freq: 187947
+  votos: 149904
+  pct: 0.036032
+- uf: PB
+  vote_t1_std: Flávio Bolsonaro
+  freq: 978777
+  votos: 831377
+  pct: 0.309754
+- uf: PB
+  vote_t1_std: Lula
+  freq: 1814363
+  votos: 1541127
+  pct: 0.574193
+- uf: PB
+  vote_t1_std: Augusto Cury
+  freq: 86921
+  votos: 73831
+  pct: 0.027508
+- uf: PB
+  vote_t1_std: Renan Santos
+  freq: 49737
+  votos: 42247
+  pct: 0.01574
+- uf: PB
+  vote_t1_std: Ronaldo Caiado
+  freq: 22970
+  votos: 19511
+  pct: 0.007269
+- uf: PB
+  vote_t1_std: Outros
+  freq: 6657
+  votos: 5654
+  pct: 0.002107
+- uf: PB
+  vote_t1_std: Branco/Nulo
+  freq: 200424
+  votos: 170241
+  pct: 0.063428
+- uf: PE
+  vote_t1_std: Flávio Bolsonaro
+  freq: 2153730
+  votos: 1738043
+  pct: 0.294032
+- uf: PE
+  vote_t1_std: Lula
+  freq: 4403972
+  votos: 3553971
+  pct: 0.601241
+- uf: PE
+  vote_t1_std: Augusto Cury
+  freq: 170956
+  votos: 137960
+  pct: 0.023339
+- uf: PE
+  vote_t1_std: Renan Santos
+  freq: 106401
+  votos: 85865
+  pct: 0.014526
+- uf: PE
+  vote_t1_std: Ronaldo Caiado
+  freq: 90677
+  votos: 73176
+  pct: 0.01238
+- uf: PE
+  vote_t1_std: Outros
+  freq: 14873
+  votos: 12002
+  pct: 0.00203
+- uf: PE
+  vote_t1_std: Branco/Nulo
+  freq: 384198
+  votos: 310045
+  pct: 0.052452
+- uf: PI
+  vote_t1_std: Flávio Bolsonaro
+  freq: 606274
+  votos: 517028
+  pct: 0.230725
+- uf: PI
+  vote_t1_std: Lula
+  freq: 1786723
+  votos: 1523710
+  pct: 0.67996
+- uf: PI
+  vote_t1_std: Augusto Cury
+  freq: 55924
+  votos: 47692
+  pct: 0.021283
+- uf: PI
+  vote_t1_std: Renan Santos
+  freq: 37845
+  votos: 32274
+  pct: 0.014402
+- uf: PI
+  vote_t1_std: Ronaldo Caiado
+  freq: 25363
+  votos: 21629
+  pct: 0.009652
+- uf: PI
+  vote_t1_std: Outros
+  freq: 4762
+  votos: 4061
+  pct: 0.001812
+- uf: PI
+  vote_t1_std: Branco/Nulo
+  freq: 110799
+  votos: 94489
+  pct: 0.042166
+- uf: RN
+  vote_t1_std: Flávio Bolsonaro
+  freq: 888165
+  votos: 720493
+  pct: 0.33187
+- uf: RN
+  vote_t1_std: Lula
+  freq: 1526061
+  votos: 1237963
+  pct: 0.570224
+- uf: RN
+  vote_t1_std: Augusto Cury
+  freq: 70717
+  votos: 57367
+  pct: 0.026424
+- uf: RN
+  vote_t1_std: Renan Santos
+  freq: 43467
+  votos: 35261
+  pct: 0.016242
+- uf: RN
+  vote_t1_std: Ronaldo Caiado
+  freq: 20225
+  votos: 16407
+  pct: 0.007557
+- uf: RN
+  vote_t1_std: Outros
+  freq: 5433
+  votos: 4407
+  pct: 0.00203
+- uf: RN
+  vote_t1_std: Branco/Nulo
+  freq: 122181
+  votos: 99115
+  pct: 0.045654
+- uf: SE
+  vote_t1_std: Flávio Bolsonaro
+  freq: 510534
+  votos: 417839
+  pct: 0.290351
+- uf: SE
+  vote_t1_std: Lula
+  freq: 1045922
+  votos: 856019
+  pct: 0.594837
+- uf: SE
+  vote_t1_std: Augusto Cury
+  freq: 47524
+  votos: 38895
+  pct: 0.027028
+- uf: SE
+  vote_t1_std: Renan Santos
+  freq: 26154
+  votos: 21405
+  pct: 0.014874
+- uf: SE
+  vote_t1_std: Ronaldo Caiado
+  freq: 32563
+  votos: 26651
+  pct: 0.018519
+- uf: SE
+  vote_t1_std: Outros
+  freq: 4138
+  votos: 3387
+  pct: 0.002354
+- uf: SE
+  vote_t1_std: Branco/Nulo
+  freq: 91499
+  votos: 74886
+  pct: 0.052037
+- uf: DF
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1174031
+  votos: 909616
+  pct: 0.496679
+- uf: DF
+  vote_t1_std: Lula
+  freq: 872024
+  votos: 675627
+  pct: 0.368914
+- uf: DF
+  vote_t1_std: Augusto Cury
+  freq: 59344
+  votos: 45979
+  pct: 0.025106
+- uf: DF
+  vote_t1_std: Renan Santos
+  freq: 60293
+  votos: 46714
+  pct: 0.025507
+- uf: DF
+  vote_t1_std: Ronaldo Caiado
+  freq: 109807
+  votos: 85076
+  pct: 0.046454
+- uf: DF
+  vote_t1_std: Outros
+  freq: 12644
+  votos: 9796
+  pct: 0.005349
+- uf: DF
+  vote_t1_std: Branco/Nulo
+  freq: 75619
+  votos: 58588
+  pct: 0.031991
+- uf: GO
+  vote_t1_std: Flávio Bolsonaro
+  freq: 2995894
+  votos: 2051888
+  pct: 0.516642
+- uf: GO
+  vote_t1_std: Lula
+  freq: 1735844
+  votos: 1188880
+  pct: 0.299346
+- uf: GO
+  vote_t1_std: Augusto Cury
+  freq: 78623
+  votos: 53849
+  pct: 0.013559
+- uf: GO
+  vote_t1_std: Renan Santos
+  freq: 78997
+  votos: 54105
+  pct: 0.013623
+- uf: GO
+  vote_t1_std: Ronaldo Caiado
+  freq: 689211
+  votos: 472041
+  pct: 0.118855
+- uf: GO
+  vote_t1_std: Outros
+  freq: 10308
+  votos: 7060
+  pct: 0.001778
+- uf: GO
+  vote_t1_std: Branco/Nulo
+  freq: 209905
+  votos: 143764
+  pct: 0.036198
+- uf: MS
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1233280
+  votos: 873351
+  pct: 0.566662
+- uf: MS
+  vote_t1_std: Lula
+  freq: 729863
+  votos: 516855
+  pct: 0.335354
+- uf: MS
+  vote_t1_std: Augusto Cury
+  freq: 55282
+  votos: 39148
+  pct: 0.025401
+- uf: MS
+  vote_t1_std: Renan Santos
+  freq: 44972
+  votos: 31847
+  pct: 0.020664
+- uf: MS
+  vote_t1_std: Ronaldo Caiado
+  freq: 32890
+  votos: 23291
+  pct: 0.015112
+- uf: MS
+  vote_t1_std: Outros
+  freq: 8171
+  votos: 5786
+  pct: 0.003754
+- uf: MS
+  vote_t1_std: Branco/Nulo
+  freq: 71936
+  votos: 50942
+  pct: 0.033053
+- uf: MT
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1829018
+  votos: 1298581
+  pct: 0.632796
+- uf: MT
+  vote_t1_std: Lula
+  freq: 819283
+  votos: 581681
+  pct: 0.283452
+- uf: MT
+  vote_t1_std: Augusto Cury
+  freq: 56366
+  votos: 40019
+  pct: 0.019501
+- uf: MT
+  vote_t1_std: Renan Santos
+  freq: 46719
+  votos: 33170
+  pct: 0.016164
+- uf: MT
+  vote_t1_std: Ronaldo Caiado
+  freq: 46591
+  votos: 33079
+  pct: 0.016119
+- uf: MT
+  vote_t1_std: Outros
+  freq: 9518
+  votos: 6758
+  pct: 0.003293
+- uf: MT
+  vote_t1_std: Branco/Nulo
+  freq: 82882
+  votos: 58845
+  pct: 0.028675
+- uf: ES
+  vote_t1_std: Flávio Bolsonaro
+  freq: 1690250
+  votos: 1233194
+  pct: 0.524254
+- uf: ES
+  vote_t1_std: Lula
+  freq: 1165072
+  votos: 850028
+  pct: 0.361363
+- uf: ES
+  vote_t1_std: Augusto Cury
+  freq: 89257
+  votos: 65121
+  pct: 0.027684
+- uf: ES
+  vote_t1_std: Renan Santos
+  freq: 72967
+  votos: 53236
+  pct: 0.022632
+- uf: ES
+  vote_t1_std: Ronaldo Caiado
+  freq: 53587
+  votos: 39097
+  pct: 0.016621
+- uf: ES
+  vote_t1_std: Outros
+  freq: 14257
+  votos: 10402
+  pct: 0.004422
+- uf: ES
+  vote_t1_std: Branco/Nulo
+  freq: 138713
+  votos: 101204
+  pct: 0.043024
+- uf: MG
+  vote_t1_std: Flávio Bolsonaro
+  freq: 7752573
+  votos: 5777548
+  pct: 0.457183
+- uf: MG
+  vote_t1_std: Lula
+  freq: 6962747
+  votos: 5188936
+  pct: 0.410606
+- uf: MG
+  vote_t1_std: Augusto Cury
+  freq: 549803
+  votos: 409737
+  pct: 0.032423
+- uf: MG
+  vote_t1_std: Renan Santos
+  freq: 331716
+  votos: 247209
+  pct: 0.019562
+- uf: MG
+  vote_t1_std: Ronaldo Caiado
+  freq: 309192
+  votos: 230423
+  pct: 0.018234
+- uf: MG
+  vote_t1_std: Outros
+  freq: 164218
+  votos: 122382
+  pct: 0.009684
+- uf: MG
+  vote_t1_std: Branco/Nulo
+  freq: 887012
+  votos: 661039
+  pct: 0.052309
+- uf: RJ
+  vote_t1_std: Flávio Bolsonaro
+  freq: 7033866
+  votos: 4966844
+  pct: 0.503747
+- uf: RJ
+  vote_t1_std: Lula
+  freq: 5229923
+  votos: 3693021
+  pct: 0.374553
+- uf: RJ
+  vote_t1_std: Augusto Cury
+  freq: 350355
+  votos: 247397
+  pct: 0.025091
+- uf: RJ
+  vote_t1_std: Renan Santos
+  freq: 300004
+  votos: 211843
+  pct: 0.021486
+- uf: RJ
+  vote_t1_std: Ronaldo Caiado
+  freq: 283012
+  votos: 199844
+  pct: 0.020269
+- uf: RJ
+  vote_t1_std: Outros
+  freq: 71872
+  votos: 50751
+  pct: 0.005147
+- uf: RJ
+  vote_t1_std: Branco/Nulo
+  freq: 694065
+  votos: 490102
+  pct: 0.049707
+- uf: SP
+  vote_t1_std: Flávio Bolsonaro
+  freq: 18190313
+  votos: 12922023
+  pct: 0.488878
+- uf: SP
+  vote_t1_std: Lula
+  freq: 13380756
+  votos: 9505413
+  pct: 0.359618
+- uf: SP
+  vote_t1_std: Augusto Cury
+  freq: 1256185
+  votos: 892368
+  pct: 0.033761
+- uf: SP
+  vote_t1_std: Renan Santos
+  freq: 1132226
+  votos: 804310
+  pct: 0.030429
+- uf: SP
+  vote_t1_std: Ronaldo Caiado
+  freq: 815861
+  votos: 579571
+  pct: 0.021927
+- uf: SP
+  vote_t1_std: Outros
+  freq: 252349
+  votos: 179263
+  pct: 0.006782
+- uf: SP
+  vote_t1_std: Branco/Nulo
+  freq: 2180587
+  votos: 1549044
+  pct: 0.058605
+- uf: PR
+  vote_t1_std: Flávio Bolsonaro
+  freq: 5371952
+  votos: 3945345
+  pct: 0.576682
+- uf: PR
+  vote_t1_std: Lula
+  freq: 2797524
+  votos: 2054597
+  pct: 0.300316
+- uf: PR
+  vote_t1_std: Augusto Cury
+  freq: 279256
+  votos: 205095
+  pct: 0.029978
+- uf: PR
+  vote_t1_std: Renan Santos
+  freq: 241593
+  votos: 177434
+  pct: 0.025935
+- uf: PR
+  vote_t1_std: Ronaldo Caiado
+  freq: 233233
+  votos: 171294
+  pct: 0.025038
+- uf: PR
+  vote_t1_std: Outros
+  freq: 42860
+  votos: 31478
+  pct: 0.004601
+- uf: PR
+  vote_t1_std: Branco/Nulo
+  freq: 348859
+  votos: 256214
+  pct: 0.03745
+- uf: RS
+  vote_t1_std: Flávio Bolsonaro
+  freq: 4808082
+  votos: 3573783
+  pct: 0.533169
+- uf: RS
+  vote_t1_std: Lula
+  freq: 3087314
+  votos: 2294759
+  pct: 0.342353
+- uf: RS
+  vote_t1_std: Augusto Cury
+  freq: 262747
+  votos: 195296
+  pct: 0.029136
+- uf: RS
+  vote_t1_std: Renan Santos
+  freq: 225429
+  votos: 167558
+  pct: 0.024998
+- uf: RS
+  vote_t1_std: Ronaldo Caiado
+  freq: 213674
+  votos: 158821
+  pct: 0.023694
+- uf: RS
+  vote_t1_std: Outros
+  freq: 44167
+  votos: 32829
+  pct: 0.004898
+- uf: RS
+  vote_t1_std: Branco/Nulo
+  freq: 376513
+  votos: 279857
+  pct: 0.041752
+- uf: SC
+  vote_t1_std: Flávio Bolsonaro
+  freq: 4137269
+  votos: 3000020
+  pct: 0.645421
+- uf: SC
+  vote_t1_std: Lula
+  freq: 1554456
+  votos: 1127168
+  pct: 0.242498
+- uf: SC
+  vote_t1_std: Augusto Cury
+  freq: 185173
+  votos: 134273
+  pct: 0.028887
+- uf: SC
+  vote_t1_std: Renan Santos
+  freq: 183135
+  votos: 132795
+  pct: 0.028569
+- uf: SC
+  vote_t1_std: Ronaldo Caiado
+  freq: 110204
+  votos: 79911
+  pct: 0.017192
+- uf: SC
+  vote_t1_std: Outros
+  freq: 36863
+  votos: 26730
+  pct: 0.005751
+- uf: SC
+  vote_t1_std: Branco/Nulo
+  freq: 203086
+  votos: 147262
+  pct: 0.031682

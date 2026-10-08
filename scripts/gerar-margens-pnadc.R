@@ -1,8 +1,8 @@
 # Gera margens/pnadc-<ano>-visita<n>.yaml: a conjunta da PNADc no nivel fino,
 # com as faixas grossas de idade e renda ao lado. Rode quando a fonte mudar.
 
-ano        <- 2024   # ano da PNADc
-entrevista <- 5      # numero da visita
+ano        <- 2025   # ano da PNADc
+entrevista <- 1      # numero da visita
 sm         <- 1621   # salario minimo das faixas de renda do questionario
 
 # ==============================================================================
