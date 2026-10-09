@@ -271,6 +271,17 @@ da PNADc listada no topo. A base vai no nome do arquivo
 (`tse-2026-turno1-regiao-pnadc2025v1.yaml`), porque margens de bases diferentes não
 podem entrar juntas no raking.
 
+**Religião (Censo 2022)** — baixe a
+[tabela 9537 do SIDRA](https://sidra.ibge.gov.br/tabela/9537) (pessoas de 10 anos ou
+mais por religião, sexo e grupos de idade, Brasil e UFs) em `.xlsx` para
+`insumos/ibge/tabela9537.xlsx` e rode
+[scripts/gerar-margens-censo-religiao.R](scripts/gerar-margens-censo-religiao.R).
+A margem cruza religião, região e sexo no recorte de `relig_std`: o percentual de
+cada religião dentro de região e sexo vem do Censo, e a população da célula vem da
+PNADc, uma margem por base. O universo é ajustado para 16 anos ou mais tirando 10 a
+14 anos e um quinto de 15 a 19. Como `sex_std` passa a existir em duas fontes, a
+margem `[sex_std]` da onda precisa declarar `fonte: pnadc`.
+
 Também em `insumos/tse/`, fora do git, ficam os perfis do eleitorado que servem às
 análises e às margens opcionais:
 

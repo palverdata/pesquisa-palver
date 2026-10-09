@@ -1,0 +1,239 @@
+meta:
+  fonte: IBGE, Censo Demografico 2022, tabela 9537 (SIDRA)
+  arquivo: insumos/ibge/tabela9537.xlsx
+  nota_ibge: Resultados preliminares da amostra, estimados a partir de areas de ponderacao
+    preliminares.
+  definicao: 'relig_std: Catolica Apostolica Romana -> Catolica; Evangelicas -> Evangelica/Protestante;
+    Sem religiao -> Sem Religiao/Ateu/Agnostico; Espirita, Umbanda e Candomble, Tradicoes
+    indigenas, Outras religiosidades, Nao sabe e Sem declaracao -> Outra.'
+  universo: '16 anos ou mais. A tabela comeca em 10 anos: sai 10 a 14 e 1/5 de 15
+    a 19, supondo as idades distribuidas por igual dentro da faixa.'
+  derivado_de: margens/pnadc-2025-visita1.yaml
+  escala: contagem POPULACIONAL. O percentual de cada religiao dentro de regiao x
+    sexo no Censo e aplicado a populacao da mesma celula em margens/pnadc-2025-visita1.yaml,
+    entao reg_std e sex_std tem a distribuicao da PNADc. `pct` fica em cada celula
+    para auditoria.
+  variaveis:
+  - reg_std
+  - sex_std
+  - relig_std
+  n_celulas: 40
+  n_pop: 168290520
+  gerado_por: scripts/gerar-margens-censo-religiao.R
+  gerado_em: '2026-10-09'
+niveis:
+  reg_std:
+  - 'N'
+  - NE
+  - CO
+  - SE
+  - S
+  sex_std:
+  - Homem
+  - Mulher
+  relig_std:
+  - Católica
+  - Evangélica/Protestante
+  - Sem Religião/Ateu/Agnóstico
+  - Outra
+conjunta:
+- reg_std: 'N'
+  sex_std: Homem
+  relig_std: Católica
+  freq: 3515072
+  pct: 0.52569
+- reg_std: 'N'
+  sex_std: Homem
+  relig_std: Evangélica/Protestante
+  freq: 2232479
+  pct: 0.333874
+- reg_std: 'N'
+  sex_std: Homem
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 642646
+  pct: 0.09611
+- reg_std: 'N'
+  sex_std: Homem
+  relig_std: Outra
+  freq: 296391
+  pct: 0.044326
+- reg_std: 'N'
+  sex_std: Mulher
+  relig_std: Católica
+  freq: 3453832
+  pct: 0.496638
+- reg_std: 'N'
+  sex_std: Mulher
+  relig_std: Evangélica/Protestante
+  freq: 2705885
+  pct: 0.389088
+- reg_std: 'N'
+  sex_std: Mulher
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 468607
+  pct: 0.067383
+- reg_std: 'N'
+  sex_std: Mulher
+  relig_std: Outra
+  freq: 326108
+  pct: 0.046892
+- reg_std: NE
+  sex_std: Homem
+  relig_std: Católica
+  freq: 13865198
+  pct: 0.658284
+- reg_std: NE
+  sex_std: Homem
+  relig_std: Evangélica/Protestante
+  freq: 4057044
+  pct: 0.192618
+- reg_std: NE
+  sex_std: Homem
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 2193857
+  pct: 0.104159
+- reg_std: NE
+  sex_std: Homem
+  relig_std: Outra
+  freq: 946537
+  pct: 0.044939
+- reg_std: NE
+  sex_std: Mulher
+  relig_std: Católica
+  freq: 14715940
+  pct: 0.628756
+- reg_std: NE
+  sex_std: Mulher
+  relig_std: Evangélica/Protestante
+  freq: 5810216
+  pct: 0.248248
+- reg_std: NE
+  sex_std: Mulher
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 1669871
+  pct: 0.071347
+- reg_std: NE
+  sex_std: Mulher
+  relig_std: Outra
+  freq: 1208834
+  pct: 0.051649
+- reg_std: CO
+  sex_std: Homem
+  relig_std: Católica
+  freq: 3528525
+  pct: 0.5419
+- reg_std: CO
+  sex_std: Homem
+  relig_std: Evangélica/Protestante
+  freq: 1859201
+  pct: 0.28553
+- reg_std: CO
+  sex_std: Homem
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 679097
+  pct: 0.104294
+- reg_std: CO
+  sex_std: Homem
+  relig_std: Outra
+  freq: 444568
+  pct: 0.068275
+- reg_std: CO
+  sex_std: Mulher
+  relig_std: Católica
+  freq: 3552236
+  pct: 0.520894
+- reg_std: CO
+  sex_std: Mulher
+  relig_std: Evangélica/Protestante
+  freq: 2262263
+  pct: 0.331734
+- reg_std: CO
+  sex_std: Mulher
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 497511
+  pct: 0.072954
+- reg_std: CO
+  sex_std: Mulher
+  relig_std: Outra
+  freq: 507492
+  pct: 0.074418
+- reg_std: SE
+  sex_std: Homem
+  relig_std: Católica
+  freq: 18561336
+  pct: 0.537353
+- reg_std: SE
+  sex_std: Homem
+  relig_std: Evangélica/Protestante
+  freq: 8799942
+  pct: 0.25476
+- reg_std: SE
+  sex_std: Homem
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 4255803
+  pct: 0.123206
+- reg_std: SE
+  sex_std: Homem
+  relig_std: Outra
+  freq: 2925055
+  pct: 0.084681
+- reg_std: SE
+  sex_std: Mulher
+  relig_std: Católica
+  freq: 19361090
+  pct: 0.519718
+- reg_std: SE
+  sex_std: Mulher
+  relig_std: Evangélica/Protestante
+  freq: 10903345
+  pct: 0.292683
+- reg_std: SE
+  sex_std: Mulher
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 3225476
+  pct: 0.086583
+- reg_std: SE
+  sex_std: Mulher
+  relig_std: Outra
+  freq: 3763180
+  pct: 0.101017
+- reg_std: S
+  sex_std: Homem
+  relig_std: Católica
+  freq: 7719839
+  pct: 0.636038
+- reg_std: S
+  sex_std: Homem
+  relig_std: Evangélica/Protestante
+  freq: 2686877
+  pct: 0.221372
+- reg_std: S
+  sex_std: Homem
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 983250
+  pct: 0.08101
+- reg_std: S
+  sex_std: Homem
+  relig_std: Outra
+  freq: 747426
+  pct: 0.06158
+- reg_std: S
+  sex_std: Mulher
+  relig_std: Católica
+  freq: 8033857
+  pct: 0.621888
+- reg_std: S
+  sex_std: Mulher
+  relig_std: Evangélica/Protestante
+  freq: 3143805
+  pct: 0.243357
+- reg_std: S
+  sex_std: Mulher
+  relig_std: Sem Religião/Ateu/Agnóstico
+  freq: 775433
+  pct: 0.060025
+- reg_std: S
+  sex_std: Mulher
+  relig_std: Outra
+  freq: 965396
+  pct: 0.07473
