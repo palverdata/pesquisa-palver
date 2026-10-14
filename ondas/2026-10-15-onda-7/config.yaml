@@ -1,0 +1,63 @@
+onda:
+  nome: "15-10-2026 BR-08028/2026"
+  sequencia: 7
+  registro: "BR-08028/2026"
+  data_divulgacao: "2026-10-15"
+  descricao: "Pesquisa nacional de intencao de voto para presidente, 2o turno, outubro de 2026 (onda 7)"
+
+campo:
+  data_inicio: "2026-10-10"
+  data_fim: "2026-10-14"
+  # comecaram e nao concluiram; vem do funil da plataforma, nao do export
+  # (10.063 iniciadas, 4.940 concluidas)
+  desistencia_pct: 50.9
+
+amostra:
+  registrada: 5000
+  ordenar_por: end_timestamp
+  corte: ultimas
+
+# Tudo na escala da PNADc 2025, 1a entrevista. Voto 2022 e filiacao sao as
+# margens de producao rebaseadas por scripts/rebasear-margens.R.
+margens:
+  pnadc: "margens/pnadc-2025-visita1.yaml"
+  tse: "margens/tse-2022-turno2-pnadc2025v1.yaml"
+  filiacao: "margens/tse-filiacao-2026-08-pnadc2025v1.yaml"
+  tse_2026: "margens/tse-2026-turno1-regiao-pnadc2025v1.yaml"
+
+propensao:
+  ativo: false
+  variaveis: [sex_std, age, edu_std, inc_std_2, reg_std, tipo_mun_std]
+  semente: 1234
+  arvores: 1000
+  no_minimo: 20
+  peso_fallback: 1
+
+calibracao:
+  margens:
+    - [sex_std]
+    - [age_std]
+    - [edu_std]
+    - [inc_std]
+    - [inc_std, sex_std, age_std, reg_std]
+    - [reg_std, vote_std]
+    - [filiacao_std]
+    # voto no 1o turno de 2026, com o mesmo desenho do voto de 2022
+    - [reg_std, vote_t1_std]
+  tolerancia: 1.0e-7
+  max_iteracoes: 200
+
+trimming:
+  teto: null
+  piso: null
+  strict: true
+
+diagnosticos:
+  tolerancia_pp: 3.0
+  nivel_confianca: 0.95
+  moe_maxima_pp: 4.0
+
+outputs:
+  prefixo: "07_results_eleicoes_2026_10_15"
+  # microdados ponderados em output/ (fora do git, nunca publicados)
+  microdados: true

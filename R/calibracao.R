@@ -425,7 +425,17 @@ correcoes_municipio <- tibble::tribble(
   "PE", "LAGOA DO ITAENGA",           "LAGOA DE ITAENGA",
   "MG", "BRASÓPOLIS",                 "BRAZÓPOLIS",
   # Itabirinha de Mantena (MG) e o nome antigo de Itabirinha
-  "MG", "ITABIRINHA DE MANTENA",      "ITABIRINHA"
+  "MG", "ITABIRINHA DE MANTENA",      "ITABIRINHA",
+  "MT", "LUCIÁRA",                    "LUCIARA",
+  "SC", "SÃO CRISTOVÃO DO SUL",       "SÃO CRISTÓVÃO DO SUL",
+  "MT", "NOVA CANÃA DO NORTE",        "NOVA CANAÃ DO NORTE",
+  "PR", "SANTA CRUZ MONTE CASTELO",   "SANTA CRUZ DE MONTE CASTELO",
+  # Sao Miguel de Touros (RN) e o nome antigo de Sao Miguel do Gostoso
+  "RN", "SÃO MIGUEL DE TOUROS",       "SÃO MIGUEL DO GOSTOSO",
+  "RS", "VESPASIANO CORREA",          "VESPASIANO CORRÊA",
+  "RS", "PÂNTANO GRANDE",             "PANTANO GRANDE",
+  "BA", "ARAÇAS",                     "ARAÇÁS",
+  "SC", "PRESIDENTE CASTELO BRANCO",  "PRESIDENTE CASTELLO BRANCO"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.

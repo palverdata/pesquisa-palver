@@ -47,3 +47,6 @@ normalizacao/.venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Onda de teste local, copia de outra onda; nao versiona.
+ondas/*onda_teste/
