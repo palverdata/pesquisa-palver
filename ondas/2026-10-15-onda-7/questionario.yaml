@@ -1034,6 +1034,34 @@ derivadas:
       - "Outros"
       - "Branco/Nulo"
 
+  # o mesmo voto no 1o turno, sem juntar os candidatos que ficaram fora do 2o
+  # turno: so serve de recorte, para a transferencia de voto (quem votou em
+  # Renan, Cury e Caiado). A calibracao continua usando vote_t1_std
+  vote_t1_cand:
+    tipo: voto_pregresso
+    filtro_comparecimento:
+      variavel: voted_1r_2026
+      valor_nao_votou: "Não"
+      destino: "Branco/Nulo"
+    origem_voto: vote_1r_2026
+    mapa:
+      "Flávio Bolsonaro (PL)": "Flávio Bolsonaro"
+      "Lula (PT)": "Lula"
+      "Escritor Augusto Cury (Avante)": "Augusto Cury"
+      "Renan Santos (Missão)": "Renan Santos"
+      "Ronaldo Caiado (PSD)": "Ronaldo Caiado"
+      "Branco/nulo": "Branco/Nulo"
+    resto: "Outros"
+    vazio_para: "Branco/Nulo"
+    niveis:
+      - "Flávio Bolsonaro"
+      - "Lula"
+      - "Augusto Cury"
+      - "Renan Santos"
+      - "Ronaldo Caiado"
+      - "Outros"
+      - "Branco/Nulo"
+
   anti_std:
     origem: [neg_identification_antipetista, neg_identification_antibolsonarista]
     tipo: limiar

@@ -67,6 +67,21 @@ estimate_svyby <- function(questao, recorte, desenho, nivel_confianca = 0.95) {
   sub$variables$.estrato <- factor(as.character(sub$variables[[recorte]]),
                                    levels = niveis(estratos))
 
+  # Resposta com um nivel so dentro do recorte (situacao de trabalho cruzada
+  # com a posicao no trabalho, que so existe para quem trabalha): todo grupo
+  # tem 100% nela, sem variancia, e o svymean nao estima fator de um nivel.
+  # O valor exato sai direto, com intervalo de largura zero.
+  if (nlevels(sub$variables$.resposta) < 2) {
+    grupos <- levels(droplevels(sub$variables$.estrato))
+    return(tibble::tibble(
+      question = questao,
+      response = levels(sub$variables$.resposta)[1],
+      stratification_variable = recorte,
+      stratification_category = grupos,
+      mean = 1, conf_low = 1, conf_high = 1
+    ))
+  }
+
   resultado <- survey::svyby(
     formula = ~.resposta, by = ~.estrato, design = sub, FUN = survey::svymean,
     na.rm = TRUE, vartype = c("se", "ci"), level = nivel_confianca,

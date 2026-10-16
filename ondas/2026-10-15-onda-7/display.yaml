@@ -462,6 +462,26 @@ recortes:
         "Branco/Nulo": "Branco/Nulo ou Não votou"
     grupos: ["Lula", "Flávio Bolsonaro", "Outros candidatos", "Branco/Nulo ou Não votou"]
 
+  # transferencia de voto: os candidatos que ficaram fora do 2o turno, cada um
+  # no seu grupo. As bases sao pequenas (Caiado tem 54 respostas)
+  - variavel: vote_t1_cand
+    rotulo: "Voto no 1º turno de 2026 (por candidato)"
+    harmonizar:
+      mapa:
+        "Branco/Nulo": "Branco/Nulo ou Não votou"
+    grupos: ["Lula", "Flávio Bolsonaro", "Renan Santos", "Augusto Cury", "Ronaldo Caiado", "Outros", "Branco/Nulo ou Não votou"]
+
+  # ocupacao como recorte: o voto de cada situacao de trabalho. Posicao e area
+  # so existem para quem disse estar trabalhando
+  - variavel: work_status
+    rotulo: "Situação de trabalho"
+
+  - variavel: work_position
+    rotulo: "Posição no trabalho principal"
+
+  - variavel: work_sector
+    rotulo: "Área do trabalho principal"
+
   - variavel: stimulated_2r_vote_1_h
     rotulo: "Voto no 2º turno Lula x Flávio"
     harmonizar:

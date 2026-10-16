@@ -272,6 +272,16 @@ da PNADc listada no topo. A base vai no nome do arquivo
 (`tse-2026-turno1-regiao-pnadc2025v1.yaml`), porque margens de bases diferentes não
 podem entrar juntas no raking.
 
+O alvo nacional dessa margem não é o percentual nacional do TSE. O TSE conta o voto
+onde o eleitor tem o título; a PNADc e a pesquisa contam onde a pessoa mora. No 1º
+turno de 2026, o Nordeste tem 26,4% dos moradores de 16 anos ou mais, 27,6% do
+eleitorado apto e 28,4% dos votos: há mais títulos que moradores, de quem migrou e
+manteve o título no estado de origem, e a abstenção ali foi a menor do país (18,4% dos
+aptos). Como a margem aplica o percentual de cada região à população da região, Lula
+fica com 42,47% no alvo nacional, e não com os 43,00% dos votos sem o exterior, e
+Flávio Bolsonaro com 45,24%, e não com 44,79%. Ponderar pelo comparecimento daria ao
+Nordeste mais peso do que ele tem na população que a pesquisa amostra.
+
 **Religião (Censo 2022)** — baixe a
 [tabela 9537 do SIDRA](https://sidra.ibge.gov.br/tabela/9537) (pessoas de 10 anos ou
 mais por religião, sexo e grupos de idade, Brasil e UFs) em `.xlsx` para
