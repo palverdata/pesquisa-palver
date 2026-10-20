@@ -7,7 +7,9 @@ onda:
 
 campo:
   data_inicio: "2026-10-10"
-  data_fim: "2026-10-14"
+  # a amostra sao as 5.000 conclusoes mais recentes, a ultima em 13/10 as
+  # 20h47: e esse o fim do campo que o relatorio publica
+  data_fim: "2026-10-13"
   # comecaram e nao concluiram; vem do funil da plataforma, nao do export
   # (10.063 iniciadas, 4.940 concluidas)
   desistencia_pct: 50.9
