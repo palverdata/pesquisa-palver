@@ -435,7 +435,9 @@ correcoes_municipio <- tibble::tribble(
   "RS", "VESPASIANO CORREA",          "VESPASIANO CORRÊA",
   "RS", "PÂNTANO GRANDE",             "PANTANO GRANDE",
   "BA", "ARAÇAS",                     "ARAÇÁS",
-  "SC", "PRESIDENTE CASTELO BRANCO",  "PRESIDENTE CASTELLO BRANCO"
+  "SC", "PRESIDENTE CASTELO BRANCO",  "PRESIDENTE CASTELLO BRANCO",
+  # Sao Domingos de Pombal (PB) e o nome antigo de Sao Domingos
+  "PB", "SÃO DOMINGOS DE POMBAL",     "SÃO DOMINGOS"
 )
 
 # Municipio sem casamento e erro, nunca NA silencioso.
