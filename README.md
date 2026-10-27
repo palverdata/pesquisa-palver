@@ -21,6 +21,7 @@ guarda apenas o motor de calibração e a especificação de cada onda.
 | 6 | 03/10/2026 | BR-00198/2026 | 30/09 a 03/10/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-october-w6/report) | [PDF](https://palver.com/api/surveys/voting-intention-2026-october-w6/press-release) |
 | 7 | 15/10/2026 | BR-08028/2026 | 10 a 13/10/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-october-w7/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-october-w7/press-release) |
 | 8 | 21/10/2026 | BR-04612/2026 | 18 a 20/10/2026 | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-october-w8/report) | [PDF](https://www.palver.com.br/api/surveys/voting-intention-2026-october-w8/press-release) |
+| 9 | 24/10/2026 | BR-01794/2026 | 22 a 24/10/2026 | [PDF](https://palver.com/api/surveys/voting-intention-2026-october-w9/report) | — |
 
 A reanálise é o mesmo campo da onda 2, recalibrado com a margem de filiação
 partidária (ver [Filiação partidária](#filiação-partidária)) e registrado de novo
